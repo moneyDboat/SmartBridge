@@ -5,7 +5,16 @@
                 android:layout_height="match_parent"
                 tools:context="com.captain.smartbridge.UI.Activity.MainActivity">
 
-    <include layout="@layout/custom_toolbar"></include>
+    <com.amap.api.maps2d.MapView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <include
+        android:id="@+id/tl_custom"
+        layout="@layout/custom_toolbar"></include>
 
     <ImageView
         android:id="@+id/main_menu"
@@ -24,13 +33,13 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:text="@string/nearby_bridge"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/normal_button"
+        android:layout_marginBottom="30dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="30dp"/>
+        android:background="@drawable/normal_button"
+        android:text="@string/nearby_bridge"
+        android:textColor="@color/white"
+        android:textSize="20sp"/>
 
 </RelativeLayout>

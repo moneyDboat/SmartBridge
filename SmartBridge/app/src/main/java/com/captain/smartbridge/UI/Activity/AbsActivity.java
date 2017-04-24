@@ -26,8 +26,9 @@ public abstract class AbsActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setSelfContentView();
-        initToolBar();
+        //initToolBar();
         prepareDatas();
         initViews();
 //        if (null != getLoadingTargetView()) {

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.example.captain.smartbridge"
+        applicationId "com.captain.smartbridge"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
@@ -20,16 +20,16 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
+    compile files('/home/fish/Desktop/SmartBridge/SmartBridge/libs/Amap_2DMap_V4.2.0_20170209.jar')
+    compile files('/home/fish/Desktop/SmartBridge/SmartBridge/libs/AMap_Location_V3.3.0_20170118.jar')
 }

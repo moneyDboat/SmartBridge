@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.captain.smartbridge.R;
 
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -13,7 +14,7 @@ import butterknife.OnClick;
 public class LoginActivity extends AbsActivity {
 
     @OnClick(R.id.login_buttom) void login(){
-        //readygo
+        readyGo(MainActivity.class);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class LoginActivity extends AbsActivity {
 
     @Override
     protected void initViews() {
-
+        ButterKnife.bind(this);
     }
 
     @Override
