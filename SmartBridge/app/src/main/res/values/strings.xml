@@ -4,4 +4,7 @@
     <string name="login">登    录</string>
     <string name="user_name">用户名</string>
     <string name="password">密码</string>
+    <string name="nearby_bridge">附    近    桥    梁</string>
+
+    <string name="network_error_tips">请检查您的网络环境</string>
 </resources>
