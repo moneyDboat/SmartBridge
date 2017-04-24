@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SmartBridge</string>
+    <string name="copyright">Copyright@东南大学土木工程学院吴刚教授课题组</string>
+    <string name="login">登    录</string>
+    <string name="user_name">用户名</string>
+    <string name="password">密码</string>
 </resources>
