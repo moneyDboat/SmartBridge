@@ -8,4 +8,6 @@
     <color name="blueGreen">#04c0cb</color>
     <color name="blueGreenPro">#0097a7</color>
     <color name="grey">#bababa</color>
+    <color name="PrimaryColor">#8F8F8F</color>
+    <color name="PrimaryDarkColor">#414141</color>
 </resources>

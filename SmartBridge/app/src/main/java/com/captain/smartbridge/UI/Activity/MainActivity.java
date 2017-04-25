@@ -1,9 +1,17 @@
 package com.captain.smartbridge.UI.Activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,10 +31,78 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener {
     @BindView(R.id.main_map)
     MapView mapView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.main_navigation)
+    NavigationView navigationView;
+    @BindView(R.id.main_toolbar)
+    Toolbar mToolbar;
+
     AMap aMap;
     OnLocationChangedListener mListener;
     AMapLocationClient mLocationClient;
     AMapLocationClientOption mLocationOption;
+
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                return false;
+            }
+        });
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+
+        mapView.onCreate(savedInstanceState);
+        aMap = mapView.getMap();
+        UiSettings settings = aMap.getUiSettings();
+        aMap.setLocationSource(this);
+        settings.setMyLocationButtonEnabled(true);
+        aMap.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.drawer, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void activate(OnLocationChangedListener listener) {
@@ -53,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     @Override
     public void deactivate() {
         mListener = null;
-        if (mLocationClient != null){
+        if (mLocationClient != null) {
             mLocationClient.stopLocation();
             mLocationClient.onDestroy();
         }
@@ -61,29 +137,14 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
-        mapView.onCreate(savedInstanceState);
-        aMap = mapView.getMap();
-
-        UiSettings settings = aMap.getUiSettings();
-        aMap.setLocationSource(this);
-        settings.setMyLocationButtonEnabled(true);
-        aMap.setMyLocationEnabled(true);
-    }
-
-    @Override
     public void onLocationChanged(AMapLocation amapLocation) {
-        if (mListener != null&&amapLocation != null){
+        if (mListener != null && amapLocation != null) {
             if (amapLocation != null
-                    &&amapLocation.getErrorCode() == 0){
+                    && amapLocation.getErrorCode() == 0) {
                 mListener.onLocationChanged(amapLocation);
-            }else{
-                String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
-                Log.e("AmapErr",errText);
+            } else {
+                String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
+                Log.e("AmapErr", errText);
             }
         }
     }
@@ -97,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        if (null != mLocationClient){
+        if (null != mLocationClient) {
             mLocationClient.onDestroy();
         }
     }
