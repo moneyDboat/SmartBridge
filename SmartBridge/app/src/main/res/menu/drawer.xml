@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-
         <item
-            android:id="@+id/inbox"
+            android:id="@+id/main_menu_detection"
             android:checked="false"
             android:icon="@color/white"
-            android:title="你好"/>
+            android:title="检测管理"/>
 
+        <item
+            android:id="@+id/main_menu_evalution"
+            android:checked="false"
+            android:icon="@color/white"
+            android:title="评估决策"/>
+
+        <item
+            android:id="@+id/main_menu_information"
+            android:checked="false"
+            android:icon="@color/white"
+            android:title="基本信息"/>
+
+        <item
+            android:id="@+id/main_menu_about"
+            android:checked="false"
+            android:icon="@color/white"
+            android:title="关于我们"/>
     </group>
 </menu>

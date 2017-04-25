@@ -1,11 +1,10 @@
 package com.captain.smartbridge.UI.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -23,6 +24,9 @@ import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.UiSettings;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.captain.smartbridge.R;
 
 import butterknife.BindView;
@@ -37,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     NavigationView navigationView;
     @BindView(R.id.main_toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.main_infor_layout)
+    RelativeLayout relativeLayout;
+    @BindView(R.id.main_nearby)
+    Button button;
 
     AMap aMap;
     OnLocationChangedListener mListener;
@@ -51,11 +59,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
-        ActionBar actionBar = getSupportActionBar();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(MenuItem item) {
                 return false;
             }
         });
@@ -64,13 +71,11 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
 
                 super.onDrawerOpened(drawerView);
             }
@@ -85,23 +90,35 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         aMap.setLocationSource(this);
         settings.setMyLocationButtonEnabled(true);
         aMap.setMyLocationEnabled(true);
+
+        LatLng latLng = new LatLng(39.906901,116.397972);
+        final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title("北京").snippet("DefaultMarker"));
+
+//        mapView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //点击便详情消失
+//                relativeLayout.setVisibility(View.VISIBLE);
+//                button.setPadding(50,0,50,120);
+//            }
+//        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.drawer, menu);
+        getMenuInflater().inflate(R.menu.menu_main,menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.main_search:
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

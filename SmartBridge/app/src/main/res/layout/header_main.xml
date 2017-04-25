@@ -9,12 +9,44 @@
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main_header_pic"
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="35dp"
         android:background="@color/white"
         app:border_color="#FF000000"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/main_header_pic"
+
+        android:layout_alignTop="@id/main_header_pic"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@id/main_header_pic"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/main_header_name"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="姓名"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/main_header_location"
+            android:layout_width="match_parent"
+            android:text="地址"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 </RelativeLayout>

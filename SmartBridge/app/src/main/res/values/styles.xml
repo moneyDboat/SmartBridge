@@ -5,21 +5,7 @@
         <item name="android:colorPrimary">@color/PrimaryColor</item>
         <item name="android:colorPrimaryDark">@color/PrimaryDarkColor</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-    </style>
-
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light">-->
-        <!--<item name="android:actionBarStyle">@style/ActionBar</item>-->
-    <!--</style>-->
-
-    <style name="ActionBar" parent="android:Widget.ActionBar">
-        <item name="android:background">@color/loginDark</item>
-        <item name="android:icon">@android:color/transparent</item>
-        <item name="android:titleTextStyle">@style/ActionBar.TitleText</item>
-    </style>
-
-    <style name="ActionBar.TitleText" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:windowTranslucentStatus"> true </item>
     </style>
 
 </resources>
