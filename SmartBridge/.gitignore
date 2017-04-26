@@ -1,9 +1,20 @@
+*.apk
+*.class
+
+local.properties
+
+# Android studio
 *.iml
-.gradle
-/local.properties
-/.idea
+.idea
+
+# OSX files
 .DS_Store
-/build
+
+# Gradle files
+build/
+.gradle
+
 /captures
 .externalNativeBuild
+*.log
 
