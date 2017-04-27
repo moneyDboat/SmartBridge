@@ -9,12 +9,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -24,6 +27,7 @@ import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.UiSettings;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
@@ -32,7 +36,8 @@ import com.captain.smartbridge.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener {
+public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener,
+        AMap.OnMapClickListener, AMap.OnMarkerClickListener, AMap.InfoWindowAdapter, View.OnClickListener{
     @BindView(R.id.main_map)
     MapView mapView;
     @BindView(R.id.drawer_layout)
@@ -46,10 +51,16 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     @BindView(R.id.main_nearby)
     Button button;
 
-    AMap aMap;
-    OnLocationChangedListener mListener;
-    AMapLocationClient mLocationClient;
-    AMapLocationClientOption mLocationOption;
+    private LatLng latLng;
+    private String agentName;
+
+    private AMap aMap;
+    private OnLocationChangedListener mListener;
+    private AMapLocationClient mLocationClient;
+    private AMapLocationClientOption mLocationOption;
+    private Marker oldMarker;
+    private UiSettings uiSettings;
+
 
 
     @Override
@@ -85,24 +96,60 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
 
         mapView.onCreate(savedInstanceState);
-        aMap = mapView.getMap();
-        UiSettings settings = aMap.getUiSettings();
-        aMap.setLocationSource(this);
-        settings.setMyLocationButtonEnabled(true);
+        initMap();
+    }
+
+    private void initMap(){
+        if (aMap == null){
+            aMap = mapView.getMap();
+            uiSettings = aMap.getUiSettings();
+            aMap.setLocationSource(this);
+        }
+        uiSettings.setMyLocationButtonEnabled(true);
         aMap.setMyLocationEnabled(true);
 
-        LatLng latLng = new LatLng(39.906901,116.397972);
-        final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title("北京").snippet("DefaultMarker"));
-
-//        mapView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //点击便详情消失
-//                relativeLayout.setVisibility(View.VISIBLE);
-//                button.setPadding(50,0,50,120);
-//            }
-//        });
+        //自定义InfoWindow
+        //mark postion on the map
+        aMap.setOnMarkerClickListener(this);
+        aMap.setInfoWindowAdapter(this);
+        LatLng latLng1 = new LatLng(31.8811265,118.817379);
+        LatLng latLng2 = new LatLng(31.8811265,118.917379);
+        addMarkerToMap(latLng2,"不是东南大学","哈哈哈");
+        addMarkerToMap(latLng1,"东南大学","哈哈哈");
     }
+
+
+    //地图的点击事件
+    @Override
+    public void onMapClick(LatLng latLng) {
+        //点击地图上没有marker的地方，隐藏inforwindow
+        //这部分代码实际运行时没有调用，还没有找到原因
+//        if(oldMarker != null){
+//            oldMarker.hideInfoWindow();
+//            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
+//        }
+
+    }
+
+    //marker的点击事件
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+//        if(oldMarker != null){
+//            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
+//        }
+//        oldMarker = marker;
+//        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
+        return false;
+    }
+
+    private void addMarkerToMap(LatLng latLng, String title, String snippet) {
+        aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
+                .position(latLng)
+                .title(title)
+                .snippet(snippet)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px)));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -196,5 +243,36 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+        latLng = marker.getPosition();
+        agentName = marker.getTitle();
+
+        View view = LayoutInflater.from(this).inflate(R.layout.custom_info_window, null);
+
+        TextView textView = (TextView) view.findViewById(R.id.main_info_title);
+        LinearLayout layout = (LinearLayout) view.findViewById(R.id.main_more_info);
+
+        textView.setText(agentName);
+        layout.setOnClickListener(this);
+        return view;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.main_more_info:
+                //跳转到详情页面
+                break;
+        }
     }
 }
