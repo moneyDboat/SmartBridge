@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener,
-        AMap.OnMapClickListener, AMap.OnMarkerClickListener, AMap.InfoWindowAdapter, View.OnClickListener{
+        AMap.OnMapClickListener, AMap.OnMarkerClickListener, AMap.InfoWindowAdapter, View.OnClickListener {
     @BindView(R.id.main_map)
     MapView mapView;
     @BindView(R.id.drawer_layout)
@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     private UiSettings uiSettings;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +73,19 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                return false;
+                switch (item.getItemId()){
+                    case R.id.main_menu_about:
+                        startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                        return true;
+                    case R.id.main_menu_detect:
+                        startActivity(new Intent(getApplicationContext(), DetectActivity.class));
+                        return true;
+                    case R.id.main_menu_information:
+                        startActivity(new Intent(getApplicationContext(), UserActivity.class));
+                        return true;
+                    default:
+                        return true;
+                }
             }
         });
 
@@ -99,8 +110,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         initMap();
     }
 
-    private void initMap(){
-        if (aMap == null){
+    private void initMap() {
+        if (aMap == null) {
             aMap = mapView.getMap();
             uiSettings = aMap.getUiSettings();
             aMap.setLocationSource(this);
@@ -112,10 +123,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         //mark postion on the map
         aMap.setOnMarkerClickListener(this);
         aMap.setInfoWindowAdapter(this);
-        LatLng latLng1 = new LatLng(31.8811265,118.817379);
-        LatLng latLng2 = new LatLng(31.8811265,118.917379);
-        addMarkerToMap(latLng2,"不是东南大学","哈哈哈");
-        addMarkerToMap(latLng1,"东南大学","哈哈哈");
+        LatLng latLng1 = new LatLng(31.8811265, 118.817379);
+        LatLng latLng2 = new LatLng(31.8811265, 118.917379);
+        addMarkerToMap(latLng2, "不是东南大学", "哈哈哈");
+        addMarkerToMap(latLng1, "东南大学", "哈哈哈");
     }
 
 
@@ -124,21 +135,21 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     public void onMapClick(LatLng latLng) {
         //点击地图上没有marker的地方，隐藏inforwindow
         //这部分代码实际运行时没有调用，还没有找到原因
-//        if(oldMarker != null){
-//            oldMarker.hideInfoWindow();
-//            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
-//        }
+        //        if(oldMarker != null){
+        //            oldMarker.hideInfoWindow();
+        //            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
+        //        }
 
     }
 
     //marker的点击事件
     @Override
     public boolean onMarkerClick(Marker marker) {
-//        if(oldMarker != null){
-//            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
-//        }
-//        oldMarker = marker;
-//        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
+        //        if(oldMarker != null){
+        //            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
+        //        }
+        //        oldMarker = marker;
+        //        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
         return false;
     }
 
@@ -153,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

@@ -28,7 +28,8 @@
         <!--声明定位service-->
         <service android:name="com.amap.api.location.APSService"></service>
 
-        <activity android:name=".UI.Activity.MainActivity"
+        <activity
+            android:name=".UI.Activity.MainActivity"
             android:label="@string/app_name_ch">
         </activity>
         <activity android:name=".UI.Activity.LoginActivity">
@@ -38,8 +39,21 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".UI.Activity.SearchActivity"
+        <activity
+            android:name=".UI.Activity.SearchActivity"
             android:label="@string/search">
+        </activity>
+        <activity
+            android:name=".UI.Activity.UserActivity"
+            android:label="用户信息">
+        </activity>
+        <activity
+            android:name=".UI.Activity.AboutActivity"
+            android:label="关于">
+        </activity>
+        <activity
+            android:name=".UI.Activity.DetectActivity"
+            android:label="检测管理">
         </activity>
     </application>
 
