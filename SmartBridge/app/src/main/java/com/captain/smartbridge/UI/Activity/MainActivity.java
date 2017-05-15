@@ -110,6 +110,13 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), NearbyActivity.class));
+            }
+        });
+
 
         mapView.onCreate(savedInstanceState);
         initMap();

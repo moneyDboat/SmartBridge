@@ -58,6 +58,9 @@
         <activity
             android:name=".UI.Activity.BridgeActivity"
             android:label="桥梁详情"></activity>
+        <activity
+            android:name=".UI.Activity.NearbyActivity"
+            android:label="附近桥梁"></activity>
     </application>
 
 </manifest>
