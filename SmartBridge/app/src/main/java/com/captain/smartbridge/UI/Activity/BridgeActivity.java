@@ -1,9 +1,12 @@
 package com.captain.smartbridge.UI.Activity;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.captain.smartbridge.R;
+import com.captain.smartbridge.UI.Adapters.FragementAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,6 +18,12 @@ import butterknife.ButterKnife;
 public class BridgeActivity extends AbsActivity {
     @BindView(R.id.bridge_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.bridge_page)
+    ViewPager viewPager;
+    @BindView(R.id.bridge_tab)
+    TabLayout tabLayout;
+
+    private FragementAdapter fragementAdapter;
 
     @Override
     protected void setSelfContentView() {
@@ -30,6 +39,11 @@ public class BridgeActivity extends AbsActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        fragementAdapter = new FragementAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(fragementAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
     @Override

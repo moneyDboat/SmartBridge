@@ -16,7 +16,7 @@ public class LoginActivity extends AbsActivity {
 
     @OnClick(R.id.login_buttom) void login(){
         if(postLogin()) {
-            readyGo(MainActivity.class);
+            readyGoThenKill(MainActivity.class);
         }
         else{
             //提示用户名密码不正确
