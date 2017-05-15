@@ -1,8 +1,7 @@
 package com.captain.smartbridge.UI.Activity;
 
-import android.view.View;
-
 import com.captain.smartbridge.R;
+import com.captain.smartbridge.model.Account;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -13,8 +12,16 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AbsActivity {
 
+    private BaseApplication baseApplication;
+
     @OnClick(R.id.login_buttom) void login(){
-        readyGo(MainActivity.class);
+        if(postLogin()) {
+            readyGo(MainActivity.class);
+        }
+        else{
+            //提示用户名密码不正确
+        }
+
     }
 
     @Override
@@ -24,7 +31,7 @@ public class LoginActivity extends AbsActivity {
 
     @Override
     protected void prepareDatas() {
-
+        baseApplication = (BaseApplication) getApplication();
     }
 
     @Override
@@ -32,8 +39,10 @@ public class LoginActivity extends AbsActivity {
         ButterKnife.bind(this);
     }
 
-    @Override
-    protected View getLoadingTargetView() {
-        return null;
+    private boolean postLogin(){
+        Account account = new Account();
+        account.setCategory(0);
+        baseApplication.setAccount(account);
+        return true;
     }
 }

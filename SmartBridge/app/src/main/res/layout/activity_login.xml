@@ -45,7 +45,12 @@
 
             <ImageView
                 android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="7dp"
+                android:src="@drawable/ic_person"
+                />
 
             <EditText
                 android:id="@+id/login_username"
@@ -64,7 +69,11 @@
 
             <ImageView
                 android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_lock"/>
 
             <EditText
                 android:id="@+id/login_password"

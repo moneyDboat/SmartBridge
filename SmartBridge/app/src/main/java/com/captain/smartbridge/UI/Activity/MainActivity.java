@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,13 +30,18 @@ import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.maps2d.model.MyLocationStyle;
 import com.captain.smartbridge.R;
+import com.captain.smartbridge.model.Bridge;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener,
-        AMap.OnMapClickListener, AMap.OnMarkerClickListener, AMap.InfoWindowAdapter, View.OnClickListener {
+        AMap.InfoWindowAdapter {
     @BindView(R.id.main_map)
     MapView mapView;
     @BindView(R.id.drawer_layout)
@@ -58,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     private OnLocationChangedListener mListener;
     private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mLocationOption;
-    private Marker oldMarker;
     private UiSettings uiSettings;
 
 
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.main_menu_about:
                         startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                         return true;
@@ -82,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                         return true;
                     case R.id.main_menu_information:
                         startActivity(new Intent(getApplicationContext(), UserActivity.class));
+                        return true;
+                    case R.id.main_menu_evalute:
                         return true;
                     default:
                         return true;
@@ -119,39 +124,41 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         uiSettings.setMyLocationButtonEnabled(true);
         aMap.setMyLocationEnabled(true);
 
+        //定位图标
+        MyLocationStyle myLocationStyle = new MyLocationStyle();
+        aMap.setMyLocationStyle(myLocationStyle);
+
         //自定义InfoWindow
         //mark postion on the map
-        aMap.setOnMarkerClickListener(this);
+        initMarker(aMap);
+    }
+
+    //初始化地图标记
+    private void initMarker(AMap aMap) {
+        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                return false;
+            }
+        });
         aMap.setInfoWindowAdapter(this);
-        LatLng latLng1 = new LatLng(31.8811265, 118.817379);
-        LatLng latLng2 = new LatLng(31.8811265, 118.917379);
-        addMarkerToMap(latLng2, "不是东南大学", "哈哈哈");
-        addMarkerToMap(latLng1, "东南大学", "哈哈哈");
+        List<Bridge> bridges = getMarkers();
+        for(Bridge bridge:bridges){
+            addMarkerToMap(bridge.getLatLng(),bridge.getName(),bridge.getLocation());
+        }
     }
 
-
-    //地图的点击事件
-    @Override
-    public void onMapClick(LatLng latLng) {
-        //点击地图上没有marker的地方，隐藏inforwindow
-        //这部分代码实际运行时没有调用，还没有找到原因
-        //        if(oldMarker != null){
-        //            oldMarker.hideInfoWindow();
-        //            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
-        //        }
-
+    //获取所有标记坐标
+    private List<Bridge> getMarkers(){
+        List<Bridge> bridges = new ArrayList<>();
+        Bridge bridge = new Bridge();
+        bridge.setLatLng(new LatLng(31.8811265, 118.917379));
+        bridge.setName("东南大学桥");
+        bridge.setLocation("东南大学九龙湖校区");
+        bridges.add(bridge);
+        return bridges;
     }
 
-    //marker的点击事件
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        //        if(oldMarker != null){
-        //            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
-        //        }
-        //        oldMarker = marker;
-        //        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
-        return false;
-    }
 
     private void addMarkerToMap(LatLng latLng, String title, String snippet) {
         aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
@@ -163,40 +170,14 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.main_search:
-                Intent intent = new Intent(this, SearchActivity.class);
-                startActivity(intent);
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public void activate(OnLocationChangedListener listener) {
         mListener = listener;
         if (mLocationClient == null) {
-            //初始化定位
             mLocationClient = new AMapLocationClient(this);
-            //初始化定位参数
             mLocationOption = new AMapLocationClientOption();
-            //设置定位回调监听
             mLocationClient.setLocationListener(this);
-            //设置为高精度定位模式
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-            //设置定位参数
             mLocationClient.setLocationOption(mLocationOption);
-            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
-            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
-            // 在定位结束后，在合适的生命周期调用onDestroy()方法
-            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
             mLocationClient.startLocation();//启动定位
         }
     }
@@ -230,6 +211,59 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+        latLng = marker.getPosition();
+        String title = marker.getTitle();
+        String addr = marker.getSnippet();
+
+        View view = LayoutInflater.from(this).inflate(R.layout.custom_info_window, null);
+
+        TextView titleView = (TextView) view.findViewById(R.id.marker_title);
+        TextView addrView = (TextView) view.findViewById(R.id.marker_addr);
+        TextView moreView = (TextView) view.findViewById(R.id.marker_more);
+
+        titleView.setText(title);
+        addrView.setText(addr);
+        moreView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), BridgeActivity.class));
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_search:
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
@@ -248,42 +282,5 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     protected void onResume() {
         super.onResume();
         mapView.onResume();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
-    }
-
-
-    @Override
-    public View getInfoWindow(Marker marker) {
-        latLng = marker.getPosition();
-        agentName = marker.getTitle();
-
-        View view = LayoutInflater.from(this).inflate(R.layout.custom_info_window, null);
-
-        TextView textView = (TextView) view.findViewById(R.id.main_info_title);
-        LinearLayout layout = (LinearLayout) view.findViewById(R.id.main_more_info);
-
-        textView.setText(agentName);
-        layout.setOnClickListener(this);
-        return view;
-    }
-
-    @Override
-    public View getInfoContents(Marker marker) {
-        return null;
-    }
-
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
-            case R.id.main_more_info:
-                //跳转到详情页面
-                break;
-        }
     }
 }

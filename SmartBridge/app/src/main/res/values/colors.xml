@@ -10,4 +10,6 @@
     <color name="grey">#bababa</color>
     <color name="PrimaryColor">#8F8F8F</color>
     <color name="PrimaryDarkColor">#414141</color>
+    <color name="BlackText">#333333</color>
+    <color name="BlackText2">#666666</color>
 </resources>

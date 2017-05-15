@@ -55,6 +55,9 @@
             android:name=".UI.Activity.DetectActivity"
             android:label="检测管理">
         </activity>
+        <activity
+            android:name=".UI.Activity.BridgeActivity"
+            android:label="桥梁详情"></activity>
     </application>
 
 </manifest>

@@ -4,37 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.captain.smartbridge.Common.CommonUtils;
-import com.captain.smartbridge.Common.VaryViewHelperController;
 import com.captain.smartbridge.R;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by fish on 17-4-24.
  */
 
 public abstract class AbsActivity extends AppCompatActivity{
-    private Toolbar mToolBar;
-    private VaryViewHelperController mVaryViewHelperController = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setSelfContentView();
-        //initToolBar();
         prepareDatas();
         initViews();
-//        if (null != getLoadingTargetView()) {
-//            mVaryViewHelperController = new VaryViewHelperController(getLoadingTargetView());
-//        }
-
     }
 
     protected abstract void setSelfContentView();
@@ -42,30 +27,6 @@ public abstract class AbsActivity extends AppCompatActivity{
     protected abstract void prepareDatas();
 
     protected abstract void initViews();
-
-    protected abstract View getLoadingTargetView();
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void initToolBar() {
-        mToolBar = (Toolbar) findViewById(R.id.tl_custom);
-        setSupportActionBar(mToolBar);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ButterKnife.bind(this);
-    }
 
     /**
      * startActivity
