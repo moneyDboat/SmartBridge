@@ -52,7 +52,7 @@
             android:label="关于">
         </activity>
         <activity
-            android:name=".UI.Activity.DetectActivity"
+            android:name=".UI.Activity.Detect.DetectActivity"
             android:label="检测管理">
         </activity>
         <activity
@@ -61,6 +61,21 @@
         <activity
             android:name=".UI.Activity.NearbyActivity"
             android:label="附近桥梁"></activity>
+        <activity
+            android:name=".UI.Activity.Detect.DetectStatusActivity"
+            android:label="检测任务状态">
+
+        </activity>
+        <activity
+            android:name=".UI.Activity.Detect.DeCreateActivity"
+            android:label="新建检测任务"></activity>
+        <activity
+            android:name=".UI.Activity.Detect.DetectSummaryActivity"
+            android:label="已完成任务汇总"></activity>
+
+        <activity
+            android:name=".UI.Activity.Detect.DetectRecieveActivity"
+            android:label="检测任务接收"></activity>
     </application>
 
 </manifest>

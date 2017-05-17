@@ -32,6 +32,7 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.captain.smartbridge.R;
+import com.captain.smartbridge.UI.Activity.Detect.DetectActivity;
 import com.captain.smartbridge.model.Bridge;
 
 import java.util.ArrayList;

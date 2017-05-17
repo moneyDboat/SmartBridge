@@ -1,28 +1,38 @@
-package com.captain.smartbridge.UI.Activity;
+package com.captain.smartbridge.UI.Activity.Detect;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.captain.smartbridge.R;
+import com.captain.smartbridge.UI.Activity.AbsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
- * Created by fish on 17-5-14.
+ * Created by fish on 17-5-17.
  */
 
-public class DetectActivity extends AppCompatActivity {
-    @BindView(R.id.detect_toolbar)
+public class DeCreateActivity extends AbsActivity {
+    @BindView(R.id.decreate_toolbar)
     Toolbar toolbar;
+    @OnClick(R.id.decreate_submit)
+    public void submit(){
+        finish();
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detect);
+    protected void setSelfContentView() {
+        setContentView(R.layout.activity_decreate);
+    }
+
+    @Override
+    protected void prepareDatas() {
+    }
+
+    @Override
+    protected void initViews() {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -38,4 +48,5 @@ public class DetectActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

@@ -11,12 +11,14 @@
     </include>
 
     <LinearLayout
-        android:layout_marginTop="30dp"
+        android:id="@+id/detect_layout"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/detect_recieve"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bolder">
@@ -26,6 +28,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="40dp"
                 android:text="检测任务接收"
+                android:textColor="@color/BlackText"
                 android:textSize="16sp"/>
             <ImageView
                 android:layout_width="30dp"
@@ -35,6 +38,7 @@
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/detect_entry"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bolder">
@@ -44,6 +48,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="40dp"
                 android:text="检测任务录入"
+                android:textColor="@color/BlackText"
                 android:textSize="16sp"/>
             <ImageView
                 android:layout_width="30dp"
@@ -53,6 +58,7 @@
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/detect_summary"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bolder">
@@ -61,7 +67,57 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="40dp"
+                android:textColor="@color/BlackText"
                 android:text="检测任务汇总"
+                android:textSize="16sp"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/ic_chevron_right_black"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/asign_layout"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/detect_status"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bolder">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="40dp"
+                android:text="检测任务状态"
+                android:textColor="@color/BlackText"
+                android:textSize="16sp"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/ic_chevron_right_black"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/asign_summary"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bolder">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="40dp"
+                android:text="检测任务完成汇总"
+                android:textColor="@color/BlackText"
                 android:textSize="16sp"/>
             <ImageView
                 android:layout_width="30dp"
