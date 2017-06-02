@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-
 import com.captain.smartbridge.Common.CommonUtils
 import com.captain.smartbridge.R
 
@@ -27,23 +26,11 @@ abstract class AbsActivity : AppCompatActivity() {
 
     protected abstract fun initViews()
 
-    /**
-     * startActivity
-
-     * @param clazz
-     */
     protected fun readyGo(clazz: Class<*>) {
         val intent = Intent(this, clazz)
         startActivity(intent)
     }
 
-    /**
-     * startActivity with bundle
-
-     * @param clazz
-     * *
-     * @param bundle
-     */
     protected fun readyGo(clazz: Class<*>, bundle: Bundle?) {
         val intent = Intent(this, clazz)
         if (null != bundle) {
@@ -52,24 +39,12 @@ abstract class AbsActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    /**
-     * startActivity then finish
-
-     * @param clazz
-     */
     protected fun readyGoThenKill(clazz: Class<*>) {
         val intent = Intent(this, clazz)
         startActivity(intent)
         finish()
     }
 
-    /**
-     * startActivity with bundle then finish
-
-     * @param clazz
-     * *
-     * @param bundle
-     */
     protected fun readyGoThenKill(clazz: Class<*>, bundle: Bundle?) {
         val intent = Intent(this, clazz)
         if (null != bundle) {
@@ -79,27 +54,11 @@ abstract class AbsActivity : AppCompatActivity() {
         finish()
     }
 
-    /**
-     * startActivityForResult
-
-     * @param clazz
-     * *
-     * @param requestCode
-     */
     protected fun readyGoForResult(clazz: Class<*>, requestCode: Int) {
         val intent = Intent(this, clazz)
         startActivityForResult(intent, requestCode)
     }
 
-    /**
-     * startActivityForResult with bundle
-
-     * @param clazz
-     * *
-     * @param requestCode
-     * *
-     * @param bundle
-     */
     protected fun readyGoForResult(clazz: Class<*>, requestCode: Int, bundle: Bundle?) {
         val intent = Intent(this, clazz)
         if (null != bundle) {
@@ -108,11 +67,6 @@ abstract class AbsActivity : AppCompatActivity() {
         startActivityForResult(intent, requestCode)
     }
 
-    /**
-     * show toast
-
-     * @param msg
-     */
     protected fun showToast(msg: String?) {
         if (null != msg && !CommonUtils.isEmpty(msg)) {
             Snackbar.make(window.decorView, msg, Snackbar.LENGTH_SHORT).show()
@@ -219,6 +173,5 @@ abstract class AbsActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        //        ButterKnife.unbind(this);
     }
 }

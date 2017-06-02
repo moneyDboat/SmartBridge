@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public final class ApiManager {
-    static String BASE_URL = "223.3.106.136:8000";
+    static String BASE_URL = "223.3.106.136:8000/";
     static BridgeService mService = null;
 
     public static BridgeService getmService(){

@@ -2,6 +2,8 @@ package com.captain.smartbridge.API;
 
 import com.captain.smartbridge.model.LoginReq;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 
@@ -12,5 +14,5 @@ import retrofit2.http.GET;
 public interface BridgeService {
 
     @GET("users/{user}/repos")
-    void listRepos(@Body LoginReq loginReq);
+    Call<ResponseBody> login(@Body LoginReq loginReq);
 }
