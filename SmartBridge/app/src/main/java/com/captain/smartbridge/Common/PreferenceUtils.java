@@ -34,9 +34,14 @@ public class PreferenceUtils {
         public static final String ACCESS = "access_token";
         public static final String USER = "user_name";
         public static final String ROLE = "role_type";
-        public static final String NICK = "nick_name";
+        public static final String DATE = "register_date";
+        public static final String HEADPIC = "head_picture";
+        public static final String SF = "sf";
+        public static final String ID = "id";
         public static final String DEPART = "department";
         public static final String PHONE = "phone_number";
+        public static final String NICK = "nick_name";
+        public static final String EMAIL = "email";
     }
 
     public static final String DEFAULT_STRING = "";

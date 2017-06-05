@@ -20,7 +20,7 @@ public class SaveCookiesInterceptor implements Interceptor {
         Response originalResponse = chain.proceed(chain.request());
 
         if (!originalResponse.headers("Set-Cookie").isEmpty()) {
-            String raw = originalResponse.headers("Set-Cookie").toString();
+            String raw = originalResponse.header("Set-Cookie").toString();
             String cookie = raw.split("\"")[0] + "\"" + raw.split("\"")[1] + "\"";
             Log.i("cookie", cookie);
 

@@ -6,8 +6,10 @@ import android.widget.EditText;
 import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.CommonUtils;
 import com.captain.smartbridge.Common.NetUtils;
+import com.captain.smartbridge.Common.PreferenceUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.model.Info;
+import com.captain.smartbridge.model.InfoRes;
 import com.captain.smartbridge.model.LoginReq;
 
 import butterknife.BindView;
@@ -31,7 +33,7 @@ public class LoginActivity extends AbsActivity{
     void login() {
 //        String username = userText.getText().toString();
 //        String pwd = passwordText.getText().toString();
-        String username = "system";
+        String username = "fansen";
         String pwd = "123456";
         if (isValid(username, pwd)){
             LoginReq loginReq = new LoginReq(username, pwd);
@@ -71,18 +73,32 @@ public class LoginActivity extends AbsActivity{
     }
 
     private void getUserInfo() {
-        ApiManager.getmService().getInfo().enqueue(new Callback<Info>() {
+        ApiManager.getmService().getInfo().enqueue(new Callback<InfoRes>() {
             @Override
-            public void onResponse(Call<Info> call, Response<Info> response) {
-                Log.i("Info", response.body().toString());
+            public void onResponse(Call<InfoRes> call, Response<InfoRes> response) {
+                saveUserInfo(response.body().getContent());
+                readyGoThenKill(MainActivity.class);
             }
 
             @Override
-            public void onFailure(Call<Info> call, Throwable t) {
+            public void onFailure(Call<InfoRes> call, Throwable t) {
                 t.printStackTrace();
             }
         });
 
+    }
+
+    private void saveUserInfo(Info info) {
+        PreferenceUtils.putString(this, PreferenceUtils.Key.USER, info.getUsername());
+        PreferenceUtils.putInt(this, PreferenceUtils.Key.ROLE, info.getRoleType());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.DATE, info.getRegisterDate());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.HEADPIC, info.getHeadPortrait());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.SF, info.getSf());
+        PreferenceUtils.putInt(this, PreferenceUtils.Key.ID, info.getUserId());
+//        PreferenceUtils.putString(this, PreferenceUtils.Key.DEPART, info.getInspectionDepartmentDM());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.PHONE, info.getPhoneNumber());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.NICK, info.getNickname());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.EMAIL, info.getEmail());
     }
 
     private boolean isValid(String username, String pwd) {
