@@ -45,6 +45,7 @@
             app:mtf_image="@drawable/ic_account">
 
             <EditText
+                android:id="@+id/login_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="用户名"
@@ -62,6 +63,7 @@
             app:mtf_image="@drawable/ic_key">
 
             <EditText
+                android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="密码"
@@ -88,14 +90,14 @@
             custom:pb_textError="登录失败"
             custom:pb_colorError="@color/red_error" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/normal_button"
-            android:text="@string/login"
-            android:textColor="@color/white"
-            android:textSize="20sp"/>
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="@drawable/normal_button"-->
+            <!--android:text="@string/login"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="20sp"/>-->
     </LinearLayout>
 
 </RelativeLayout>

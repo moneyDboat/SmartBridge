@@ -76,13 +76,6 @@ abstract class AbsActivity : AppCompatActivity() {
     protected fun showNetWorkError() {
         showToast(resources.getString(R.string.network_error_tips))
     }
-
-    //    protected void showInnerError(RetrofitError error) {
-    //        if (error != null){
-    //            showToast(CommonUtils.getErrorInfo(error).getReason());
-    //        }
-    //
-    //    }
     //
     //    protected String getInnerErrorInfo(RetrofitError error) {
     //        ErrorRes res = (ErrorRes) error.getBodyAs(ErrorRes.class);

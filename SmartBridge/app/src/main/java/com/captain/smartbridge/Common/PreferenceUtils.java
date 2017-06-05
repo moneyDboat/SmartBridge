@@ -33,9 +33,8 @@ public class PreferenceUtils {
     public static class Key {
         public static final String ACCESS = "access_token";
         public static final String USER = "user_name";
-        public static final String PASSWORD = "password";
-        public static final String NICK = "nick_name";
         public static final String ROLE = "role_type";
+        public static final String NICK = "nick_name";
         public static final String DEPART = "department";
         public static final String PHONE = "phone_number";
     }
@@ -45,6 +44,16 @@ public class PreferenceUtils {
     public static final boolean DEFAULT_BOOLEAN = false;
     public static final long DEFAULT_LONG = 0;
     public static final float DEFAULT_FLOAT = 0.0f;
+
+//    public static Set<String> getStringSet(Context context, String key){
+//        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+//        return settings.getStringSet(key, new HashSet<String>());
+//    }
+//
+//    public static void putStringSet(Context context, final String key, final HashSet<String> value){
+//        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+//        settings.edit().putStringSet(key, value).commit();
+//    }
 
     public static String getString(Context context, String key) {
         final SharedPreferences settings = PreferenceManager
