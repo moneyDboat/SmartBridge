@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,15 +32,21 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
+import com.captain.smartbridge.API.ApiManager;
+import com.captain.smartbridge.Common.NetUtils;
+import com.captain.smartbridge.Common.PreferenceUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.Detect.DetectActivity;
-import com.captain.smartbridge.model.Bridge;
+import com.captain.smartbridge.model.MapReq;
+import com.captain.smartbridge.model.MapRes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener,
         AMap.InfoWindowAdapter {
@@ -55,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     RelativeLayout relativeLayout;
     @BindView(R.id.main_nearby)
     Button button;
+
+    private String SF = null;
+    private String CF = null;
 
     private LatLng latLng;
     private String agentName;
@@ -104,12 +114,17 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
             @Override
             public void onDrawerOpened(View drawerView) {
-
                 super.onDrawerOpened(drawerView);
             }
         };
         mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+        TextView headerName = (TextView) navigationView.findViewById(R.id.main_header_name);
+        TextView headerLocation = (TextView) navigationView.findViewById(R.id.main_header_location);
+        headerName.setText(PreferenceUtils.getString(this, PreferenceUtils.Key.NICK));
+        SF = PreferenceUtils.getString(this, PreferenceUtils.Key.SF);
+        CF = PreferenceUtils.getString(this, PreferenceUtils.Key.CF);
+        headerName.setText(SF+CF);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,29 +165,70 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             }
         });
         aMap.setInfoWindowAdapter(this);
-        List<Bridge> bridges = getMarkers();
-        for(Bridge bridge:bridges){
-            addMarkerToMap(bridge.getLatLng(),bridge.getName(),bridge.getLocation());
+
+        if (NetUtils.isNetworkAvailable(this)){
+            MapReq mapReq = new MapReq(SF, CF);
+            ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<MapRes>() {
+                @Override
+                public void onResponse(Call<MapRes> call, Response<MapRes> response) {
+                    if (response.body().getCode()==200){
+                        List<MapRes.MapBridge> bridges = response.body().getContent();
+                        for(MapRes.MapBridge bridge:bridges){
+                            addMarkerToMap(bridge);
+                        }
+                    }else{
+                        showToast("网络错误");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MapRes> call, Throwable t) {
+
+                }
+            });
+        }else{
+            showToast("请检查您的网络");
         }
     }
 
-    //获取所有标记坐标
-    private List<Bridge> getMarkers(){
-        List<Bridge> bridges = new ArrayList<>();
-        Bridge bridge = new Bridge();
-        bridge.setLatLng(new LatLng(31.8811265, 118.917379));
-        bridge.setName("东南大学桥");
-        bridge.setLocation("东南大学九龙湖校区");
-        bridges.add(bridge);
-        return bridges;
-    }
+//    //获取所有标记坐标
+//    private List<MapRes.MapBridge> getMarkers(){
+////        List<Bridge> bridges = new ArrayList<>();
+////        Bridge bridge = new Bridge();
+////        bridge.setLatLng(new LatLng(31.8811265, 118.917379));
+////        bridge.setName("东南大学桥");
+////        bridge.setLocation("东南大学九龙湖校区");
+////        bridges.add(bridge);
+////        return bridges;
+//        if (NetUtils.isNetworkAvailable(this)){
+//            MapReq mapReq = new MapReq(SF, CF);
+//            ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<MapRes>() {
+//                @Override
+//                public void onResponse(Call<MapRes> call, Response<MapRes> response) {
+//                    if (response.body().getCode()==200){
+//                        bridges = response.body().getContent();
+//                    }else{
+//                        showToast("网络错误");
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<MapRes> call, Throwable t) {
+//
+//                }
+//            });
+//        }else{
+//            showToast("请检查您的网络");
+//        }
+//    }
 
 
-    private void addMarkerToMap(LatLng latLng, String title, String snippet) {
+    private void addMarkerToMap(MapRes.MapBridge bridge) {
         aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
-                .position(latLng)
-                .title(title)
-                .snippet(snippet)
+                .position(new LatLng(Double.parseDouble(bridge.getWd()),
+                        Double.parseDouble(bridge.getJd())))
+                .title(bridge.getQlmc())
+                .snippet(bridge.getQldm())
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px)));
     }
 
@@ -290,5 +346,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     protected void onResume() {
         super.onResume();
         mapView.onResume();
+    }
+
+    private void showToast(String message){
+        Snackbar.make(getWindow().getDecorView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

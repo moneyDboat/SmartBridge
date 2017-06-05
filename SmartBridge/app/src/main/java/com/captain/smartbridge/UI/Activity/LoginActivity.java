@@ -56,7 +56,7 @@ public class LoginActivity extends AbsActivity{
     }
 
     private void postLogin(LoginReq loginReq) {
-        if (NetUtils.isNetworkConnected(this)){
+        if (NetUtils.isNetworkConnected(this)) {
             ApiManager.getmService().login(loginReq).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -69,6 +69,8 @@ public class LoginActivity extends AbsActivity{
                     t.printStackTrace();
                 }
             });
+        }else{
+            showNetWorkError();
         }
     }
 
@@ -76,8 +78,12 @@ public class LoginActivity extends AbsActivity{
         ApiManager.getmService().getInfo().enqueue(new Callback<InfoRes>() {
             @Override
             public void onResponse(Call<InfoRes> call, Response<InfoRes> response) {
-                saveUserInfo(response.body().getContent());
-                readyGoThenKill(MainActivity.class);
+                if(response.body().getCode()==200){
+                    saveUserInfo(response.body().getContent());
+                    readyGoThenKill(MainActivity.class);
+                }else{
+                    showToast("用户名密码错误");
+                }
             }
 
             @Override
@@ -91,9 +97,10 @@ public class LoginActivity extends AbsActivity{
     private void saveUserInfo(Info info) {
         PreferenceUtils.putString(this, PreferenceUtils.Key.USER, info.getUsername());
         PreferenceUtils.putInt(this, PreferenceUtils.Key.ROLE, info.getRoleType());
-        PreferenceUtils.putString(this, PreferenceUtils.Key.DATE, info.getRegisterDate());
+//        PreferenceUtils.putString(this, PreferenceUtils.Key.DATE, info.getRegisterDate());
         PreferenceUtils.putString(this, PreferenceUtils.Key.HEADPIC, info.getHeadPortrait());
         PreferenceUtils.putString(this, PreferenceUtils.Key.SF, info.getSf());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.CF, info.getCs());
         PreferenceUtils.putInt(this, PreferenceUtils.Key.ID, info.getUserId());
 //        PreferenceUtils.putString(this, PreferenceUtils.Key.DEPART, info.getInspectionDepartmentDM());
         PreferenceUtils.putString(this, PreferenceUtils.Key.PHONE, info.getPhoneNumber());

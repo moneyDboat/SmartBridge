@@ -37,6 +37,7 @@ public class PreferenceUtils {
         public static final String DATE = "register_date";
         public static final String HEADPIC = "head_picture";
         public static final String SF = "sf";
+        public static final String CF = "cf";
         public static final String ID = "id";
         public static final String DEPART = "department";
         public static final String PHONE = "phone_number";

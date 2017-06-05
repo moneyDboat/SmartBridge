@@ -2,6 +2,8 @@ package com.captain.smartbridge.API;
 
 import com.captain.smartbridge.model.InfoRes;
 import com.captain.smartbridge.model.LoginReq;
+import com.captain.smartbridge.model.MapReq;
+import com.captain.smartbridge.model.MapRes;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -20,5 +22,9 @@ public interface BridgeService {
 
     @GET("app/auth/info")
     Call<InfoRes> getInfo();
+
+    @POST("app/map/getmap")
+    Call<MapRes> getMapInfo(@Body MapReq mapReq);
+
 
 }
