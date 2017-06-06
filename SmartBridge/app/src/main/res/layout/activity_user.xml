@@ -42,31 +42,6 @@
 
         </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:background="@drawable/bolder"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="2"-->
-                <!--android:gravity="center"-->
-                <!--android:text="用户密码"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:textSize="12sp"/>-->
-
-            <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="3"-->
-                <!--android:gravity="center"-->
-                <!--android:text="*********"-->
-                <!--android:textSize="12sp"/>-->
-
-        <!--</LinearLayout>-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"

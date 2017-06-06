@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
-                intent.putExtra("ID", addr);
+                BaseApplication.setID(addr);
                 startActivity(intent);
             }
         });
@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_search:
-                Intent intent = new Intent(this, SearchActivity.class);
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);

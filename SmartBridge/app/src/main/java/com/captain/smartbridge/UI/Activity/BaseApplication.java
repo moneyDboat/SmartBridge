@@ -8,7 +8,7 @@ import android.app.Application;
 
 public class BaseApplication extends Application {
     private static BaseApplication mApplication;
-
+    private static String ID;
 
     @Override
     public void onCreate() {
@@ -19,5 +19,13 @@ public class BaseApplication extends Application {
 
     public static BaseApplication getIntance() {
         return mApplication;
+    }
+
+    public static String getID() {
+        return ID;
+    }
+
+    public static void setID(String ID) {
+        BaseApplication.ID = ID;
     }
 }

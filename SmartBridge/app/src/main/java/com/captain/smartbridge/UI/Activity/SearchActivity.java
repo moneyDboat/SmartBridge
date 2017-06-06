@@ -37,16 +37,17 @@ public class SearchActivity extends AbsActivity {
         setContentView(R.layout.activity_search);
     }
 
+
+    @Override
+    protected void prepareDatas() {
+
+    }
+
     @Override
     protected void initViews() {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    protected void prepareDatas() {
-
     }
 
     @Override
@@ -59,7 +60,7 @@ public class SearchActivity extends AbsActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.i("search", query);
-                //search(query);
+                search(query);
                 if (!searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
