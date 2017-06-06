@@ -37,6 +37,7 @@ import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.Common.PreferenceUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.Detect.DetectActivity;
+import com.captain.smartbridge.model.MapBridge;
 import com.captain.smartbridge.model.MapReq;
 import com.captain.smartbridge.model.MapRes;
 
@@ -84,6 +85,22 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
         setSupportActionBar(mToolbar);
 
+        initDrawer();
+
+        mapView.onCreate(savedInstanceState);
+        initMap();
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initMarker(aMap);
+                //startActivity(new Intent(getApplicationContext(), NearbyActivity.class));
+            }
+        });
+    }
+
+    private void initDrawer(){
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -119,23 +136,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         };
         mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-        TextView headerName = (TextView) navigationView.findViewById(R.id.main_header_name);
-        TextView headerLocation = (TextView) navigationView.findViewById(R.id.main_header_location);
+        View headerView = navigationView.getHeaderView(0);
+        TextView headerName = (TextView) headerView.findViewById(R.id.main_header_name);
+        TextView headerLocation = (TextView) headerView.findViewById(R.id.main_header_location);
         headerName.setText(PreferenceUtils.getString(this, PreferenceUtils.Key.NICK));
-        SF = PreferenceUtils.getString(this, PreferenceUtils.Key.SF);
-        CF = PreferenceUtils.getString(this, PreferenceUtils.Key.CF);
-        headerName.setText(SF+CF);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), NearbyActivity.class));
-            }
-        });
-
-
-        mapView.onCreate(savedInstanceState);
-        initMap();
     }
 
     private void initMap() {
@@ -153,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
         //自定义InfoWindow
         //mark postion on the map
-        initMarker(aMap);
+        //initMarker(aMap);
     }
 
     //初始化地图标记
@@ -172,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 @Override
                 public void onResponse(Call<MapRes> call, Response<MapRes> response) {
                     if (response.body().getCode()==200){
-                        List<MapRes.MapBridge> bridges = response.body().getContent();
-                        for(MapRes.MapBridge bridge:bridges){
+                        List<MapBridge> bridges = response.body().getContent();
+                        for(MapBridge bridge:bridges){
                             addMarkerToMap(bridge);
                         }
                     }else{
@@ -183,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
                 @Override
                 public void onFailure(Call<MapRes> call, Throwable t) {
-
+                    t.printStackTrace();
                 }
             });
         }else{
@@ -191,39 +195,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         }
     }
 
-//    //获取所有标记坐标
-//    private List<MapRes.MapBridge> getMarkers(){
-////        List<Bridge> bridges = new ArrayList<>();
-////        Bridge bridge = new Bridge();
-////        bridge.setLatLng(new LatLng(31.8811265, 118.917379));
-////        bridge.setName("东南大学桥");
-////        bridge.setLocation("东南大学九龙湖校区");
-////        bridges.add(bridge);
-////        return bridges;
-//        if (NetUtils.isNetworkAvailable(this)){
-//            MapReq mapReq = new MapReq(SF, CF);
-//            ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<MapRes>() {
-//                @Override
-//                public void onResponse(Call<MapRes> call, Response<MapRes> response) {
-//                    if (response.body().getCode()==200){
-//                        bridges = response.body().getContent();
-//                    }else{
-//                        showToast("网络错误");
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<MapRes> call, Throwable t) {
-//
-//                }
-//            });
-//        }else{
-//            showToast("请检查您的网络");
-//        }
-//    }
 
-
-    private void addMarkerToMap(MapRes.MapBridge bridge) {
+    private void addMarkerToMap(MapBridge bridge) {
         aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
                 .position(new LatLng(Double.parseDouble(bridge.getWd()),
                         Double.parseDouble(bridge.getJd())))
@@ -258,6 +231,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
+        SF = amapLocation.getProvince();
+        CF = amapLocation.getCity();
+        Log.i("Locaiton", SF+CF);
         if (mListener != null && amapLocation != null) {
             if (amapLocation != null
                     && amapLocation.getErrorCode() == 0) {

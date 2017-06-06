@@ -9,4 +9,4 @@ package com.captain.smartbridge.model
  * cs : 南京市
  */
 
-data class MapReq(var sf: String? = null,var cs: String? = null)
+data class MapReq(var sf: String,var cs: String)
