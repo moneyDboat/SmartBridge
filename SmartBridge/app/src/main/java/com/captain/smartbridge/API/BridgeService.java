@@ -4,6 +4,8 @@ import com.captain.smartbridge.model.InfoRes;
 import com.captain.smartbridge.model.LoginReq;
 import com.captain.smartbridge.model.MapReq;
 import com.captain.smartbridge.model.MapRes;
+import com.captain.smartbridge.model.SearchCodeReq;
+import com.captain.smartbridge.model.SearchCodeRes;
 
 import java.util.List;
 
@@ -28,5 +30,7 @@ public interface BridgeService {
     @POST("app/map/getmap")
     Call<List<MapRes>> getMapInfo(@Body MapReq mapReq);
 
+    @POST("app/map/search")
+    Call<List<SearchCodeRes>> search(@Body SearchCodeReq searchCodeReq);
 
 }

@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NearbyActivity.class);
+                Intent intent = new Intent(MainActivity.this, NearbyActivity.class);
                 intent.putExtra("SF", SF);
                 intent.putExtra("CF", CF);
                 startActivity(intent);
@@ -105,13 +105,13 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.main_menu_about:
-                        startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
                         return true;
                     case R.id.main_menu_detect:
-                        startActivity(new Intent(getApplicationContext(), DetectActivity.class));
+                        startActivity(new Intent(MainActivity.this, DetectActivity.class));
                         return true;
                     case R.id.main_menu_information:
-                        startActivity(new Intent(getApplicationContext(), UserActivity.class));
+                        startActivity(new Intent(MainActivity.this, UserActivity.class));
                         return true;
                     case R.id.main_menu_evalute:
                         return true;
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         moreView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), BridgeActivity.class);
+                Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
                 intent.putExtra("ID", addr);
                 startActivity(intent);
             }

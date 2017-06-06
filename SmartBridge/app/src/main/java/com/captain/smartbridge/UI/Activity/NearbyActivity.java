@@ -70,8 +70,8 @@ public class NearbyActivity extends AbsActivity {
                 @Override
                 public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
                     List<MapRes> bridges = response.body();
-                    BridgeListAdapter listAdapter = new BridgeListAdapter(getApplicationContext(), bridges);
-                    listView.addHeaderView(new ViewStub(getApplicationContext()));
+                    BridgeListAdapter listAdapter = new BridgeListAdapter(NearbyActivity.this, bridges);
+                    listView.addHeaderView(new ViewStub(NearbyActivity.this));
                     listView.setAdapter(listAdapter);
                 }
 
