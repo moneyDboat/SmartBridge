@@ -37,7 +37,6 @@ import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.Common.PreferenceUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.Detect.DetectActivity;
-import com.captain.smartbridge.model.MapBridge;
 import com.captain.smartbridge.model.MapReq;
 import com.captain.smartbridge.model.MapRes;
 
@@ -66,9 +65,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     private String SF = null;
     private String CF = null;
-
-    private LatLng latLng;
-    private String agentName;
+    private boolean firstin = true;
 
     private AMap aMap;
     private OnLocationChangedListener mListener;
@@ -94,13 +91,15 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initMarker(aMap);
-                //startActivity(new Intent(getApplicationContext(), NearbyActivity.class));
+                Intent intent = new Intent(getApplicationContext(), NearbyActivity.class);
+                intent.putExtra("SF", SF);
+                intent.putExtra("CF", CF);
+                startActivity(intent);
             }
         });
     }
 
-    private void initDrawer(){
+    private void initDrawer() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -138,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         actionBarDrawerToggle.syncState();
         View headerView = navigationView.getHeaderView(0);
         TextView headerName = (TextView) headerView.findViewById(R.id.main_header_name);
-        TextView headerLocation = (TextView) headerView.findViewById(R.id.main_header_location);
         headerName.setText(PreferenceUtils.getString(this, PreferenceUtils.Key.NICK));
     }
 
@@ -154,10 +152,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         //定位图标
         MyLocationStyle myLocationStyle = new MyLocationStyle();
         aMap.setMyLocationStyle(myLocationStyle);
-
-        //自定义InfoWindow
-        //mark postion on the map
-        //initMarker(aMap);
     }
 
     //初始化地图标记
@@ -170,33 +164,30 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         });
         aMap.setInfoWindowAdapter(this);
 
-        if (NetUtils.isNetworkAvailable(this)){
+        if (NetUtils.isNetworkAvailable(this)) {
             MapReq mapReq = new MapReq(SF, CF);
-            ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<MapRes>() {
+            ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
                 @Override
-                public void onResponse(Call<MapRes> call, Response<MapRes> response) {
-                    if (response.body().getCode()==200){
-                        List<MapBridge> bridges = response.body().getContent();
-                        for(MapBridge bridge:bridges){
-                            addMarkerToMap(bridge);
-                        }
-                    }else{
-                        showToast("网络错误");
+                public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
+                    List<MapRes> bridges = response.body();
+                    for (MapRes bridge:bridges){
+                        addMarkerToMap(bridge);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<MapRes> call, Throwable t) {
+                public void onFailure(Call<List<MapRes>> call, Throwable t) {
                     t.printStackTrace();
+                    showToast("网络错误");
                 }
             });
-        }else{
+        } else {
             showToast("请检查您的网络");
         }
     }
 
 
-    private void addMarkerToMap(MapBridge bridge) {
+    private void addMarkerToMap(MapRes bridge) {
         aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
                 .position(new LatLng(Double.parseDouble(bridge.getWd()),
                         Double.parseDouble(bridge.getJd())))
@@ -233,7 +224,11 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     public void onLocationChanged(AMapLocation amapLocation) {
         SF = amapLocation.getProvince();
         CF = amapLocation.getCity();
-        Log.i("Locaiton", SF+CF);
+        if (firstin && SF != null && CF != null) {
+            //mark postion on the map
+            initMarker(aMap);
+            firstin = false;
+        }
         if (mListener != null && amapLocation != null) {
             if (amapLocation != null
                     && amapLocation.getErrorCode() == 0) {
@@ -259,9 +254,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     @Override
     public View getInfoWindow(Marker marker) {
-        latLng = marker.getPosition();
+        LatLng latLng = marker.getPosition();
         String title = marker.getTitle();
-        String addr = marker.getSnippet();
+        final String addr = marker.getSnippet();
 
         View view = LayoutInflater.from(this).inflate(R.layout.custom_info_window, null);
 
@@ -274,7 +269,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         moreView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), BridgeActivity.class));
+                Intent intent = new Intent(getApplicationContext(), BridgeActivity.class);
+                intent.putExtra("ID", addr);
+                startActivity(intent);
             }
         });
         return view;
@@ -324,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         mapView.onResume();
     }
 
-    private void showToast(String message){
+    private void showToast(String message) {
         Snackbar.make(getWindow().getDecorView(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -12,4 +12,9 @@ public class CommonUtils {
             return false;
         }
     }
+
+    public static String[] types = {"","系统管理员","桥梁管理单位","桥梁检测录入单位","科研机构","学生","游客","施工方"};
+
+
+
 }

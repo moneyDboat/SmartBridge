@@ -5,9 +5,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.captain.smartbridge.API.ApiManager;
+import com.captain.smartbridge.Common.CommonUtils;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
-import com.captain.smartbridge.model.Info;
 import com.captain.smartbridge.model.InfoRes;
 
 import butterknife.BindView;
@@ -27,7 +27,7 @@ public class UserActivity extends AbsActivity {
     TextView userName;
     @BindView(R.id.user_nick)
     TextView userNick;
-    @BindView(R.id.user_type)
+    @BindView(R.id.user_type_text)
     TextView userType;
     @BindView(R.id.user_sf)
     TextView userSf;
@@ -37,16 +37,6 @@ public class UserActivity extends AbsActivity {
     TextView userEmail;
     @BindView(R.id.user_phone)
     TextView userPhone;
-
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_user);
-//        ButterKnife.bind(this);
-//
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//    }
 
     @Override
     protected void setSelfContentView() {
@@ -73,23 +63,20 @@ public class UserActivity extends AbsActivity {
             ApiManager.getmService().getInfo().enqueue(new Callback<InfoRes>() {
                 @Override
                 public void onResponse(Call<InfoRes> call, Response<InfoRes> response) {
-                    if(response.body().getCode()==200){
-                        Info info = response.body().getContent();
-                        userDepart.setText(info.getInspectionDepartmentDM().toString());
-                        userEmail.setText(info.getEmail());
-                        userName.setText(info.getUsername());
-                        userNick.setText(info.getNickname());
-                        userPhone.setText(info.getPhoneNumber());
-                        userSf.setText(info.getSf()+info.getCs());
-                        userType.setText(info.getRoleType());
-                    }else{
-                        showToast("出错");
-                    }
+                    InfoRes info = response.body();
+                    userDepart.setText(info.getInspectionDepartmentDM().toString());
+                    userEmail.setText(info.getEmail());
+                    userName.setText(info.getUsername());
+                    userNick.setText(info.getNickname());
+                    userPhone.setText(info.getPhoneNumber());
+                    userSf.setText((info.getSf()==null?"":info.getSf())
+                            .concat(info.getCs()==null?"":info.getCs()));
+                    userType.setText(CommonUtils.types[info.getRoleType()]);
                 }
 
                 @Override
                 public void onFailure(Call<InfoRes> call, Throwable t) {
-
+                    showToast("网路出错");
                 }
             });
         }else {

@@ -34,21 +34,22 @@
             android:id="@+id/main_header_name"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
             android:text="姓名"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textColor="@color/white"
             android:gravity="center_vertical"
             android:layout_weight="1"/>
 
-        <TextView
-            android:id="@+id/main_header_location"
-            android:layout_width="match_parent"
-            android:text="地址"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:gravity="center_vertical"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+        <!--<TextView-->
+            <!--android:id="@+id/main_header_location"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:text="地址"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"/>-->
     </LinearLayout>
 
 </RelativeLayout>

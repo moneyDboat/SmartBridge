@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.captain.smartbridge.R;
-import com.captain.smartbridge.model.BridgeList;
+import com.captain.smartbridge.model.MapRes;
 
 import java.util.List;
 
@@ -18,10 +18,10 @@ import java.util.List;
 
 public class BridgeListAdapter extends BaseAdapter {
     private static int counter = 0;
-    List<BridgeList> mData = null;
+    List<MapRes> mData = null;
     Context mContext = null;
 
-    public BridgeListAdapter(Context context, List<BridgeList> data){
+    public BridgeListAdapter(Context context, List<MapRes> data){
         mContext = context;
         mData = data;
         counter = 0;
@@ -60,10 +60,10 @@ public class BridgeListAdapter extends BaseAdapter {
             holder = (ViewHolder) rootView.getTag();
         }
 
-        BridgeList item = mData.get(i);
-        holder.bridgeName.setText(item.getName());
-        holder.bridgeCode.setText(item.getCode());
-        holder.bridgeLocation.setText(item.getLocation());
+        MapRes item = mData.get(i);
+        holder.bridgeName.setText(item.getQlmc());
+        holder.bridgeCode.setText(item.getQldm());
+        holder.bridgeLocation.setText(item.getSf()+item.getCs()+item.getQx());
         return rootView;
     }
 
