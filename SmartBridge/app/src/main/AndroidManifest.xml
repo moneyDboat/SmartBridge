@@ -32,9 +32,9 @@
             android:name=".UI.Activity.MainActivity"
             android:label="@string/app_name_ch">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
         <activity android:name=".UI.Activity.LoginActivity">
@@ -62,25 +62,31 @@
         </activity>
         <activity
             android:name=".UI.Activity.BridgeActivity"
-            android:label="桥梁详情"></activity>
+            android:label="桥梁详情">
+        </activity>
         <activity
             android:name=".UI.Activity.NearbyActivity"
-            android:label="附近桥梁"></activity>
+            android:label="附近桥梁">
+        </activity>
         <activity
             android:name=".UI.Activity.Detect.DetectStatusActivity"
             android:label="检测任务状态">
-
         </activity>
         <activity
             android:name=".UI.Activity.Detect.DeCreateActivity"
-            android:label="新建检测任务"></activity>
+            android:label="新建检测任务">
+        </activity>
         <activity
             android:name=".UI.Activity.Detect.DetectSummaryActivity"
-            android:label="已完成任务汇总"></activity>
-
+            android:label="已完成任务汇总">
+        </activity>
         <activity
             android:name=".UI.Activity.Detect.DetectRecieveActivity"
-            android:label="检测任务接收"></activity>
+            android:label="检测任务接收">
+        </activity>
+        <activity android:name=".UI.Activity.Detect.DetectInfoActivity"
+            android:label="检测任务详情">
+        </activity>
     </application>
 
 </manifest>
