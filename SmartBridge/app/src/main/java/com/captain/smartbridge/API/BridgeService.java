@@ -1,5 +1,8 @@
 package com.captain.smartbridge.API;
 
+import com.captain.smartbridge.model.DetectGetReq;
+import com.captain.smartbridge.model.DetectGetRes;
+import com.captain.smartbridge.model.DetectRecReq;
 import com.captain.smartbridge.model.InfoRes;
 import com.captain.smartbridge.model.LoginReq;
 import com.captain.smartbridge.model.MapReq;
@@ -9,6 +12,7 @@ import com.captain.smartbridge.model.SearchCodeRes;
 
 import java.util.List;
 
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -33,4 +37,12 @@ public interface BridgeService {
     @POST("app/map/search")
     Call<List<SearchCodeRes>> search(@Body SearchCodeReq searchCodeReq);
 
+    @POST("app")
+    Call<List<DetectGetRes>> getDetect(@Body DetectGetReq detectGetReq);
+
+    @POST("app")
+    Call<Response> createDetect(@Body DetectGetRes detectGetRes);
+
+    @POST("app")
+    Call<Response> recieveDetect(@Body DetectRecReq detectRecReq);
 }

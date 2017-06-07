@@ -32,6 +32,8 @@ public class SearchActivity extends AbsActivity {
     @BindView(R.id.search_list)
     ListView searchList;
 
+    int category;
+
     @Override
     protected void setSelfContentView() {
         setContentView(R.layout.activity_search);
@@ -56,15 +58,16 @@ public class SearchActivity extends AbsActivity {
 
         final MenuItem searchItem = menu.findItem(R.id.search_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.i("search", query);
                 search(query);
-                if (!searchView.isIconified()) {
-                    searchView.setIconified(true);
-                }
-                searchItem.collapseActionView();
+//                if (!searchView.isIconified()) {
+//                    searchView.setIconified(true);
+//                }
+//                searchItem.collapseActionView();
                 return false;
             }
 

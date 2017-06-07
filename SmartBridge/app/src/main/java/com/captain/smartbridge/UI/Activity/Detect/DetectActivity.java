@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.captain.smartbridge.Common.PreferenceUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
-import com.captain.smartbridge.UI.Activity.BaseApplication;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +36,6 @@ public class DetectActivity extends AbsActivity implements View.OnClickListener{
     RelativeLayout asignSummary;
 
 
-    private BaseApplication baseApplication;
-
     @Override
     protected void setSelfContentView() {
         setContentView(R.layout.activity_detect);
@@ -45,7 +43,6 @@ public class DetectActivity extends AbsActivity implements View.OnClickListener{
 
     @Override
     protected void prepareDatas() {
-        baseApplication = (BaseApplication) getApplication();
     }
 
     @Override
@@ -64,16 +61,17 @@ public class DetectActivity extends AbsActivity implements View.OnClickListener{
 
 
         //init view by user category
-//        switch (baseApplication.getAccount().getCategory()){
-//            case(0):
-//                firstLayout.setVisibility(View.GONE);
-//                break;
-//            case(1):
-//                secondLayout.setVisibility(View.GONE);
-//                break;
-//            default:
-//                break;
-//        }
+        //具体还需要修改
+        switch (PreferenceUtils.getString(this, PreferenceUtils.Key.ROLE)){
+            case("1"):
+                detectLayout.setVisibility(View.GONE);
+            case("2"):
+                detectLayout.setVisibility(View.GONE);
+            case("3"):
+                asignLayout.setVisibility(View.GONE);
+            default:
+                break;
+        }
     }
 
     @Override
@@ -92,17 +90,17 @@ public class DetectActivity extends AbsActivity implements View.OnClickListener{
             case (R.id.detect_status):
                 readyGo(DetectStatusActivity.class);
                 break;
-//            case (R.id.detect_entry):
-//                readyGo(DetectEntryActivity.class);
-//                break;
             case (R.id.asign_summary):
-                readyGo(DetectSummaryActivity.class);
-                break;
-            case (R.id.detect_summary):
                 readyGo(DetectSummaryActivity.class);
                 break;
             case (R.id.detect_recieve):
                 readyGo(DetectRecieveActivity.class);
+                break;
+//            case (R.id.detect_entry):
+//                readyGo(DetectEntryActivity.class);
+//                break;
+            case (R.id.detect_summary):
+                readyGo(DetectSummaryActivity.class);
                 break;
             default:
                 break;

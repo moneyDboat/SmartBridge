@@ -10,11 +10,17 @@
         layout="@layout/tool_bar">
     </include>
 
-    <ListView
-        android:id="@+id/destatus_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/destatus_swipe"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+        <ListView
+            android:id="@+id/destatus_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
