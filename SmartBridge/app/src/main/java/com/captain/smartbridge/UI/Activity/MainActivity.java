@@ -49,11 +49,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener,
-        AMap.InfoWindowAdapter {
+        AMap.InfoWindowAdapter,AMap.OnMapClickListener, AMap.OnMarkerClickListener {
     @BindView(R.id.main_map)
     MapView mapView;
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
+    }
+
     @BindView(R.id.main_navigation)
     NavigationView navigationView;
     @BindView(R.id.main_toolbar)
@@ -72,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mLocationOption;
     private UiSettings uiSettings;
-
+    private Marker oldMarker;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 Intent intent = new Intent(MainActivity.this, NearbyActivity.class);
                 intent.putExtra("SF", SF);
                 intent.putExtra("CF", CF);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -145,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             aMap = mapView.getMap();
             uiSettings = aMap.getUiSettings();
             aMap.setLocationSource(this);
+            aMap.setOnMapClickListener(this);
         }
         uiSettings.setMyLocationButtonEnabled(true);
         aMap.setMyLocationEnabled(true);
@@ -155,13 +162,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     }
 
     //初始化地图标记
-    private void initMarker(AMap aMap) {
-        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                return false;
-            }
-        });
+    private void initMarker(final AMap aMap) {
+        aMap.setOnMarkerClickListener(this);
         aMap.setInfoWindowAdapter(this);
 
         if (NetUtils.isNetworkAvailable(this)) {
@@ -254,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     @Override
     public View getInfoWindow(Marker marker) {
+        //自定义infowindow
         LatLng latLng = marker.getPosition();
         String title = marker.getTitle();
         final String addr = marker.getSnippet();
@@ -275,11 +278,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             }
         });
         return view;
-    }
-
-    @Override
-    public View getInfoContents(Marker marker) {
-        return null;
     }
 
 
@@ -323,5 +321,41 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     private void showToast(String message) {
         Snackbar.make(getWindow().getDecorView(), message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    //地图的点击事件
+    @Override
+    public void onMapClick(LatLng latLng) {
+        //点击地图上没marker 的地方，隐藏inforwindow
+        if (oldMarker != null) {
+            oldMarker.hideInfoWindow();
+            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
+        }
+    }
+
+    //maker的点击事件
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Log.i("Marker", marker.toString());
+        if (oldMarker != null) {
+            oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
+        }
+        oldMarker = marker;
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
+        return false; //返回 “false”，除定义的操作之外，默认操作也将会被执行
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode){
+            case 1:
+                if(oldMarker!=null){
+                    oldMarker.hideInfoWindow();
+                    oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
+                }
+                oldMarker = aMap.getMapScreenMarkers().get(data.getIntExtra("ID", 0));
+                oldMarker.showInfoWindow();
+                oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
+        }
     }
 }

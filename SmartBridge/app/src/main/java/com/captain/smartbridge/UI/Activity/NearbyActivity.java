@@ -3,7 +3,9 @@ package com.captain.smartbridge.UI.Activity;
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewStub;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.captain.smartbridge.API.ApiManager;
@@ -25,7 +27,7 @@ import retrofit2.Response;
  * Created by fish on 17-5-15.
  */
 
-public class NearbyActivity extends AbsActivity {
+public class NearbyActivity extends AbsActivity implements AdapterView.OnItemClickListener{
     @BindView(R.id.nearby_toolbar)
     Toolbar toolbar;
     @BindView(R.id.list_bridge)
@@ -73,6 +75,7 @@ public class NearbyActivity extends AbsActivity {
                     BridgeListAdapter listAdapter = new BridgeListAdapter(NearbyActivity.this, bridges);
                     listView.addHeaderView(new ViewStub(NearbyActivity.this));
                     listView.setAdapter(listAdapter);
+                    listView.setOnItemClickListener(NearbyActivity.this);
                 }
 
                 @Override
@@ -86,4 +89,11 @@ public class NearbyActivity extends AbsActivity {
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent intent = new Intent();
+        intent.putExtra("ID", i);
+        NearbyActivity.this.setResult(1, intent);
+        NearbyActivity.this.finish();
+    }
 }
