@@ -336,7 +336,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     //maker的点击事件
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Log.i("Marker", marker.toString());
+        Log.i("Marker", marker.getId());
+        if(marker.getId().equals("Marker1")){
+            return false;
+        }
         if (oldMarker != null) {
             oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
         }
