@@ -96,9 +96,9 @@ public class DetectActivity extends AbsActivity implements View.OnClickListener{
             case (R.id.detect_recieve):
                 readyGo(DetectRecieveActivity.class);
                 break;
-//            case (R.id.detect_entry):
-//                readyGo(DetectEntryActivity.class);
-//                break;
+            case (R.id.detect_entry):
+                readyGo(DetectEntryActivity.class);
+                break;
             case (R.id.detect_summary):
                 readyGo(DetectSummaryActivity.class);
                 break;
