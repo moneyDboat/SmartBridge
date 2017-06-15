@@ -55,6 +55,11 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
         listView.setAdapter(adapter);
     }
 
+    //获取检测状态
+    private void getMission(){
+
+    }
+
     @Override
     public void onRefresh() {
         //

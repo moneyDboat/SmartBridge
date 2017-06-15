@@ -53,6 +53,10 @@ public class DetectSummaryActivity extends AbsActivity {
 
     }
 
+    private void getMission(){
+        //获取所有已完成检测任务
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

@@ -19,6 +19,7 @@ public class DeCreateActivity extends AbsActivity {
     Toolbar toolbar;
     @OnClick(R.id.decreate_submit)
     public void submit(){
+        //新建任务提交，弹出对话框
         finish();
     }
 
@@ -37,6 +38,11 @@ public class DeCreateActivity extends AbsActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    //获取检测单位
+    private void getDep(){
+
     }
 
     @Override

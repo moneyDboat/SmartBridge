@@ -87,21 +87,31 @@ public class DetectActivity extends AbsActivity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            //检测状态
             case (R.id.detect_status):
                 readyGo(DetectStatusActivity.class);
                 break;
+
+            //检测汇总
             case (R.id.asign_summary):
                 readyGo(DetectSummaryActivity.class);
                 break;
+
+            //检测接收
             case (R.id.detect_recieve):
                 readyGo(DetectRecieveActivity.class);
                 break;
+
+            //检测录入
             case (R.id.detect_entry):
                 readyGo(DetectEntryActivity.class);
                 break;
+
+            //检测汇总
             case (R.id.detect_summary):
                 readyGo(DetectSummaryActivity.class);
                 break;
+
             default:
                 break;
         }
