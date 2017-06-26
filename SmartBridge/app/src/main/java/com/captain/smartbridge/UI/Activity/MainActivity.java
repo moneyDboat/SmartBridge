@@ -127,6 +127,13 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             }
         });
 
+        //根据用户类别设置菜单
+        //这一部分还需要细化
+        if(PreferenceUtils.getString(this, PreferenceUtils.Key.ROLE, "0").equals("1")){
+            MenuItem menuItem = navigationView.getMenu().findItem(R.id.main_menu_evalute);
+            menuItem.setVisible(false);
+        }
+
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
