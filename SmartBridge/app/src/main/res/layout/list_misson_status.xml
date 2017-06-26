@@ -56,7 +56,6 @@
     </LinearLayout>
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/mission_ststatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -28,7 +28,7 @@
                 android:gravity="center_vertical"
                 android:text="具体构件:"
                 android:textColor="@color/BlackText"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
 
             <Spinner
                 android:id="@+id/detect_info_spinner1"
@@ -52,7 +52,7 @@
                 android:gravity="center_vertical"
                 android:text="病害类型:"
                 android:textColor="@color/BlackText"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
 
             <Spinner
                 android:id="@+id/detect_info_spinner2"
@@ -76,7 +76,7 @@
                 android:gravity="center_vertical"
                 android:text="病害标度:"
                 android:textColor="@color/BlackText"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
 
             <Spinner
                 android:id="@+id/detect_info_spinner3"
@@ -100,14 +100,17 @@
                 android:gravity="center_vertical"
                 android:text="病害描述:"
                 android:textColor="@color/BlackText"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <EditText
+            android:id="@+id/deentry_des"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"/>
+            android:layout_marginRight="40dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,16 +126,15 @@
                 android:gravity="center_vertical"
                 android:text="照片添加:"
                 android:textColor="@color/BlackText"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <ImageView
             android:id="@+id/deentry_pic"
             android:layout_width="100dp"
-            android:src="@drawable/ic_add"
+            android:layout_height="100dp"
             android:layout_marginLeft="40dp"
-            android:padding="20dp"
-            android:layout_height="100dp"/>
+            android:src="@drawable/ic_add"/>
 
         <Button
             android:id="@+id/deentry_submit"
@@ -140,12 +142,12 @@
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/normal_button"
             android:text="完成"
             android:textColor="@color/white"
             android:textSize="16sp"/>
-
 
     </LinearLayout>
 </ScrollView>

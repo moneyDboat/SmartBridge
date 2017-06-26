@@ -62,13 +62,16 @@ public class DetectActivity extends AbsActivity implements View.OnClickListener{
 
         //init view by user category
         //具体还需要修改
-        switch (PreferenceUtils.getString(this, PreferenceUtils.Key.ROLE)){
-            case("1"):
+        switch (PreferenceUtils.getInt(this, PreferenceUtils.Key.ROLE)){
+            case(1):
                 detectLayout.setVisibility(View.GONE);
-            case("2"):
+                break;
+            case(2):
                 detectLayout.setVisibility(View.GONE);
-            case("3"):
+                break;
+            case(3):
                 asignLayout.setVisibility(View.GONE);
+                break;
             default:
                 break;
         }

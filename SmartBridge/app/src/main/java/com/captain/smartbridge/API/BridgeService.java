@@ -1,8 +1,7 @@
 package com.captain.smartbridge.API;
 
-import com.captain.smartbridge.model.DetectGetReq;
 import com.captain.smartbridge.model.DetectGetRes;
-import com.captain.smartbridge.model.DetectRecReq;
+import com.captain.smartbridge.model.DetectMission;
 import com.captain.smartbridge.model.InfoRes;
 import com.captain.smartbridge.model.LoginReq;
 import com.captain.smartbridge.model.MapReq;
@@ -37,12 +36,9 @@ public interface BridgeService {
     @POST("app/map/search")
     Call<List<SearchCodeRes>> search(@Body SearchCodeReq searchCodeReq);
 
-    @POST("app")
-    Call<List<DetectGetRes>> getDetect(@Body DetectGetReq detectGetReq);
+    @GET("/app/detect/detects")
+    Call<List<DetectMission>> getDetect();
 
     @POST("app")
     Call<Response> createDetect(@Body DetectGetRes detectGetRes);
-
-    @POST("app")
-    Call<Response> recieveDetect(@Body DetectRecReq detectRecReq);
 }

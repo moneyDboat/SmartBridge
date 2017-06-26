@@ -45,7 +45,7 @@ public class DeMissionListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = null;
-        View rootView = null;
+        View rootView = view;
 
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -66,7 +66,6 @@ public class DeMissionListAdapter extends BaseAdapter {
         holder.codeView.setText(item.getCode());
         holder.asignView.setText(item.getAsign());
         holder.detectView.setText(item.getDetect());
-        holder.statusView.setVisibility(View.VISIBLE);
 //        holder.statusView.setText(item.getStatus());
 
         return rootView;

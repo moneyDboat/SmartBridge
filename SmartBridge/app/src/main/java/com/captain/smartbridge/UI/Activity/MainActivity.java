@@ -49,7 +49,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener,
-        AMap.InfoWindowAdapter,AMap.OnMapClickListener, AMap.OnMarkerClickListener {
+        AMap.InfoWindowAdapter, AMap.OnMapClickListener, AMap.OnMarkerClickListener {
     @BindView(R.id.main_map)
     MapView mapView;
     @BindView(R.id.drawer_layout)
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
         //根据用户类别设置菜单
         //这一部分还需要细化
-        if(PreferenceUtils.getString(this, PreferenceUtils.Key.ROLE, "0").equals("1")){
+        if (PreferenceUtils.getInt(this, PreferenceUtils.Key.ROLE) == 1) {
             MenuItem menuItem = navigationView.getMenu().findItem(R.id.main_menu_evalute);
             menuItem.setVisible(false);
         }
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 @Override
                 public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
                     List<MapRes> bridges = response.body();
-                    for (MapRes bridge:bridges){
+                    for (MapRes bridge : bridges) {
                         addMarkerToMap(bridge);
                     }
                 }
@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     @Override
     public boolean onMarkerClick(Marker marker) {
         Log.i("Marker", marker.getId());
-        if(marker.getId().equals("Marker1")){
+        if (marker.getId().equals("Marker1")) {
             return false;
         }
         if (oldMarker != null) {
@@ -357,9 +357,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (resultCode){
+        switch (resultCode) {
             case 1:
-                if(oldMarker!=null){
+                if (oldMarker != null) {
                     oldMarker.hideInfoWindow();
                     oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
                 }

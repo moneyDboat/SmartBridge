@@ -87,6 +87,9 @@
         <activity android:name=".UI.Activity.Detect.DetectInfoActivity"
             android:label="检测任务详情">
         </activity>
+        <activity android:name=".UI.Activity.Detect.DeEntryInfoAcitivity"
+                  android:label="病害录入">
+        </activity>
     </application>
 
 </manifest>
