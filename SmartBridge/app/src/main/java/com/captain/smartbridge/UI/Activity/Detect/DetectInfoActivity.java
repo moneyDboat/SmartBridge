@@ -8,7 +8,7 @@ import android.widget.ListView;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.TextListAdapter;
-import com.captain.smartbridge.model.DetectGetRes;
+import com.captain.smartbridge.model.DetectMission;
 import com.captain.smartbridge.model.SimpleText;
 import com.google.gson.Gson;
 
@@ -49,13 +49,14 @@ public class DetectInfoActivity extends AbsActivity {
     private void setDetectInfo(){
         //从先前的Activity中获取检测任务数据
         String detectJson = getIntent().getStringExtra("detect");
-        DetectGetRes info = new Gson().fromJson(detectJson, DetectGetRes.class);
+        DetectMission info = new Gson().fromJson(detectJson, DetectMission.class);
 
         List<SimpleText> texts = new ArrayList<>();
         texts.add(new SimpleText("任务代码", info.getJcrw_id()));
         texts.add(new SimpleText("桥梁代码", info.getQldm()));
-        texts.add(new SimpleText("发布人员", info.getRwfbsj()));
-        texts.add(new SimpleText("发布时间", info.getRwfbry()));
+        texts.add(new SimpleText("桥梁名称", info.getQlmc()));
+        texts.add(new SimpleText("发布人员", info.getRwfbry()));
+        texts.add(new SimpleText("发布时间", info.getRwfbsj()));
         texts.add(new SimpleText("状态", info.getStatus()));
         texts.add(new SimpleText("接受时间", info.getRejssj()));
         texts.add(new SimpleText("接受人员", info.getRwjsry()));

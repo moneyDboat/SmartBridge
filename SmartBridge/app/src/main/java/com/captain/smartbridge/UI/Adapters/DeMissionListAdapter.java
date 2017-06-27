@@ -55,7 +55,7 @@ public class DeMissionListAdapter extends BaseAdapter {
             holder.codeView = (TextView) rootView.findViewById(R.id.mission_stcode);
             holder.asignView = (TextView) rootView.findViewById(R.id.mission_stasign);
             holder.detectView = (TextView) rootView.findViewById(R.id.mission_stdetect);
-            holder.statusView = (TextView) rootView.findViewById(R.id.mission_ststatus);
+            holder.statusView = (TextView) rootView.findViewById(R.id.mission_status);
             rootView.setTag(holder);
         } else {
             holder = (ViewHolder) rootView.getTag();
@@ -66,7 +66,19 @@ public class DeMissionListAdapter extends BaseAdapter {
         holder.codeView.setText(item.getCode());
         holder.asignView.setText(item.getAsign());
         holder.detectView.setText(item.getDetect());
-//        holder.statusView.setText(item.getStatus());
+        String status = "";
+        switch (item.getStatus()){
+            case (0):
+                status = "已派发";
+                break;
+            case (1):
+                status = "已接收";
+                break;
+            case (2):
+                //status = "已完成";
+                break;
+        }
+        holder.statusView.setText(status);
 
         return rootView;
     }

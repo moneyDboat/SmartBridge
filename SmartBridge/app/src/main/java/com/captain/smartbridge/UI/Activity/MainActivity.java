@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
         //根据用户类别设置菜单
         //这一部分还需要细化
-        if (PreferenceUtils.getInt(this, PreferenceUtils.Key.ROLE) == 1) {
+        if (PreferenceUtils.getInt(this, PreferenceUtils.Key.ROLE) == 2) {
             MenuItem menuItem = navigationView.getMenu().findItem(R.id.main_menu_evalute);
             menuItem.setVisible(false);
         }

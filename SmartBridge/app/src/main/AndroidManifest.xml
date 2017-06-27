@@ -22,9 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!--设置高德地图key-->
+        <!--android:value="f2f543173f91b5be845ab3672af9ad22"-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="f2f543173f91b5be845ab3672af9ad22"/>
+            android:value="b803c107cc22ef92ab4649919e5d8314"/>
         <!--声明定位service-->
         <service android:name="com.amap.api.location.APSService"></service>
 

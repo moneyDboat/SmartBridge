@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:orientation="vertical">
 
@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/mission_stname"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="南京长江大桥"
                 android:textColor="@color/BlackText"
@@ -30,7 +30,7 @@
                 android:id="@+id/mission_stcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:text="G1001004"
                 android:textColor="@color/BlackText"
                 android:textSize="14sp"/>
@@ -56,7 +56,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/mission_ststatus"
+        android:id="@+id/mission_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

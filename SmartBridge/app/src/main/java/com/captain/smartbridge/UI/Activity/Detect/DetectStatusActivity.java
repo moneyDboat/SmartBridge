@@ -1,21 +1,21 @@
 package com.captain.smartbridge.UI.Activity.Detect;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.DeMissionListAdapter;
 import com.captain.smartbridge.model.DetectMission;
 import com.captain.smartbridge.model.Mission;
-import com.captain.smartbridge.model.SearchCodeReq;
-import com.captain.smartbridge.model.SearchCodeRes;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,8 @@ import retrofit2.Response;
 
 import static com.captain.smartbridge.API.ApiManager.getmService;
 
-public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener,
+        AdapterView.OnItemClickListener{
     @BindView(R.id.destatus_toolbar)
     Toolbar toolbar;
     @BindView(R.id.destatus_list)
@@ -37,7 +38,7 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
     SwipeRefreshLayout destatusSwipe;
 
     List<Mission> missions = new ArrayList<>();
-    String name = "";
+    List<DetectMission> detectMissions = new ArrayList<>();
     DeMissionListAdapter adapter = null;
 
     @Override
@@ -59,11 +60,11 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
         //pull to refresh
         destatusSwipe.setOnRefreshListener(this);
 
-        //获取检测任务
+       //list
+        listView.setOnItemClickListener(this);
+
+        //获取未完成的检测任务
         initList();
-        adapter = new DeMissionListAdapter(DetectStatusActivity.this, missions);
-        listView.setHeaderDividersEnabled(true);
-        listView.setAdapter(adapter);
     }
 
     //获取检测任务
@@ -73,13 +74,21 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
                 @Override
                 public void onResponse(Call<List<DetectMission>> call, Response<List<DetectMission>> response) {
                     missions = new ArrayList<>();
-                    for(DetectMission i : response.body()){
-                        //状态为3代表已经完成
+                    for(DetectMission i :  response.body()){
+                        //状态为2代表已经完成
                         if (i.getStatus().equals("2")){
                             continue;
                         }
-                        getBridgeName(i.getQldm(), i);
+
+                        detectMissions.add(i);
+                        Mission mission = new Mission(i.getQlmc(),i.getQldm(), i.getRwfbry(),
+                                i.getRwjsry(), Integer.valueOf(i.getStatus()));
+                        missions.add(mission);
                     }
+
+                    adapter = new DeMissionListAdapter(DetectStatusActivity.this, missions);
+                    listView.setAdapter(adapter);
+                    destatusSwipe.setRefreshing(false);
                 }
 
                 @Override
@@ -93,36 +102,16 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
         }
     }
 
-    private String getBridgeName(final String code, DetectMission mission){
-        SearchCodeReq searchCodeReq = new SearchCodeReq(code);
-        final DetectMission i = mission;
-        ApiManager.getmService().search(searchCodeReq).enqueue(new Callback<List<SearchCodeRes>>() {
-            @Override
-            public void onResponse(Call<List<SearchCodeRes>> call, Response<List<SearchCodeRes>> response) {
-                if(response.body() == null){
-                    Log.e("name", code);
-                }else{
-                    name = response.body().get(0).getQlmc();
-                    Mission mission = new Mission(name, i.getQldm(), i.getRwfbry(), i.getRwjsry(), Integer.valueOf(i.getStatus()));
-                    missions.add(mission);
-
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<SearchCodeRes>> call, Throwable t) {
-                t.printStackTrace();
-                showNetWorkError();
-            }
-        });
-
-        return name;
-    }
-
     @Override
     public void onRefresh() {
         initList();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, DetectInfoActivity.class);
+        intent.putExtra("detect", new Gson().toJson(detectMissions.get(position)));
+        startActivity(intent);
     }
 
     @Override
@@ -144,5 +133,4 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
         getMenuInflater().inflate(R.menu.menu_destatus, menu);
         return true;
     }
-
 }

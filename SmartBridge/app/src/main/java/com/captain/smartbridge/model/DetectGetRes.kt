@@ -15,6 +15,7 @@ package com.captain.smartbridge.model
  * rejssj : 2017-04-26
  * rwjsry : lei123
  * bz : None
+ * "qlmc": "东南大桥"
  */
 
 data class DetectGetRes(
@@ -26,5 +27,6 @@ data class DetectGetRes(
         var jcrw_id: String? = null,
         var rejssj: String? = null,
         var rwjsry: String? = null,
-        var bz: String? = null
+        var bz: String? = null,
+        var qlmc: String? = null
 )

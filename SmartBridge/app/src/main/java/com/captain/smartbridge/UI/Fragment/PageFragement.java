@@ -15,6 +15,7 @@ import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.BaseApplication;
 import com.captain.smartbridge.UI.Adapters.TextListAdapter;
 import com.captain.smartbridge.UI.Adapters.TextsListAdapter;
+import com.captain.smartbridge.model.GouJian;
 import com.captain.smartbridge.model.SearchCodeReq;
 import com.captain.smartbridge.model.SearchCodeRes;
 import com.captain.smartbridge.model.SimpleText;
@@ -111,17 +112,35 @@ public class PageFragement extends Fragment {
     private View buildView(LayoutInflater inflater, ViewGroup container){
         view = inflater.inflate(R.layout.fragment_build, container, false);
 
-        List<SimpleTexts> texts = new ArrayList<>();
-        texts.add(new SimpleTexts("护坡","锥坡","2","下部结构"));
-        texts.add(new SimpleTexts("台帽","桥台","2","下部结构"));
-        texts.add(new SimpleTexts("耳墙","耳墙","2","下部结构"));
-        texts.add(new SimpleTexts("盖梁","桥墩","1","下部结构"));
-        texts.add(new SimpleTexts("墩柱","桥墩","2","下部结构"));
+        String id = BaseApplication.getID();
+        SearchCodeReq searchCodeReq = new SearchCodeReq(id);
 
-        TextsListAdapter listAdapter = new TextsListAdapter(this.getContext(), texts);
-        ListView listView = (ListView) view.findViewById(R.id.build_list);
-        listView.addHeaderView(new ViewStub(this.getContext()));
-        listView.setAdapter(listAdapter);
+        if(NetUtils.isNetworkConnected(getActivity())){
+            ApiManager.getmService().getGou(searchCodeReq).enqueue(new Callback<List<GouJian>>() {
+                @Override
+                public void onResponse(Call<List<GouJian>> call, Response<List<GouJian>> response) {
+                    List<GouJian> gous = response.body();
+                    List<SimpleTexts> texts = new ArrayList<>();
+                    for(GouJian gou:gous){
+                        texts.add(new SimpleTexts(gou.getGjmc(),gou.getGjlxmc(),
+                                String.valueOf(gou.getGjsl()),gou.getGjjgm()));
+                    }
+
+                    TextsListAdapter listAdapter = new TextsListAdapter(getActivity(), texts);
+                    ListView listView = (ListView) view.findViewById(R.id.build_list);
+                    listView.addHeaderView(new ViewStub(getActivity()));
+                    listView.setAdapter(listAdapter);
+
+                }
+
+                @Override
+                public void onFailure(Call<List<GouJian>> call, Throwable t) {
+
+                }
+            });
+        }else{
+
+        }
         return view;
     }
 
