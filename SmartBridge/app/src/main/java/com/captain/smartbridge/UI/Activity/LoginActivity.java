@@ -1,6 +1,5 @@
 package com.captain.smartbridge.UI.Activity;
 
-import android.util.Log;
 import android.widget.EditText;
 
 import com.captain.smartbridge.API.ApiManager;
@@ -34,8 +33,10 @@ public class LoginActivity extends AbsActivity {
 
     @OnClick(R.id.login_buttom)
     void login() {
-        String username = userText.getText().toString();
-        String pwd = passwordText.getText().toString();
+//        String username = userText.getText().toString();
+//        String pwd = passwordText.getText().toString();
+        String username = "fansen";
+        String pwd = "123456";
         loginButtom.setMode(ActionProcessButton.Mode.PROGRESS);
         loginButtom.setProgress(0);
         loginButtom.setEnabled(false);
@@ -57,6 +58,8 @@ public class LoginActivity extends AbsActivity {
     @Override
     protected void initViews() {
         ButterKnife.bind(this);
+
+        userText.setText(PreferenceUtils.getString(this, PreferenceUtils.Key.USER));
     }
 
     private void postLogin(LoginReq loginReq) {
@@ -64,7 +67,10 @@ public class LoginActivity extends AbsActivity {
             ApiManager.getmService().login(loginReq).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Log.i("Login", response.body().toString());
+                    if(response.body()==null){
+                        showToast("用户名密码错误！");
+                        return;
+                    }
                     loginButtom.setProgress(50);
                     getUserInfo();
                 }
@@ -72,7 +78,6 @@ public class LoginActivity extends AbsActivity {
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     t.printStackTrace();
-                    showToast("用户名密码错误！");
                     loginButtom.setProgress(-1);
                     loginButtom.setEnabled(true);
                 }

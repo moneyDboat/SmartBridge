@@ -64,7 +64,7 @@ public class UserActivity extends AbsActivity {
         userLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                logout();
             }
         });
 
@@ -103,6 +103,7 @@ public class UserActivity extends AbsActivity {
         Intent intent = new Intent();
         intent.setAction("exit_app");
         sendBroadcast(intent);
+        readyGo(LoginActivity.class);
     }
 
 

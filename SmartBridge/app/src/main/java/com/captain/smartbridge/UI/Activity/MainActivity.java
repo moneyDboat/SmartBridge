@@ -391,6 +391,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("exit_app")){
+                context.unregisterReceiver(this);
                 finish();
             }
         }

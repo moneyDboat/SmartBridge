@@ -109,6 +109,7 @@ public abstract class AbsActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("exit_app")){
+                context.unregisterReceiver(this);
                 finish();
             }
         }
