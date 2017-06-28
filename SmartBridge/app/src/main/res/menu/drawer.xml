@@ -5,7 +5,7 @@
             android:id="@+id/main_menu_information"
             android:checked="false"
             android:icon="@drawable/ic_information"
-            android:title="基本信息"/>
+            android:title="用户信息"/>
 
         <item
             android:id="@+id/main_menu_detect"

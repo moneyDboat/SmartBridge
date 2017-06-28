@@ -74,6 +74,10 @@
             android:label="检测任务状态">
         </activity>
         <activity
+            android:name=".UI.Activity.Detect.DetectInfoActivity"
+            android:label="检测任务详情">
+        </activity>
+        <activity
             android:name=".UI.Activity.Detect.DeCreateActivity"
             android:label="新建检测任务">
         </activity>
@@ -85,11 +89,25 @@
             android:name=".UI.Activity.Detect.DetectRecieveActivity"
             android:label="检测任务接收">
         </activity>
-        <activity android:name=".UI.Activity.Detect.DetectInfoActivity"
-            android:label="检测任务详情">
+        <activity
+            android:name=".UI.Activity.Detect.DetectRecieveInfoActivity"
+            android:label="接收任务详情">
         </activity>
-        <activity android:name=".UI.Activity.Detect.DeEntryInfoAcitivity"
-                  android:label="病害录入">
+        <activity
+            android:name=".UI.Activity.Detect.DeEntryActivity"
+            android:label="检测任务录入">
+        </activity>
+        <activity
+            android:name=".UI.Activity.Detect.DetectEntryInfoActivity"
+            android:label="录入任务详情">
+        </activity>
+        <activity
+            android:name=".UI.Activity.Detect.DetectEntryActivity"
+            android:label="病害录入">
+        </activity>
+        <activity
+            android:name=".UI.Activity.Detect.DeEntryInfoAcitivity"
+            android:label="病害录入">
         </activity>
     </application>
 

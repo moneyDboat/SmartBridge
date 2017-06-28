@@ -107,7 +107,7 @@ public class DetectActivity extends AbsActivity implements View.OnClickListener{
 
             //检测录入
             case (R.id.detect_entry):
-                readyGo(DetectEntryActivity.class);
+                readyGo(DeEntryActivity.class);
                 break;
 
             //检测汇总

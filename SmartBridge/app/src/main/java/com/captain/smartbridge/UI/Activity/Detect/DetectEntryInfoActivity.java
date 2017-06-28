@@ -2,7 +2,9 @@ package com.captain.smartbridge.UI.Activity.Detect;
 
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.captain.smartbridge.R;
@@ -19,18 +21,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by fish on 17-6-7.
+ * Created by Captain on 17/6/28.
  */
 
-public class DetectInfoActivity extends AbsActivity {
-    @BindView(R.id.detect_info_toolbar)
+public class DetectEntryInfoActivity extends AbsActivity {
+    @BindView(R.id.detect_entry_info_toolbar)
     Toolbar toolbar;
-    @BindView(R.id.detect_infor_listview)
-    ListView detectInforListview;
+    @BindView(R.id.detect_entry_infor_list)
+    ListView deentryInforList;
+    @BindView(R.id.detect_entry_button)
+    Button deentryButton;
+
+    DetectMission info = null;
 
     @Override
     protected void setSelfContentView() {
-        setContentView(R.layout.activity_detect_info);
+        setContentView(R.layout.activity_detectentry_info);
     }
 
     @Override
@@ -44,12 +50,19 @@ public class DetectInfoActivity extends AbsActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setDetectInfo();
+
+        deentryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readyGo(DetectEntryActivity.class);
+            }
+        });
     }
 
-    private void setDetectInfo(){
+    private void setDetectInfo() {
         //从先前的Activity中获取检测任务数据
         String detectJson = getIntent().getStringExtra("detect");
-        DetectMission info = new Gson().fromJson(detectJson, DetectMission.class);
+        info = new Gson().fromJson(detectJson, DetectMission.class);
 
         List<SimpleText> texts = new ArrayList<>();
         texts.add(new SimpleText("任务代码", info.getJcrw_id()));
@@ -64,9 +77,10 @@ public class DetectInfoActivity extends AbsActivity {
         texts.add(new SimpleText("备注", info.getBz()));
 
         TextListAdapter adapter = new TextListAdapter(this, texts);
-        detectInforListview.addHeaderView(new ViewStub(this));
-        detectInforListview.setAdapter(adapter);
+        deentryInforList.addHeaderView(new ViewStub(this));
+        deentryInforList.setAdapter(adapter);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

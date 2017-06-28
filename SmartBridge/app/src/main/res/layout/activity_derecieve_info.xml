@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/dereceive_info_toolbar"
+        layout="@layout/tool_bar">
+    </include>
+
+    <ListView
+        android:id="@+id/dereceive_infor_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+    <Button
+        android:id="@+id/derecieve_button"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/normal_button"
+        android:text="接收任务"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+</LinearLayout>

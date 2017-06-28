@@ -34,13 +34,11 @@ public class LoginActivity extends AbsActivity {
 
     @OnClick(R.id.login_buttom)
     void login() {
-        //        String username = userText.getText().toString();
-        //        String pwd = passwordText.getText().toString();
+        String username = userText.getText().toString();
+        String pwd = passwordText.getText().toString();
         loginButtom.setMode(ActionProcessButton.Mode.PROGRESS);
         loginButtom.setProgress(0);
         loginButtom.setEnabled(false);
-        String username = "fansen";
-        String pwd = "123456";
         if (isValid(username, pwd)) {
             LoginReq loginReq = new LoginReq(username, pwd);
             postLogin(loginReq);
@@ -74,6 +72,7 @@ public class LoginActivity extends AbsActivity {
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     t.printStackTrace();
+                    showToast("用户名密码错误！");
                     loginButtom.setProgress(-1);
                     loginButtom.setEnabled(true);
                 }
@@ -109,8 +108,8 @@ public class LoginActivity extends AbsActivity {
         PreferenceUtils.putInt(this, PreferenceUtils.Key.ROLE, info.getRoleType());
         //        PreferenceUtils.putString(this, PreferenceUtils.Key.DATE, info.getRegisterDate());
         PreferenceUtils.putString(this, PreferenceUtils.Key.HEADPIC, info.getHeadPortrait());
-        PreferenceUtils.putString(this, PreferenceUtils.Key.SF, info.getSf()==null?"":info.getSf());
-        PreferenceUtils.putString(this, PreferenceUtils.Key.CF, info.getCs()==null?"":info.getCs());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.SF, info.getSf() == null ? "" : info.getSf());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.CF, info.getCs() == null ? "" : info.getCs());
         PreferenceUtils.putInt(this, PreferenceUtils.Key.ID, info.getUserId());
         //        PreferenceUtils.putString(this, PreferenceUtils.Key.DEPART, info.getInspectionDepartmentDM());
         PreferenceUtils.putString(this, PreferenceUtils.Key.PHONE, info.getPhoneNumber());

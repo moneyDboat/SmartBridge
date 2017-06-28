@@ -46,7 +46,7 @@ public class BridgeListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = null;
-        View rootView = null;
+        View rootView = view;
 
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);

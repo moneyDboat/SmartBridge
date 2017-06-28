@@ -1,7 +1,10 @@
 package com.captain.smartbridge.UI.Activity;
 
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.captain.smartbridge.API.ApiManager;
@@ -37,6 +40,8 @@ public class UserActivity extends AbsActivity {
     TextView userEmail;
     @BindView(R.id.user_phone)
     TextView userPhone;
+    @BindView(R.id.user_logout_button)
+    Button userLogout;
 
     @Override
     protected void setSelfContentView() {
@@ -55,6 +60,13 @@ public class UserActivity extends AbsActivity {
 
         //init list
         setUserInfo();
+
+        userLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
@@ -83,6 +95,16 @@ public class UserActivity extends AbsActivity {
             showNetWorkError();
         }
     }
+
+
+    //退出登录
+    //广播通知所有Activity结束
+    private void logout(){
+        Intent intent = new Intent();
+        intent.setAction("exit_app");
+        sendBroadcast(intent);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

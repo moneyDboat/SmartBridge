@@ -69,10 +69,10 @@ public class DeMissionListAdapter extends BaseAdapter {
         String status = "";
         switch (item.getStatus()){
             case (0):
-                status = "已派发";
+                status = "待接收";
                 break;
             case (1):
-                status = "已接收";
+                status = "检测中";
                 break;
             case (2):
                 //status = "已完成";

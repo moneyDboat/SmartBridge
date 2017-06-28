@@ -95,10 +95,12 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
                 public void onFailure(Call<List<DetectMission>> call, Throwable t) {
                     t.printStackTrace();
                     showNetWorkError();
+                    destatusSwipe.setRefreshing(false);
                 }
             });
         }else {
             showNetWorkError();
+            destatusSwipe.setRefreshing(false);
         }
     }
 

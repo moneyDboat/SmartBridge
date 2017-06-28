@@ -1,6 +1,9 @@
 package com.captain.smartbridge.UI.Activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -93,6 +96,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         mapView.onCreate(savedInstanceState);
         initMap();
 
+        //注册广播接收
+        regListener();
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +135,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
         //根据用户类别设置菜单
         //这一部分还需要细化
-        if (PreferenceUtils.getInt(this, PreferenceUtils.Key.ROLE) == 2) {
+        int role = PreferenceUtils.getInt(this, PreferenceUtils.Key.ROLE);
+        if (role == 1 || role == 2) {
+
+        }else{
             MenuItem menuItem = navigationView.getMenu().findItem(R.id.main_menu_evalute);
             menuItem.setVisible(false);
         }
@@ -366,6 +375,24 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 oldMarker = aMap.getMapScreenMarkers().get(data.getIntExtra("ID", 0));
                 oldMarker.showInfoWindow();
                 oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
+        }
+    }
+
+    protected void regListener() {
+        //注册广播接收者
+        MyReceiver receiver = new MyReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("exit_app");
+        registerReceiver(receiver, filter);
+    }
+
+    class MyReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("exit_app")){
+                finish();
+            }
         }
     }
 }

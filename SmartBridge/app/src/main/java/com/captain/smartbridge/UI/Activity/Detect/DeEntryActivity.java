@@ -28,25 +28,27 @@ import retrofit2.Response;
 import static com.captain.smartbridge.API.ApiManager.getmService;
 
 /**
- * Created by fish on 17-5-17.
+ * Created by Captain on 17/6/28.
  */
 
-public class DetectRecieveActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener,
+public class DeEntryActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener,
         AdapterView.OnItemClickListener{
-    @BindView(R.id.dereceive_toolbar)
+    @BindView(R.id.deentry_toolbar)
     Toolbar toolbar;
-    @BindView(R.id.dereceive_list)
-    ListView listView;
-    @BindView(R.id.dereceive_swipe)
-    SwipeRefreshLayout dereceiveSwipe;
+    @BindView(R.id.deentry_list)
+    ListView deentryList;
+    @BindView(R.id.deentry_swipe)
+    SwipeRefreshLayout deentrySwipe;
+
 
     List<Mission> missions = new ArrayList<>();
     List<DetectMission> detectMissions = new ArrayList<>();
     DeMissionListAdapter adapter = null;
 
+
     @Override
     protected void setSelfContentView() {
-        setContentView(R.layout.activity_derecieve);
+        setContentView(R.layout.acitivity_deentry);
     }
 
     @Override
@@ -62,41 +64,41 @@ public class DetectRecieveActivity extends AbsActivity implements SwipeRefreshLa
 
         initList();
 
-        listView.setOnItemClickListener(this);
-        dereceiveSwipe.setOnRefreshListener(this);
+        deentryList.setOnItemClickListener(this);
+        deentrySwipe.setOnRefreshListener(this);
 
     }
 
     private void initList() {
-        if(NetUtils.isNetworkConnected(this)){
+        if (NetUtils.isNetworkConnected(this)) {
             getmService().getDetect().enqueue(new Callback<List<DetectMission>>() {
                 @Override
                 public void onResponse(Call<List<DetectMission>> call, Response<List<DetectMission>> response) {
                     missions = new ArrayList<>();
-                    for(DetectMission i :  response.body()){
-                        //状态为0代表待接收
-                        if (i.getStatus().equals("0")){
+                    for (DetectMission i : response.body()) {
+                        //状态为1代表检测中
+                        if (i.getStatus().equals("1")) {
                             detectMissions.add(i);
-                            Mission mission = new Mission(i.getQlmc(),i.getQldm(), i.getRwfbry(),
+                            Mission mission = new Mission(i.getQlmc(), i.getQldm(), i.getRwfbry(),
                                     i.getRwjsry(), Integer.valueOf(i.getStatus()));
                             missions.add(mission);
                         }
                     }
 
-                    adapter = new DeMissionListAdapter(DetectRecieveActivity.this, missions);
-                    listView.setAdapter(adapter);
-                    dereceiveSwipe.setRefreshing(false);
+                    adapter = new DeMissionListAdapter(DeEntryActivity.this, missions);
+                    deentryList.setAdapter(adapter);
+                    deentrySwipe.setRefreshing(false);
                 }
 
                 @Override
                 public void onFailure(Call<List<DetectMission>> call, Throwable t) {
                     t.printStackTrace();
-                    dereceiveSwipe.setRefreshing(false);
+                    deentrySwipe.setRefreshing(false);
                     showNetWorkError();
                 }
             });
-        }else {
-            dereceiveSwipe.setRefreshing(false);
+        } else {
+            deentrySwipe.setRefreshing(false);
             showNetWorkError();
         }
 
@@ -119,7 +121,7 @@ public class DetectRecieveActivity extends AbsActivity implements SwipeRefreshLa
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(this, DetectRecieveInfoActivity.class);
+        Intent intent = new Intent(this, DetectEntryInfoActivity.class);
         intent.putExtra("detect", new Gson().toJson(detectMissions.get(position)));
         startActivity(intent);
     }
