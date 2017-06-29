@@ -33,10 +33,10 @@ public class LoginActivity extends AbsActivity {
 
     @OnClick(R.id.login_buttom)
     void login() {
-//        String username = userText.getText().toString();
-//        String pwd = passwordText.getText().toString();
-        String username = "fansen";
-        String pwd = "123456";
+        String username = userText.getText().toString();
+        String pwd = passwordText.getText().toString();
+//        String username = "fansen";
+//        String pwd = "123456";
         loginButtom.setMode(ActionProcessButton.Mode.PROGRESS);
         loginButtom.setProgress(0);
         loginButtom.setEnabled(false);

@@ -1,10 +1,13 @@
 package com.captain.smartbridge.UI.Activity;
 
+import android.content.Intent;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.captain.smartbridge.API.ApiManager;
@@ -26,13 +29,14 @@ import retrofit2.Response;
  * Created by fish on 17-4-25.
  */
 
-public class SearchActivity extends AbsActivity {
+public class SearchActivity extends AbsActivity implements AdapterView.OnItemClickListener{
     @BindView(R.id.search_toolbar)
     Toolbar toolbar;
     @BindView(R.id.search_list)
     ListView searchList;
 
     int category;
+    private List<SearchCodeRes> bridges = null;
 
     @Override
     protected void setSelfContentView() {
@@ -58,7 +62,9 @@ public class SearchActivity extends AbsActivity {
 
         final MenuItem searchItem = menu.findItem(R.id.search_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setIconified(false);
+        //searchView.setIconified(false);
+        //试试看能不能直接变成搜索栏
+        searchView.setIconified(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -96,7 +102,8 @@ public class SearchActivity extends AbsActivity {
             ApiManager.getmService().search(searchCodeReq).enqueue(new Callback<List<SearchCodeRes>>() {
                 @Override
                 public void onResponse(Call<List<SearchCodeRes>> call, Response<List<SearchCodeRes>> response) {
-                    SearchListAdapter searchListAdapter = new SearchListAdapter(SearchActivity.this, response.body());
+                    bridges = response.body();
+                    SearchListAdapter searchListAdapter = new SearchListAdapter(SearchActivity.this, bridges);
                     searchList.setAdapter(searchListAdapter);
                 }
 
@@ -109,5 +116,13 @@ public class SearchActivity extends AbsActivity {
         } else {
             showNetWorkError();
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent();
+        intent.putExtra("Code", bridges.get(position).getQldm());
+        SearchActivity.this.setResult(2, intent);
+        SearchActivity.this.finish();
     }
 }

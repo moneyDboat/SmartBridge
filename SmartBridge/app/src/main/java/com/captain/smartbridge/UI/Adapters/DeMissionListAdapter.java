@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.captain.smartbridge.Common.CommonUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.model.Mission;
 
@@ -66,19 +67,7 @@ public class DeMissionListAdapter extends BaseAdapter {
         holder.codeView.setText(item.getCode());
         holder.asignView.setText(item.getAsign());
         holder.detectView.setText(item.getDetect());
-        String status = "";
-        switch (item.getStatus()){
-            case (0):
-                status = "待接收";
-                break;
-            case (1):
-                status = "检测中";
-                break;
-            case (2):
-                //status = "已完成";
-                break;
-        }
-        holder.statusView.setText(status);
+        holder.statusView.setText(CommonUtils.getStatus(String.valueOf(item.getStatus())));
 
         return rootView;
     }

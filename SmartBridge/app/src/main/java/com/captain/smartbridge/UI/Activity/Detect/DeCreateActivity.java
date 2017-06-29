@@ -1,6 +1,7 @@
 package com.captain.smartbridge.UI.Activity.Detect;
 
-import android.os.Bundle;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,14 +82,14 @@ public class DeCreateActivity extends AbsActivity {
 
         initButton();
 
-
+        //获取当前时间
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         decreateFbsj.setText(simpleDateFormat.format(new Date()));
         decreateFbry.setText(PreferenceUtils.getString(this, PreferenceUtils.Key.USER));
 
     }
 
-    //检测单位下拉列表
+    //设置检测单位下拉列表的内容
     private void initSpinner() {
         if (NetUtils.isNetworkAvailable(this)) {
             ApiManager.getmService().getDepart().enqueue(new Callback<List<Department>>() {
@@ -133,6 +134,7 @@ public class DeCreateActivity extends AbsActivity {
     private void getBridge() {
         String sf = PreferenceUtils.getString(this, PreferenceUtils.Key.SF);
         String cs = PreferenceUtils.getString(this, PreferenceUtils.Key.CF);
+        //这部分只能先暂时这么写了
         if (sf.equals("")) {
             sf = "江苏省";
             cs = "南京市";
@@ -160,7 +162,6 @@ public class DeCreateActivity extends AbsActivity {
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         decreateName.setSelection(position);
                         code = qldms.get(position);
-                        showToast(code);
                     }
 
                     @Override
@@ -173,7 +174,6 @@ public class DeCreateActivity extends AbsActivity {
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         decreateCode.setSelection(position);
                         code = qldms.get(position);
-                        showToast(code);
                     }
 
                     @Override
@@ -196,34 +196,41 @@ public class DeCreateActivity extends AbsActivity {
         decreateSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //后期添加提示对话框
-                if (NetUtils.isNetworkAvailable(DeCreateActivity.this)) {
-                    CreateMissReq createMissReq = new CreateMissReq(code, jcdw);
-
-                    ApiManager.getmService().createDetect(createMissReq).enqueue(new Callback<CreateMissRes>() {
-                        @Override
-                        public void onResponse(Call<CreateMissRes> call, Response<CreateMissRes> response) {
-                            showToast("检测任务创建成功！");
-
-                            //延时关闭界面
-                            Timer timer = new Timer();
-                            TimerTask timerTask = new TimerTask() {
-                                @Override
-                                public void run() {
-                                    finish();
-                                }
-                            };
-                            timer.schedule(timerTask, 2000);
-                        }
-
-                        @Override
-                        public void onFailure(Call<CreateMissRes> call, Throwable t) {
-
-                        }
-                    });
-                }
+                //弹出提示对话框
+                showDialog();
             }
         });
+    }
+
+    private void createMission(){
+        if (NetUtils.isNetworkAvailable(DeCreateActivity.this)) {
+            CreateMissReq createMissReq = new CreateMissReq(code, jcdw);
+
+            ApiManager.getmService().createDetect(createMissReq).enqueue(new Callback<CreateMissRes>() {
+                @Override
+                public void onResponse(Call<CreateMissRes> call, Response<CreateMissRes> response) {
+                    showToast("检测任务创建成功！");
+
+                    //延时关闭界面
+                    decreateSubmit.setClickable(false);
+                    Timer timer = new Timer();
+                    TimerTask timerTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    };
+                    timer.schedule(timerTask, 2000);
+                }
+
+                @Override
+                public void onFailure(Call<CreateMissRes> call, Throwable t) {
+                    showNetWorkError();
+                }
+            });
+        }else {
+            showNetWorkError();
+        }
     }
 
     @Override
@@ -236,10 +243,20 @@ public class DeCreateActivity extends AbsActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    //显示对话框
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage("是否新建检测任务？");
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                createMission();
+            }
+        });
+        builder.setCancelable(true);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

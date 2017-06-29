@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.view.ViewStub;
 import android.widget.ListView;
 
+import com.captain.smartbridge.Common.CommonUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.TextListAdapter;
@@ -57,11 +58,15 @@ public class DetectInfoActivity extends AbsActivity {
         texts.add(new SimpleText("桥梁名称", info.getQlmc()));
         texts.add(new SimpleText("发布人员", info.getRwfbry()));
         texts.add(new SimpleText("发布时间", info.getRwfbsj()));
-        texts.add(new SimpleText("状态", info.getStatus()));
+        texts.add(new SimpleText("状态", CommonUtils.getStatus(info.getStatus())));
         texts.add(new SimpleText("接收时间", info.getRejssj()));
         texts.add(new SimpleText("接收人员", info.getRwjsry()));
         texts.add(new SimpleText("完成时间", info.getRwwcsj()));
-        texts.add(new SimpleText("备注", info.getBz()));
+        String bz = info.getBz();
+        if (bz.equals("None")){
+            bz = "";
+        }
+        texts.add(new SimpleText("备注", bz));
 
         TextListAdapter adapter = new TextListAdapter(this, texts);
         detectInforListview.addHeaderView(new ViewStub(this));

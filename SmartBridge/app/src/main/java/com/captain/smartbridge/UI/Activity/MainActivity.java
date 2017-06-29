@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.Detect.DetectActivity;
 import com.captain.smartbridge.model.MapReq;
 import com.captain.smartbridge.model.MapRes;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -72,9 +74,11 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     @BindView(R.id.main_nearby)
     Button button;
 
+    //保存省份，城市，桥梁
     private String SF = null;
     private String CF = null;
     private boolean firstin = true;
+    private List<MapRes> bridges = null;
 
     private AMap aMap;
     private OnLocationChangedListener mListener;
@@ -91,41 +95,44 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
         setSupportActionBar(mToolbar);
 
+        //设置菜单
         initDrawer();
 
         mapView.onCreate(savedInstanceState);
         initMap();
 
         //注册广播接收
+        //用于登出时关闭Activity
         regListener();
 
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //跳转到附近桥梁界面
                 Intent intent = new Intent(MainActivity.this, NearbyActivity.class);
-                intent.putExtra("SF", SF);
-                intent.putExtra("CF", CF);
+                intent.putExtra("bridges", new Gson().toJson(bridges));
                 startActivityForResult(intent, 1);
             }
         });
     }
 
+    //设置边栏菜单
     private void initDrawer() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.main_menu_about:
-                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                    case R.id.main_menu_information:
+                        startActivity(new Intent(MainActivity.this, UserActivity.class));
                         return true;
                     case R.id.main_menu_detect:
                         startActivity(new Intent(MainActivity.this, DetectActivity.class));
                         return true;
-                    case R.id.main_menu_information:
-                        startActivity(new Intent(MainActivity.this, UserActivity.class));
-                        return true;
                     case R.id.main_menu_evalute:
+                        return true;
+                    case R.id.main_menu_about:
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
                         return true;
                     default:
                         return true;
@@ -136,11 +143,15 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         //根据用户类别设置菜单
         //这一部分还需要细化
         int role = PreferenceUtils.getInt(this, PreferenceUtils.Key.ROLE);
+        Menu menu = navigationView.getMenu();
+        //管理员和管理单位账户
         if (role == 1 || role == 2) {
-
-        }else{
-            MenuItem menuItem = navigationView.getMenu().findItem(R.id.main_menu_evalute);
-            menuItem.setVisible(false);
+            menu.getItem(R.id.main_menu_detect).setVisible(true);
+            menu.getItem(R.id.main_menu_evalute).setVisible(true);
+        }
+        //检测录入单位
+        if (role == 3) {
+            menu.getItem(R.id.main_menu_detect).setVisible(true);
         }
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -157,9 +168,12 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         };
         mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
         View headerView = navigationView.getHeaderView(0);
         TextView headerName = (TextView) headerView.findViewById(R.id.main_header_name);
+        ImageView headerImg = (ImageView) headerView.findViewById(R.id.main_header_pic);
         headerName.setText(PreferenceUtils.getString(this, PreferenceUtils.Key.NICK));
+        //设置头像图片（待完成）
     }
 
     private void initMap() {
@@ -175,19 +189,20 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         //定位图标
         MyLocationStyle myLocationStyle = new MyLocationStyle();
         aMap.setMyLocationStyle(myLocationStyle);
-    }
-
-    //初始化地图标记
-    private void initMarker(final AMap aMap) {
         aMap.setOnMarkerClickListener(this);
         aMap.setInfoWindowAdapter(this);
+    }
 
+    //获取地图上所有桥梁
+    private void setMarker() {
+//        aMap.setOnMarkerClickListener(this);
+//        aMap.setInfoWindowAdapter(this);
         if (NetUtils.isNetworkAvailable(this)) {
             MapReq mapReq = new MapReq(SF, CF);
             ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
                 @Override
                 public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
-                    List<MapRes> bridges = response.body();
+                    bridges = response.body();
                     for (MapRes bridge : bridges) {
                         addMarkerToMap(bridge);
                     }
@@ -204,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         }
     }
 
-
+    //添加地图标记
     private void addMarkerToMap(MapRes bridge) {
         aMap.addMarker(new MarkerOptions().anchor(0.5f, 0.5f)
                 .position(new LatLng(Double.parseDouble(bridge.getWd()),
@@ -240,13 +255,15 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
+        //目前是根据当前定位获取相应城市的桥梁
         SF = amapLocation.getProvince();
         CF = amapLocation.getCity();
         if (firstin && SF != null && CF != null) {
             //mark postion on the map
-            initMarker(aMap);
+            setMarker();
             firstin = false;
         }
+        //考虑一下定位更新时，桥梁标记的变化
         if (mListener != null && amapLocation != null) {
             if (amapLocation != null
                     && amapLocation.getErrorCode() == 0) {
@@ -271,8 +288,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
 
     @Override
+    //自定义infowindow
     public View getInfoWindow(Marker marker) {
-        //自定义infowindow
         LatLng latLng = marker.getPosition();
         String title = marker.getTitle();
         final String addr = marker.getSnippet();
@@ -288,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         moreView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //跳转到桥梁详情界面
                 Intent intent = new Intent(MainActivity.this, BridgeActivity.class);
                 BaseApplication.setID(addr);
                 startActivity(intent);
@@ -308,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         switch (item.getItemId()) {
             case R.id.main_search:
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 2);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -367,16 +385,42 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
+            //获取NearbyActivity的返回结果
             case 1:
                 if (oldMarker != null) {
-                    oldMarker.hideInfoWindow();
-                    oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
+                   hideMarker(oldMarker);
                 }
                 oldMarker = aMap.getMapScreenMarkers().get(data.getIntExtra("ID", 0));
-                oldMarker.showInfoWindow();
-                oldMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
+                showMarker(oldMarker);
+                break;
+
+            //（待完成），SearchActivity的返回
+            //目前的做法是遍历，可能代价过大
+            case 2:
+                if(oldMarker != null){
+                    hideMarker(oldMarker);
+                }
+                String code = data.getStringExtra("code");
+                for(Marker marker : aMap.getMapScreenMarkers()){
+                    if(marker.getSnippet() == code){
+                        showMarker(marker);
+                        break;
+                    }
+                }
+                break;
         }
     }
+
+    private void hideMarker(Marker marker){
+        marker.hideInfoWindow();
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
+    }
+
+    private void showMarker(Marker marker){
+        marker.showInfoWindow();
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
+    }
+
 
     protected void regListener() {
         //注册广播接收者
@@ -387,10 +431,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     }
 
     class MyReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("exit_app")){
+            if (intent.getAction().equals("exit_app")) {
                 context.unregisterReceiver(this);
                 finish();
             }

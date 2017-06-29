@@ -15,6 +15,16 @@ public class CommonUtils {
 
     public static String[] types = {"","系统管理员","桥梁管理单位","桥梁检测录入单位","科研机构","学生","游客","施工方"};
 
-
+    public static String getStatus(String status){
+        switch (status){
+            case ("0"):
+                return "待接收";
+            case ("1"):
+                return "检测中";
+            case ("2"):
+                return "已完成";
+        }
+        return "";
+    }
 
 }
