@@ -1,6 +1,8 @@
 package com.captain.smartbridge.UI.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,7 +66,7 @@ public class UserActivity extends AbsActivity {
         userLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logout();
+                showDialog();
             }
         });
 
@@ -119,5 +121,22 @@ public class UserActivity extends AbsActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    //显示对话框
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage("是否确定退出当前账户？");
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logout();
+            }
+        });
+        builder.setCancelable(true);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

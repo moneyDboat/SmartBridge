@@ -136,7 +136,7 @@ public class DetectRecieveInfoActivity extends AbsActivity {
    //显示对话框
     private void showDialog(){
         builder = new AlertDialog.Builder(this);
-        builder.setTitle("提醒");
+        builder.setTitle("提示");
         builder.setMessage("是否确定接收该检测任务？");
         builder.setNegativeButton("取消", null);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
