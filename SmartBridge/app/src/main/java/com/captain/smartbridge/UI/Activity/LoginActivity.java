@@ -39,9 +39,9 @@ public class LoginActivity extends AbsActivity {
 //        String pwd = "123456";
         loginButtom.setMode(ActionProcessButton.Mode.PROGRESS);
         loginButtom.setProgress(0);
-        loginButtom.setEnabled(false);
         if (isValid(username, pwd)) {
             LoginReq loginReq = new LoginReq(username, pwd);
+            loginButtom.setEnabled(false);
             postLogin(loginReq);
         }
     }

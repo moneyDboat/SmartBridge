@@ -38,6 +38,11 @@ public class DetectEntryActivity extends AbsActivity implements View.OnClickList
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        entryUpLayout.setOnClickListener(this);
+        entryDownLayout.setOnClickListener(this);
+        entryFaceLayout.setOnClickListener(this);
+        entrySpecLayout.setOnClickListener(this);
     }
 
     @Override
@@ -59,6 +64,7 @@ public class DetectEntryActivity extends AbsActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.entry_up_layout:
+                readyGo(EntryBuildActivity.class);
                 break;
             case R.id.entry_down_layout:
                 break;

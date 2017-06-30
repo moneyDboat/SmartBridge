@@ -59,7 +59,7 @@ public class BuildEntryAdapter extends BaseAdapter{
         }
 
         BuildRes item = mData.get(i);
-        holder.buildName.setText(item.getGjlxmc());
+        holder.buildName.setText(item.getGjmc());
         return rootView;
     }
 

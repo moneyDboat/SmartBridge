@@ -5,5 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/entry_build_toolbar"
+        layout="@layout/tool_bar">
+    </include>
+
+    <ListView
+        android:id="@+id/entry_build_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
 
 </LinearLayout>

@@ -146,12 +146,12 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         Menu menu = navigationView.getMenu();
         //管理员和管理单位账户
         if (role == 1 || role == 2) {
-            menu.getItem(R.id.main_menu_detect).setVisible(true);
-            menu.getItem(R.id.main_menu_evalute).setVisible(true);
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
         }
         //检测录入单位
         if (role == 3) {
-            menu.getItem(R.id.main_menu_detect).setVisible(true);
+            menu.getItem(1).setVisible(true);
         }
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
