@@ -51,8 +51,8 @@ public class BuildEntryAdapter extends BaseAdapter{
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             rootView = inflater.inflate(R.layout.list_build_entry, viewGroup, false);
-            holder.buildName = (TextView) rootView.findViewById(R.id.build_name);
             holder = new ViewHolder();
+            holder.buildName = (TextView) rootView.findViewById(R.id.build_entry_name);
             rootView.setTag(holder);
         } else {
             holder = (ViewHolder) rootView.getTag();

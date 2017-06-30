@@ -21,6 +21,8 @@ import com.captain.smartbridge.UI.Activity.AbsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +50,7 @@ public class DeEntryInfoAcitivity extends AbsActivity {
     Button deentrySubmit;
 
     private List<String> items1 = new ArrayList<>();
+    private List<String> items3 = new ArrayList<>();
     private ArrayAdapter<String> adapter1 = null;
 
     @Override
@@ -68,6 +71,13 @@ public class DeEntryInfoAcitivity extends AbsActivity {
 
         initSpinner();
 
+        deentrySubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSubmitDialog();
+            }
+        });
+
 
         //调用相机
         deentryPic.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +87,36 @@ public class DeEntryInfoAcitivity extends AbsActivity {
                 startActivityForResult(intent, 1);
             }
         });
+    }
+
+    private void showSubmitDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage("是否确定保存当前构件的病害信息？");
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                submit();
+            }
+        });
+        builder.setCancelable(true);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void submit(){
+        showToast("当前构件病害信息已保存");
+
+        deentrySubmit.setClickable(false);
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                finish();
+            }
+        };
+        timer.schedule(timerTask, 2000);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -123,7 +163,8 @@ public class DeEntryInfoAcitivity extends AbsActivity {
 
     //设置所有的下拉列表
     private void initSpinner() {
-        List<String> items0 = new ArrayList<>();
+        //垮数墩数和具体构件的下拉列表
+        final List<String> items0 = new ArrayList<>();
         for (int i = 1; i < 9; i++) {
             items0.add(String.valueOf(i));
         }
@@ -132,10 +173,11 @@ public class DeEntryInfoAcitivity extends AbsActivity {
         adapter0.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         detectInfoSpinner0.setAdapter(adapter0);
-        detectInfoSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        detectInfoSpinner0.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String s = String.valueOf(position + 1);
+                items1 = new ArrayList<String>();
                 items1.add("顶板_" + s + "_1");
                 items1.add("顶板_" + s + "_2");
                 items1.add("顶板_" + s + "_3");
@@ -144,12 +186,36 @@ public class DeEntryInfoAcitivity extends AbsActivity {
                         android.R.layout.simple_spinner_item, items1);
                 adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 detectInfoSpinner1.setAdapter(adapter1);
-                detectInfoSpinner1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            }
 
-                    }
-                });
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //病害类型和病害标度的下拉列表
+        final List<String> items2 = new ArrayList<>();
+        items2.add("老化变质、开裂");
+        items2.add("位置窜动、脱空或剪切超限");
+        items2.add("聚四氟乙烯滑板磨损");
+        items2.add("组件损害");
+        items2.add("混凝土缺损");
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, items2);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        detectInfoSpinner2.setAdapter(adapter2);
+        detectInfoSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                items3 = new ArrayList<String>();
+                for(int i=0;i<5;i++){
+                    items3.add(String.valueOf(i));
+                }
+                ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(DeEntryInfoAcitivity.this,
+                        android.R.layout.simple_spinner_item, items3);
+                adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                detectInfoSpinner3.setAdapter(adapter3);
             }
 
             @Override
@@ -158,6 +224,5 @@ public class DeEntryInfoAcitivity extends AbsActivity {
             }
         });
     }
-
 
 }

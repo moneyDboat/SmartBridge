@@ -69,6 +69,7 @@ public class LoginActivity extends AbsActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if(response.body()==null){
                         showToast("用户名密码错误！");
+                        loginButtom.setEnabled(true);
                         return;
                     }
                     loginButtom.setProgress(50);

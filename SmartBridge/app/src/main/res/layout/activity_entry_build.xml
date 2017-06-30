@@ -11,6 +11,7 @@
     </include>
 
     <ListView
+        android:layout_marginTop="10dp"
         android:id="@+id/entry_build_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>

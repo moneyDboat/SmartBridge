@@ -43,6 +43,8 @@ public class EntryBuildActivity extends AbsActivity implements AdapterView.OnIte
     @Override
     protected void initViews() {
         initList();
+
+        entryBuildList.setOnItemClickListener(this);
     }
 
     private void initList() {
