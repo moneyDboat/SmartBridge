@@ -15,6 +15,7 @@
         </include>
 
         <LinearLayout
+            android:id="@+id/detect_info_spinLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="40dp"
@@ -26,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="垮／墩数:"
+                android:text="垮数:"
                 android:textColor="@color/BlackText"
                 android:textSize="18sp"/>
 

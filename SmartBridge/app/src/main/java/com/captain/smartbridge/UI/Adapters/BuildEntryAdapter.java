@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.captain.smartbridge.R;
-import com.captain.smartbridge.model.BuildRes;
 
 import java.util.List;
 
@@ -18,10 +17,10 @@ import java.util.List;
 
 public class BuildEntryAdapter extends BaseAdapter{
     private static int counter = 0;
-    List<BuildRes> mData = null;
+    List<String> mData = null;
     Context mContext = null;
 
-    public BuildEntryAdapter(Context context, List<BuildRes> data){
+    public BuildEntryAdapter(Context context, List<String> data){
         mContext = context;
         mData = data;
         counter = 0;
@@ -58,8 +57,8 @@ public class BuildEntryAdapter extends BaseAdapter{
             holder = (ViewHolder) rootView.getTag();
         }
 
-        BuildRes item = mData.get(i);
-        holder.buildName.setText(item.getGjmc());
+        String item = mData.get(i);
+        holder.buildName.setText(item);
         return rootView;
     }
 

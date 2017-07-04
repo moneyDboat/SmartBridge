@@ -2,10 +2,14 @@ package com.captain.smartbridge.API;
 
 import com.captain.smartbridge.model.AcceptMissReq;
 import com.captain.smartbridge.model.AcceptMissRes;
+import com.captain.smartbridge.model.BinghaiRes;
+import com.captain.smartbridge.model.BuildEntryRes;
 import com.captain.smartbridge.model.CreateMissReq;
 import com.captain.smartbridge.model.CreateMissRes;
 import com.captain.smartbridge.model.Department;
 import com.captain.smartbridge.model.DetectMission;
+import com.captain.smartbridge.model.FinishReq;
+import com.captain.smartbridge.model.FinishRes;
 import com.captain.smartbridge.model.GouJian;
 import com.captain.smartbridge.model.InfoRes;
 import com.captain.smartbridge.model.LoginReq;
@@ -57,4 +61,28 @@ public interface BridgeService {
     //接受检测任务
     @POST("/app/detect/accept")
     Call<AcceptMissRes> acceptDetect(@Body AcceptMissReq acceptMissReq);
+
+    //上部构件
+    @POST("app/detect/upgoujian")
+    Call<List<BuildEntryRes>> upGouJian(@Body SearchCodeReq searchCodeReq);
+
+    //下部构件
+    @POST("app/detect/downgoujian")
+    Call<List<BuildEntryRes>> downGouJian(@Body SearchCodeReq searchCodeReq);
+
+    //桥面构件
+    @POST("app/detect/qiaomian")
+    Call<List<BuildEntryRes>> qiaomian(@Body SearchCodeReq searchCodeReq);
+
+    //单独构件
+    @POST("app/detect/dandu")
+    Call<List<BuildEntryRes>> dandu(@Body SearchCodeReq searchCodeReq);
+
+    //获取病害类型
+    @GET("app/detect/bhlx")
+    Call<List<BinghaiRes>> binghai();
+
+    //录入完成
+    @POST("app/detect/finished")
+    Call<FinishRes> finish(@Body FinishReq finishReq);
 }

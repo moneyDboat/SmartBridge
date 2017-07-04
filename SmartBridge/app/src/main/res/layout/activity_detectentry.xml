@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="40dp"
-                android:text="上部结构录入"
+                android:text="上部构件"
                 android:textColor="@color/BlackText"
                 android:textSize="16sp"/>
             <ImageView
@@ -46,7 +46,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="40dp"
-                android:text="下部结构录入"
+                android:text="下部构件"
                 android:textColor="@color/BlackText"
                 android:textSize="16sp"/>
             <ImageView
@@ -67,8 +67,10 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="40dp"
                 android:textColor="@color/BlackText"
-                android:text="桥面系录入"
-                android:textSize="16sp"/>
+                android:text="桥面系构件"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"/>
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="40dp"
@@ -88,7 +90,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="40dp"
                 android:textColor="@color/BlackText"
-                android:text="特殊录入"
+                android:text="特殊构件"
                 android:textSize="16sp"/>
             <ImageView
                 android:layout_width="30dp"
@@ -97,6 +99,19 @@
                 android:background="@drawable/ic_chevron_right_black"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/entry_submit"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/normal_button"
+            android:text="完成"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -15,10 +15,17 @@
             android:visible="false"/>
 
         <item
+            android:id="@+id/main_menu_monitor"
+            android:checked="false"
+            android:icon="@drawable/ic_detect"
+            android:title="桥梁检测"
+            android:visible="false"/>
+
+        <item
             android:id="@+id/main_menu_evalute"
             android:checked="false"
             android:icon="@drawable/ic_evalute"
-            android:title="评估决策"
+            android:title="状态评估"
             android:visible="false"/>
 
         <item

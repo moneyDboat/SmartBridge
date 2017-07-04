@@ -43,6 +43,11 @@ public class PreferenceUtils {
         public static final String PHONE = "phone_number";
         public static final String NICK = "nick_name";
         public static final String EMAIL = "email";
+        public static final String UPGOU = "upgou";
+        public static final String DOWNGOU = "downgou";
+        public static final String QIAOMIAN = "qiaomian";
+        public static final String DANDU = "dandu";
+        public static final String BINGHAI = "binghai";
     }
 
     public static final String DEFAULT_STRING = "";
