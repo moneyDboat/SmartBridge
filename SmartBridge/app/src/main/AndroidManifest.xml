@@ -107,11 +107,18 @@
         </activity>
         <activity android:name=".UI.Activity.Detect.EntryBuildActivity"
             android:label="上部构件病害录入">
-
         </activity>
         <activity
             android:name=".UI.Activity.Detect.DeEntryInfoAcitivity"
             android:label="病害录入">
+        </activity>
+
+
+        <activity android:name=".UI.Activity.Monitor.MonMessActivity"
+            android:label="桥梁监测">
+        </activity>
+        <activity android:name=".UI.Activity.Monitor.SensorAcitivty"
+            android:label="桥梁传感器信息">
         </activity>
     </application>
 
