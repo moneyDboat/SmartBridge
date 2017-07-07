@@ -65,7 +65,7 @@ public class SensorAcitivty extends AbsActivity {
         sensorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                readyGo(SensorCurveActivity.class);
             }
         });
     }

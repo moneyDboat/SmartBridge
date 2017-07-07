@@ -1,5 +1,6 @@
 package com.captain.smartbridge.UI.Activity.Monitor;
 
+import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -9,6 +10,8 @@ import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.TextListAdapter;
 import com.captain.smartbridge.model.SimpleText;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -57,13 +60,40 @@ public class SensorCurveActivity extends AbsActivity {
     private void initChart(){
         List<Entry> entries = new ArrayList<>();
         Random random = new Random();
-        for (int i =0;i<5;i++){
+        for (int i =0;i<20;i++){
             entries.add(new Entry(i, random.nextInt(10)));
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Label");
+        LineDataSet dataSet = new LineDataSet(entries, "传感器数值");
+        //importance!!!
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setCubicIntensity(0.2f);
+        dataSet.setLineWidth(1.8f);
+        dataSet.setColor(Color.WHITE);
+        dataSet.setFillColor(Color.WHITE);
+        dataSet.setFillAlpha(100);
+
         LineData lineData = new LineData(dataSet);
+
+        chart.getDescription().setEnabled(false);
         chart.setData(lineData);
+        chart.setTouchEnabled(false);
+        chart.setViewPortOffsets(0, 0, 0, 0);
+        chart.setBackgroundColor(Color.rgb(104, 241, 175));
+        chart.animateX(3000);
+
+        XAxis x = chart.getXAxis();
+        x.setEnabled(false);
+
+        YAxis y = chart.getAxisLeft();
+        y.setTextColor(Color.WHITE);
+        y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+        y.setDrawGridLines(false);
+        y.setAxisLineColor(Color.WHITE);
+
+        chart.getAxisRight().setEnabled(false);
+        chart.getLegend().setEnabled(false);
+
         chart.invalidate();
 //        chart.notifyDataSetChanged();
     }
