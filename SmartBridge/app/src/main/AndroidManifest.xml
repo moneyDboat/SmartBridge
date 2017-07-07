@@ -123,12 +123,18 @@
             android:name=".UI.Activity.Monitor.SensorAcitivty"
             android:label="桥梁传感器信息">
         </activity>
-        <activity android:name=".UI.Activity.Monitor.SensorCurveActivity"
+        <activity
+            android:name=".UI.Activity.Monitor.SensorCurveActivity"
             android:label="传感器信息">
         </activity>
 
-        <activity android:name=".UI.Activity.Evalute.EvMessActivity"
+        <activity
+            android:name=".UI.Activity.Evalute.EvMessActivity"
             android:label="评估决策">
+        </activity>
+        <activity
+            android:name=".UI.Activity.Evalute.EvalActivity"
+            android:label="桥梁状态评估">
         </activity>
 
     </application>
