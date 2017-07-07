@@ -5,4 +5,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/curve_toolbar"
+        layout="@layout/tool_bar">
+    </include>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/curve_chart"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_margin="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:text="预警数据显示"
+        android:textColor="@color/red_error"
+        android:textSize="20sp"/>
+
+    <ListView
+        android:id="@+id/curve_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
 </LinearLayout>

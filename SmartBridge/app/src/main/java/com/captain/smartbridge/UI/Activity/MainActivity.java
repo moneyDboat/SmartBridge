@@ -41,6 +41,8 @@ import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.Common.PreferenceUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.Detect.DetectActivity;
+import com.captain.smartbridge.UI.Activity.Evalute.EvMessActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.MonMessActivity;
 import com.captain.smartbridge.model.MapReq;
 import com.captain.smartbridge.model.MapRes;
 import com.google.gson.Gson;
@@ -130,6 +132,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                         startActivity(new Intent(MainActivity.this, DetectActivity.class));
                         return true;
                     case R.id.main_menu_evalute:
+                        startActivity(new Intent(MainActivity.this, EvMessActivity.class));
+                        return true;
+                    case R.id.main_menu_monitor:
+                        startActivity(new Intent(MainActivity.this, MonMessActivity.class));
                         return true;
                     case R.id.main_menu_about:
                         startActivity(new Intent(MainActivity.this, AboutActivity.class));
@@ -148,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         if (role == 1 || role == 2) {
             menu.getItem(1).setVisible(true);
             menu.getItem(2).setVisible(true);
+            menu.getItem(3).setVisible(true);
         }
         //检测录入单位
         if (role == 3) {
@@ -195,8 +202,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     //获取地图上所有桥梁
     private void setMarker() {
-//        aMap.setOnMarkerClickListener(this);
-//        aMap.setInfoWindowAdapter(this);
+        //        aMap.setOnMarkerClickListener(this);
+        //        aMap.setInfoWindowAdapter(this);
         if (NetUtils.isNetworkAvailable(this)) {
             MapReq mapReq = new MapReq(SF, CF);
             ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
@@ -388,7 +395,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             //获取NearbyActivity的返回结果
             case 1:
                 if (oldMarker != null) {
-                   hideMarker(oldMarker);
+                    hideMarker(oldMarker);
                 }
                 oldMarker = aMap.getMapScreenMarkers().get(data.getIntExtra("ID", 0));
                 showMarker(oldMarker);
@@ -397,12 +404,12 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             //（待完成），SearchActivity的返回
             //目前的做法是遍历，可能代价过大
             case 2:
-                if(oldMarker != null){
+                if (oldMarker != null) {
                     hideMarker(oldMarker);
                 }
                 String code = data.getStringExtra("code");
-                for(Marker marker : aMap.getMapScreenMarkers()){
-                    if(marker.getSnippet() == code){
+                for (Marker marker : aMap.getMapScreenMarkers()) {
+                    if (marker.getSnippet() == code) {
                         showMarker(marker);
                         break;
                     }
@@ -411,12 +418,12 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         }
     }
 
-    private void hideMarker(Marker marker){
+    private void hideMarker(Marker marker) {
         marker.hideInfoWindow();
         marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_red_36px));
     }
 
-    private void showMarker(Marker marker){
+    private void showMarker(Marker marker) {
         marker.showInfoWindow();
         marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place_blue_36px));
     }

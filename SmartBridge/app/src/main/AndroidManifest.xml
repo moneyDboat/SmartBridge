@@ -105,7 +105,8 @@
             android:name=".UI.Activity.Detect.DetectEntryActivity"
             android:label="病害录入">
         </activity>
-        <activity android:name=".UI.Activity.Detect.EntryBuildActivity"
+        <activity
+            android:name=".UI.Activity.Detect.EntryBuildActivity"
             android:label="上部构件病害录入">
         </activity>
         <activity
@@ -114,12 +115,22 @@
         </activity>
 
 
-        <activity android:name=".UI.Activity.Monitor.MonMessActivity"
+        <activity
+            android:name=".UI.Activity.Monitor.MonMessActivity"
             android:label="桥梁监测">
         </activity>
-        <activity android:name=".UI.Activity.Monitor.SensorAcitivty"
+        <activity
+            android:name=".UI.Activity.Monitor.SensorAcitivty"
             android:label="桥梁传感器信息">
         </activity>
+        <activity android:name=".UI.Activity.Monitor.SensorCurveActivity"
+            android:label="传感器信息">
+        </activity>
+
+        <activity android:name=".UI.Activity.Evalute.EvMessActivity"
+            android:label="评估决策">
+        </activity>
+
     </application>
 
 </manifest>
