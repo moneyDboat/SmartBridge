@@ -136,6 +136,9 @@
             android:name=".UI.Activity.Evalute.EvalActivity"
             android:label="桥梁状态评估">
         </activity>
+        <activity android:name=".UI.Activity.Evalute.EvalInfoActivity"
+            android:label="评估决策">
+        </activity>
 
     </application>
 

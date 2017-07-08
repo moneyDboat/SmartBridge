@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.captain.smartbridge.UI.Fragment.EvalFragement;
+import com.captain.smartbridge.UI.Fragment.PageFragement;
 
 /**
  * Created by Captain on 17/7/8.
