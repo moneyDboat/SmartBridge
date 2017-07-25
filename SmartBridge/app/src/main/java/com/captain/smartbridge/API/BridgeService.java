@@ -95,10 +95,10 @@ public interface BridgeService {
     Call<List<EvaluteMess>> getEvaMess();
 
     //获取评分
-    @POST("app/evalute/grade")
+    @POST("app/evaluate/grade")
     Call<EvaGrade> getEvaGrade(@Body SearchCodeReq searchCodeReq);
 
     //获取评估历史记录数据
-    @POST("app/evalute/history")
+    @POST("app/evaluate/history")
     Call<List<EvaHistory>> getEvaHistory(@Body SearchCodeReq searchCodeReq);
 }

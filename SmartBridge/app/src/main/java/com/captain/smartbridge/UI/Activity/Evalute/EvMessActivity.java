@@ -61,15 +61,32 @@ public class EvMessActivity extends AbsActivity {
     }
 
     private void initList() {
-        getData();
+        if (NetUtils.isNetworkConnected(this)){
+            ApiManager.getmService().getEvaMess().enqueue(new Callback<List<EvaluteMess>>() {
+                @Override
+                public void onResponse(Call<List<EvaluteMess>> call, Response<List<EvaluteMess>> response) {
+                    evalutions = response.body();
 
-        List<Monitor> monitors = new ArrayList<>();
-        for (EvaluteMess i :evalutions){
-            monitors.add(new Monitor(i.getQlmc(), i.getScore().substring(6), i.getQlwz()));
+                    List<Monitor> monitors = new ArrayList<>();
+                    for (EvaluteMess i :evalutions){
+                        monitors.add(new Monitor(i.getQlmc(), i.getScore().substring(0, 6), i.getQlwz()));
+                    }
+                    MonitorAdapter adapter = new MonitorAdapter(EvMessActivity.this, monitors);
+                    evmessionList.setAdapter(adapter);
+                    evmessionSwipe.setRefreshing(false);
+                }
+
+                @Override
+                public void onFailure(Call<List<EvaluteMess>> call, Throwable t) {
+                    t.printStackTrace();
+                    evmessionSwipe.setRefreshing(false);
+                    showToast("网络错误");
+                }
+            });
+        }else{
+            evmessionSwipe.setRefreshing(false);
+            showNetWorkError();
         }
-
-        MonitorAdapter adapter = new MonitorAdapter(this, monitors);
-        evmessionList.setAdapter(adapter);
 
         evmessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,25 +96,6 @@ public class EvMessActivity extends AbsActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private void getData() {
-        if (NetUtils.isNetworkConnected(this)){
-            ApiManager.getmService().getEvaMess().enqueue(new Callback<List<EvaluteMess>>() {
-                @Override
-                public void onResponse(Call<List<EvaluteMess>> call, Response<List<EvaluteMess>> response) {
-                    evalutions = response.body();
-                }
-
-                @Override
-                public void onFailure(Call<List<EvaluteMess>> call, Throwable t) {
-                    t.printStackTrace();
-                    showToast("网络错误");
-                }
-            });
-        }else{
-            showNetWorkError();
-        }
     }
 
     @Override

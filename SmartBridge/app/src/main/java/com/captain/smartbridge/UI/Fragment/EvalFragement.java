@@ -110,11 +110,9 @@ public class EvalFragement extends Fragment {
     //设置饼图
     private void setPieChart(View view, EvaGrade grade) {
         mChart = (PieChart) view.findViewById(R.id.piechart);
-        mChart.setUsePercentValues(true);
+        mChart.setUsePercentValues(false);
         mChart.getDescription().setEnabled(false);
         mChart.setExtraOffsets(5, 10, 5, 5);
-        //        mChart.setCenterTextTypeface(mTfLight);
-        //        mChart.setCenterText(generateCenterSpannableText());
 
         mChart.setDrawHoleEnabled(true);
         mChart.setHoleColor(Color.WHITE);
@@ -130,9 +128,10 @@ public class EvalFragement extends Fragment {
         mChart.setHighlightPerTapEnabled(true);
 
         setData(grade);
+
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
         l.setXEntrySpace(7f);
@@ -150,30 +149,17 @@ public class EvalFragement extends Fragment {
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        entries.add(new PieEntry((float)grade.getTop_score()));
-        entries.add(new PieEntry((float)grade.getDeck_score()));
-        entries.add(new PieEntry((float)grade.getBottom_score()));
+        entries.add(new PieEntry((float) grade.getTop_score(), "上部结构"));
+        entries.add(new PieEntry((float) grade.getDeck_score(), "桥面结构"));
+        entries.add(new PieEntry((float) grade.getBottom_score(), "下部结构"));
 
-        //PieDataSet dataSet = new PieDataSet(entries, "Election Results");
-        PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setDrawValues(false);
+        PieDataSet dataSet = new PieDataSet(entries, "桥梁各结构分数");
+        dataSet.setDrawValues(true);
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
 
         // add a lot of colors
         ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
 
         for (int c : ColorTemplate.PASTEL_COLORS)
             colors.add(c);
@@ -187,7 +173,7 @@ public class EvalFragement extends Fragment {
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
         data.setValueTextColor(Color.WHITE);
-        //        data.setValueTypeface(mTfLight);
+        // data.setValueTypeface(mTfLight);
         mChart.setData(data);
 
         // undo all highlights

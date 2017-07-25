@@ -77,7 +77,7 @@ public class EvalInfoActivity extends AbsActivity {
         texts.add(new SimpleText("检测人", evaluteMess.getRwjsry()));
         texts.add(new SimpleText("检测单位", evaluteMess.getDepartName()));
         texts.add(new SimpleText("检测时间", evaluteMess.getRwwcsj()));
-        texts.add(new SimpleText("评分", evaluteMess.getScore().substring(6)));
+        texts.add(new SimpleText("评分", evaluteMess.getScore().substring(0, 6)));
         texts.add(new SimpleText("等级", String.valueOf(evaluteMess.getLevel())));
 
         TextListAdapter adapter = new TextListAdapter(this, texts);
