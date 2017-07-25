@@ -1,14 +1,19 @@
 package com.captain.smartbridge.UI.Fragment;
 
-import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.captain.smartbridge.API.ApiManager;
+import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
+import com.captain.smartbridge.UI.Activity.BaseApplication;
+import com.captain.smartbridge.model.SearchCodeReq;
+import com.captain.smartbridge.model.other.EvaGrade;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
@@ -19,19 +24,23 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by Captain on 17/7/8.
  */
 
-public class EvalFragement extends Fragment{
+public class EvalFragement extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     public static final String ID = "";
-    private  int mPage;
+    private int mPage;
     private View view;
 
     private PieChart mChart;
 
-    public static EvalFragement newInstance(int page){
+    public static EvalFragement newInstance(int page) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
         EvalFragement fragement = new EvalFragement();
@@ -48,7 +57,7 @@ public class EvalFragement extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        switch (mPage){
+        switch (mPage) {
             case 0:
                 return gradeView(inflater, container);
             case 1:
@@ -62,15 +71,50 @@ public class EvalFragement extends Fragment{
         }
     }
 
-    private View gradeView(LayoutInflater inflater, ViewGroup container){
+    private View gradeView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragement_grade, container, false);
 
+        if (NetUtils.isNetworkConnected(getActivity())) {
+            SearchCodeReq req = new SearchCodeReq(BaseApplication.getEVAID());
+            ApiManager.getmService().getEvaGrade(req).enqueue(new Callback<EvaGrade>() {
+                @Override
+                public void onResponse(Call<EvaGrade> call, Response<EvaGrade> response) {
+                    setPieChart(view, response.body());
+                }
+
+                @Override
+                public void onFailure(Call<EvaGrade> call, Throwable t) {
+
+                }
+            });
+        }
+
+        return view;
+    }
+
+    private View historyView(LayoutInflater inflater, ViewGroup container) {
+        view = inflater.inflate(R.layout.fragement_history, container, false);
+        return view;
+    }
+
+    private View lifeView(LayoutInflater inflater, ViewGroup container) {
+        view = inflater.inflate(R.layout.fragement_life, container, false);
+        return view;
+    }
+
+    private View degeView(LayoutInflater inflater, ViewGroup container) {
+        view = inflater.inflate(R.layout.fragement_dege, container, false);
+        return view;
+    }
+
+    //设置饼图
+    private void setPieChart(View view, EvaGrade grade) {
         mChart = (PieChart) view.findViewById(R.id.piechart);
         mChart.setUsePercentValues(true);
         mChart.getDescription().setEnabled(false);
         mChart.setExtraOffsets(5, 10, 5, 5);
-//        mChart.setCenterTextTypeface(mTfLight);
-//        mChart.setCenterText(generateCenterSpannableText());
+        //        mChart.setCenterTextTypeface(mTfLight);
+        //        mChart.setCenterText(generateCenterSpannableText());
 
         mChart.setDrawHoleEnabled(true);
         mChart.setHoleColor(Color.WHITE);
@@ -85,7 +129,7 @@ public class EvalFragement extends Fragment{
         mChart.setRotationEnabled(true);
         mChart.setHighlightPerTapEnabled(true);
 
-        setData(3, 100);
+        setData(grade);
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -98,25 +142,17 @@ public class EvalFragement extends Fragment{
         // entry label styling
         mChart.setEntryLabelColor(Color.WHITE);
         mChart.setEntryLabelTextSize(12f);
-
-        return view;
-
     }
 
-    private void setData(int count, float range) {
 
-        float mult = range;
-
+    private void setData(EvaGrade grade) {
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        for (int i = 0; i < count ; i++) {
-//            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5),
-//                    mParties[i % mParties.length],
-//                    getResources().getDrawable(R.drawable.star)));
-            entries.add(new PieEntry((float) ((Math.random() * mult) + mult / 5)));
-        }
+        entries.add(new PieEntry((float)grade.getTop_score()));
+        entries.add(new PieEntry((float)grade.getDeck_score()));
+        entries.add(new PieEntry((float)grade.getBottom_score()));
 
         //PieDataSet dataSet = new PieDataSet(entries, "Election Results");
         PieDataSet dataSet = new PieDataSet(entries, "");
@@ -151,26 +187,12 @@ public class EvalFragement extends Fragment{
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
         data.setValueTextColor(Color.WHITE);
-//        data.setValueTypeface(mTfLight);
+        //        data.setValueTypeface(mTfLight);
         mChart.setData(data);
 
         // undo all highlights
         mChart.highlightValues(null);
 
         mChart.invalidate();
-    }
-
-    private View historyView(LayoutInflater inflater, ViewGroup container){
-        view = inflater.inflate(R.layout.fragement_history, container, false);
-        return view;
-    }
-
-    private View lifeView(LayoutInflater inflater, ViewGroup container){
-        view = inflater.inflate(R.layout.fragement_life, container, false);
-        return view;
-    }
-    private View degeView(LayoutInflater inflater, ViewGroup container){
-        view = inflater.inflate(R.layout.fragement_dege, container, false);
-        return view;
     }
 }

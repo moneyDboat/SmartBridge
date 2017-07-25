@@ -40,8 +40,6 @@ public class BridgeActivity extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getIntent().getStringExtra("ID");
-
         fragementAdapter = new FragementAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(fragementAdapter);
         tabLayout.setupWithViewPager(viewPager);

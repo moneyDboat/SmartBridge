@@ -17,6 +17,9 @@ import com.captain.smartbridge.model.MapReq;
 import com.captain.smartbridge.model.MapRes;
 import com.captain.smartbridge.model.SearchCodeReq;
 import com.captain.smartbridge.model.SearchCodeRes;
+import com.captain.smartbridge.model.other.EvaGrade;
+import com.captain.smartbridge.model.other.EvaHistory;
+import com.captain.smartbridge.model.other.EvaluteMess;
 
 import java.util.List;
 
@@ -85,4 +88,17 @@ public interface BridgeService {
     //录入完成
     @POST("app/detect/finished")
     Call<FinishRes> finish(@Body FinishReq finishReq);
+
+
+    //获取评估桥梁信息
+    @GET("app/evaluate/info")
+    Call<List<EvaluteMess>> getEvaMess();
+
+    //获取评分
+    @POST("app/evalute/grade")
+    Call<EvaGrade> getEvaGrade(@Body SearchCodeReq searchCodeReq);
+
+    //获取评估历史记录数据
+    @POST("app/evalute/history")
+    Call<List<EvaHistory>> getEvaHistory(@Body SearchCodeReq searchCodeReq);
 }

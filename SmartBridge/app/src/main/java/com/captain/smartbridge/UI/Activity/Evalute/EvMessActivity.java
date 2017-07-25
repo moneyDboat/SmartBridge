@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.captain.smartbridge.API.ApiManager;
+import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.other.MonitorAdapter;
-import com.captain.smartbridge.model.other.Evalution;
+import com.captain.smartbridge.model.other.EvaluteMess;
 import com.captain.smartbridge.model.other.Monitor;
 import com.google.gson.Gson;
 
@@ -20,6 +22,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Captain on 17/7/4.
@@ -33,7 +38,7 @@ public class EvMessActivity extends AbsActivity {
     @BindView(R.id.evmession_swipe)
     SwipeRefreshLayout evmessionSwipe;
 
-    List<Evalution> evalutions = new ArrayList<>();
+    List<EvaluteMess> evalutions = new ArrayList<>();
 
 
     @Override
@@ -59,8 +64,8 @@ public class EvMessActivity extends AbsActivity {
         getData();
 
         List<Monitor> monitors = new ArrayList<>();
-        for (Evalution i :evalutions){
-            monitors.add(new Monitor(i.getName(), i.getGrade(), i.getLocation()));
+        for (EvaluteMess i :evalutions){
+            monitors.add(new Monitor(i.getQlmc(), i.getScore().substring(6), i.getQlwz()));
         }
 
         MonitorAdapter adapter = new MonitorAdapter(this, monitors);
@@ -77,8 +82,22 @@ public class EvMessActivity extends AbsActivity {
     }
 
     private void getData() {
-        evalutions.add(new Evalution("张营桥", "拱桥", "安徽省阜阳市", "无", "system",
-                "计算机科学与工程学院", "2017-06-01", "93.644", "2"));
+        if (NetUtils.isNetworkConnected(this)){
+            ApiManager.getmService().getEvaMess().enqueue(new Callback<List<EvaluteMess>>() {
+                @Override
+                public void onResponse(Call<List<EvaluteMess>> call, Response<List<EvaluteMess>> response) {
+                    evalutions = response.body();
+                }
+
+                @Override
+                public void onFailure(Call<List<EvaluteMess>> call, Throwable t) {
+                    t.printStackTrace();
+                    showToast("网络错误");
+                }
+            });
+        }else{
+            showNetWorkError();
+        }
     }
 
     @Override

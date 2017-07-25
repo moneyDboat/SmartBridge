@@ -10,6 +10,8 @@ public class BaseApplication extends Application {
     private static BaseApplication mApplication;
     private static String ID;
 
+    private static String EVAID;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,5 +29,13 @@ public class BaseApplication extends Application {
 
     public static void setID(String ID) {
         BaseApplication.ID = ID;
+    }
+
+    public static String getEVAID(){
+        return EVAID;
+    }
+
+    public static void setEVAID(String ID){
+        BaseApplication.EVAID = ID;
     }
 }

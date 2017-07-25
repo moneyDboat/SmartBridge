@@ -40,8 +40,6 @@ public class EvalActivity extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getIntent().getStringExtra("ID");
-
         fragementAdapter = new EvalFragAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(fragementAdapter);
         tabLayout.setupWithViewPager(viewPager);

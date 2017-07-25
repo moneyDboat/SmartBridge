@@ -10,9 +10,10 @@ import android.widget.ListView;
 
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
+import com.captain.smartbridge.UI.Activity.BaseApplication;
 import com.captain.smartbridge.UI.Adapters.TextListAdapter;
 import com.captain.smartbridge.model.SimpleText;
-import com.captain.smartbridge.model.other.Evalution;
+import com.captain.smartbridge.model.other.EvaluteMess;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class EvalInfoActivity extends AbsActivity {
     ListView evalinfoList;
     @BindView(R.id.evalinfo_button)
     Button button;
+
+    EvaluteMess evaluteMess = null;
 
     @Override
     protected void setSelfContentView() {
@@ -54,7 +57,7 @@ public class EvalInfoActivity extends AbsActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EvalInfoActivity.this, EvalActivity.class);
-                //intent添加数据
+                BaseApplication.setEVAID(evaluteMess.getQldm());
                 startActivity(intent);
             }
         });
@@ -63,18 +66,19 @@ public class EvalInfoActivity extends AbsActivity {
     private void setEvalInfo() {
         //从前一个activity获取数据
         String evalJson = getIntent().getStringExtra("eval");
-        Evalution evalution = new Gson().fromJson(evalJson, Evalution.class);
+        evaluteMess = new Gson().fromJson(evalJson, EvaluteMess.class);
 
         List<SimpleText> texts = new ArrayList<>();
-        texts.add(new SimpleText("桥梁名称", evalution.getName()));
-        texts.add(new SimpleText("桥梁结构类型", evalution.getType()));
-        texts.add(new SimpleText("桥梁位置", evalution.getLocation()));
-        texts.add(new SimpleText("管养单位", evalution.getManage()));
-        texts.add(new SimpleText("检测人", evalution.getDetector()));
-        texts.add(new SimpleText("检测单位", evalution.getDetectDepart()));
-        texts.add(new SimpleText("检测时间", evalution.getDetectDate()));
-        texts.add(new SimpleText("评分", evalution.getGrade()));
-        texts.add(new SimpleText("等级", evalution.getRate()));
+        texts.add(new SimpleText("桥梁名称", evaluteMess.getQlmc()));
+        texts.add(new SimpleText("桥梁代码", evaluteMess.getQldm()));
+        texts.add(new SimpleText("桥梁结构类型", evaluteMess.getQllx()));
+        texts.add(new SimpleText("桥梁位置", evaluteMess.getQlwz()));
+        texts.add(new SimpleText("管养单位", " "));
+        texts.add(new SimpleText("检测人", evaluteMess.getRwjsry()));
+        texts.add(new SimpleText("检测单位", evaluteMess.getDepartName()));
+        texts.add(new SimpleText("检测时间", evaluteMess.getRwwcsj()));
+        texts.add(new SimpleText("评分", evaluteMess.getScore().substring(6)));
+        texts.add(new SimpleText("等级", String.valueOf(evaluteMess.getLevel())));
 
         TextListAdapter adapter = new TextListAdapter(this, texts);
         evalinfoList.addHeaderView(new ViewStub(this));
