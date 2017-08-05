@@ -69,30 +69,6 @@ public class NearbyActivity extends AbsActivity implements AdapterView.OnItemCli
         listView.addHeaderView(new ViewStub(this));
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this);
-
-//        String SF = intent.getStringExtra("SF");
-//        String CF = intent.getStringExtra("CF");
-//        if (NetUtils.isNetworkAvailable(this)) {
-//            MapReq mapReq = new MapReq(SF, CF);
-//            ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
-//                @Override
-//                public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
-//                    List<MapRes> bridges = response.body();
-//                    BridgeListAdapter listAdapter = new BridgeListAdapter(NearbyActivity.this, bridges);
-//                    listView.addHeaderView(new ViewStub(NearbyActivity.this));
-//                    listView.setAdapter(listAdapter);
-//                    listView.setOnItemClickListener(NearbyActivity.this);
-//                }
-//
-//                @Override
-//                public void onFailure(Call<List<MapRes>> call, Throwable t) {
-//                    t.printStackTrace();
-//                    showToast("网络错误");
-//                }
-//            });
-//        } else {
-//            showToast("请检查您的网络");
-//        }
     }
 
     @Override
