@@ -5,14 +5,13 @@ package com.captain.smartbridge.model.other;
  */
 
 public class MonDataReq {
-
     /**
-     * qldm : G00010005
-     * sensor : sensor1
+     * qldm : G00010001
+     * cgqbh : cgqsgwy1
      */
 
     private String qldm;
-    private String sensor;
+    private String cgqbh;
 
     public String getQldm() {
         return qldm;
@@ -22,11 +21,11 @@ public class MonDataReq {
         this.qldm = qldm;
     }
 
-    public String getSensor() {
-        return sensor;
+    public String getCgqbh() {
+        return cgqbh;
     }
 
-    public void setSensor(String sensor) {
-        this.sensor = sensor;
+    public void setCgqbh(String cgqbh) {
+        this.cgqbh = cgqbh;
     }
 }

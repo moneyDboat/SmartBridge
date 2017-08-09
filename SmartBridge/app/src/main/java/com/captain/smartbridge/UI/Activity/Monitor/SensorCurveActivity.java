@@ -1,11 +1,14 @@
 package com.captain.smartbridge.UI.Activity.Monitor;
 
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.captain.smartbridge.API.ApiManager;
+import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.TextListAdapter;
@@ -21,6 +24,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +46,12 @@ public class SensorCurveActivity extends AbsActivity {
     ListView curveList;
 
     List<MonData> data = new ArrayList<>();
+    private final Timer timer = new Timer();
+    private TimerTask task;
+
+    //for test
+    List<Entry> entries = new ArrayList<>();
+    int i = 0;
 
     @Override
     protected void setSelfContentView() {
@@ -62,46 +73,85 @@ public class SensorCurveActivity extends AbsActivity {
         setTitle("应力传感器1号");
         initChart();
         initList();
+
+        refreshData();
     }
 
-    private void getData(){
-        MonDataReq req = new MonDataReq();
-        req.setQldm("G00010005");
-        req.setSensor("sensor1");
-        ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
+    private void refreshData() {
+        //handle句柄
+        final Handler handler = new Handler() {
             @Override
-            public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
-                data = response.body();
+            public void handleMessage(Message msg) {
+                getData();
+                chart.invalidate();
+                super.handleMessage(msg);
+            }
+        };
 
-                List<Entry> entries = new ArrayList<>();
-                int i = 0;
-                for (MonData da : data){
-                    entries.add(new Entry(i, Float.valueOf(da.getValue())));
+        //定时器任务
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
+            }
+        };
+
+        //启动定时器
+        //(*, 延迟执行时间, 循环时间)
+        timer.schedule(task, 5000, 2000);
+    }
+
+    private void getData() {
+        MonDataReq req = new MonDataReq();
+        req.setQldm("G00010001");
+        req.setCgqbh("cgqsgwy1");
+        if (NetUtils.isNetworkAvailable(this)) {
+            ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
+                @Override
+                public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
+                    data = response.body();
+
+                    //                    for (MonData da : data) {
+                    //                        entries.add(new Entry(i, Float.valueOf(da.getValue())));
+                    //                        i++;
+                    //                    }
+                    entries.remove(0);
+                    entries.add(new Entry(i, (float) (Math.random() * 10) + 20));
+                    i++;
+
+                    LineDataSet dataSet = new LineDataSet(entries, "传感器数值");
+                    //important!!!
+                    dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    dataSet.setCubicIntensity(0.2f);
+                    dataSet.setLineWidth(1.8f);
+                    dataSet.setColor(Color.WHITE);
+                    dataSet.setFillColor(Color.WHITE);
+                    dataSet.setFillAlpha(100);
+
+                    LineData lineData = new LineData(dataSet);
+                    chart.setData(lineData);
+                    chart.notifyDataSetChanged();
+
                 }
 
-                LineDataSet dataSet = new LineDataSet(entries, "传感器数值");
-                //importance!!!
-                dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                dataSet.setCubicIntensity(0.2f);
-                dataSet.setLineWidth(1.8f);
-                dataSet.setColor(Color.WHITE);
-                dataSet.setFillColor(Color.WHITE);
-                dataSet.setFillAlpha(100);
-
-                LineData lineData = new LineData(dataSet);
-                chart.setData(lineData);
-                chart.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<MonData>> call, Throwable t) {
-
-            }
-        });
+                @Override
+                public void onFailure(Call<List<MonData>> call, Throwable t) {
+                    t.printStackTrace();
+                    showNetWorkError();
+                }
+            });
+        } else {
+            showNetWorkError();
+        }
     }
 
-    private void initChart(){
+    private void initChart() {
+        for (int j = 0; j < 10; j++) {
+            entries.add(new Entry(i, (float) (Math.random() * 10) + 20));
+            i++;
+        }
         getData();
 
         chart.getDescription().setEnabled(false);
@@ -125,7 +175,7 @@ public class SensorCurveActivity extends AbsActivity {
         chart.invalidate();
     }
 
-    private void initList(){
+    private void initList() {
         List<SimpleText> warns = new ArrayList<>();
         warns.add(new SimpleText("2017.7.4 18:40", "2000"));
         warns.add(new SimpleText("2017.7.4 19:00", "2300"));
