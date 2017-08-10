@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.captain.smartbridge.R;
-import com.captain.smartbridge.model.other.Sensor;
+import com.captain.smartbridge.model.other.MonSensor;
 
 import java.util.List;
 
@@ -18,10 +18,10 @@ import java.util.List;
 
 public class SensorAdapter extends BaseAdapter {
     private static int counter = 0;
-    List<Sensor> mData = null;
+    List<MonSensor> mData = null;
     Context mContext = null;
 
-    public SensorAdapter(Context context, List<Sensor> data) {
+    public SensorAdapter(Context context, List<MonSensor> data) {
         mContext = context;
         mData = data;
         counter = 0;
@@ -62,12 +62,14 @@ public class SensorAdapter extends BaseAdapter {
             holder = (ViewHolder) rootView.getTag();
         }
 
-        Sensor item = mData.get(i);
-        holder.name.setText(item.getName());
-        holder.code.setText(item.getCode());
-        holder.type.setText(item.getType());
-        holder.material.setText(item.getMaterial());
-        holder.location.setText(item.getLocation());
+        MonSensor item = mData.get(i);
+        holder.name.setText(item.getCgqmc());
+        holder.code.setText(item.getYz());
+        holder.type.setText(item.getCgqlxmc());
+        if (item.getCgqclmc()!=null){
+            holder.material.setText(item.getCgqclmc());
+        }
+        holder.location.setText(item.getBswz());
         return rootView;
     }
 

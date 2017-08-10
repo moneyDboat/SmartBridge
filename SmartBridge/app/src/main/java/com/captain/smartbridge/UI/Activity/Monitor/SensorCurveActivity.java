@@ -15,12 +15,14 @@ import com.captain.smartbridge.UI.Adapters.TextListAdapter;
 import com.captain.smartbridge.model.SimpleText;
 import com.captain.smartbridge.model.other.MonData;
 import com.captain.smartbridge.model.other.MonDataReq;
+import com.captain.smartbridge.model.other.MonSensor;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +52,11 @@ public class SensorCurveActivity extends AbsActivity {
     private TimerTask task;
 
     //for test
-    List<Entry> entries = new ArrayList<>();
-    int i = 0;
+//    List<Entry> entries = new ArrayList<>();
+//    int i = 0;
+
+    MonSensor sensor = null;
+    String bridge = "";
 
     @Override
     protected void setSelfContentView() {
@@ -70,7 +75,10 @@ public class SensorCurveActivity extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setTitle("应力传感器1号");
+        sensor = new Gson().fromJson(getIntent().getStringExtra("sensor"), MonSensor.class);
+        bridge = getIntent().getStringExtra("bridge");
+
+        setTitle(sensor.getCgqmc());
         initChart();
         initList();
 
@@ -100,26 +108,28 @@ public class SensorCurveActivity extends AbsActivity {
 
         //启动定时器
         //(*, 延迟执行时间, 循环时间)
-        timer.schedule(task, 5000, 2000);
+        timer.schedule(task, 5000, 1000);
     }
 
     private void getData() {
         MonDataReq req = new MonDataReq();
-        req.setQldm("G00010001");
-        req.setCgqbh("cgqsgwy1");
+        req.setQldm(bridge);
+        req.setCgqbh(sensor.getCgqbh());
         if (NetUtils.isNetworkAvailable(this)) {
             ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
                 @Override
                 public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
                     data = response.body();
 
-                    //                    for (MonData da : data) {
-                    //                        entries.add(new Entry(i, Float.valueOf(da.getValue())));
-                    //                        i++;
-                    //                    }
-                    entries.remove(0);
-                    entries.add(new Entry(i, (float) (Math.random() * 10) + 20));
-                    i++;
+                    int i = 0;
+                    List<Entry> entries = new ArrayList<>();
+                    for (MonData da : data) {
+                        entries.add(new Entry(i, Float.valueOf(da.getValue())));
+                        i++;
+                    }
+//                    entries.remove(0);
+//                    entries.add(new Entry(i, (float) (Math.random() * 10) + 20));
+//                    i++;
 
                     LineDataSet dataSet = new LineDataSet(entries, "传感器数值");
                     //important!!!
@@ -148,10 +158,10 @@ public class SensorCurveActivity extends AbsActivity {
     }
 
     private void initChart() {
-        for (int j = 0; j < 10; j++) {
-            entries.add(new Entry(i, (float) (Math.random() * 10) + 20));
-            i++;
-        }
+//        for (int j = 0; j < 10; j++) {
+//            entries.add(new Entry(i, (float) (Math.random() * 10) + 20));
+//            i++;
+//        }
         getData();
 
         chart.getDescription().setEnabled(false);

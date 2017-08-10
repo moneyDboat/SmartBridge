@@ -19,21 +19,22 @@
 
             <TextView
                 android:id="@+id/sensor_name"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="应力传感器1号"
                 android:textColor="@color/BlackText"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/sensor_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="cgqy11"
-                android:textColor="@color/BlackText"
-                android:textSize="16sp"/>
+            <!--<TextView-->
+                <!--android:visibility="gone"-->
+                <!--android:id="@+id/sensor_code"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:text="cgqy11"-->
+                <!--android:textColor="@color/holo_red_light"-->
+                <!--android:textSize="16sp"/>-->
         </LinearLayout>
 
         <LinearLayout

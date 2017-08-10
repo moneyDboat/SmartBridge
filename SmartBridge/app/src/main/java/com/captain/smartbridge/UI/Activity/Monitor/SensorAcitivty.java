@@ -1,5 +1,6 @@
 package com.captain.smartbridge.UI.Activity.Monitor;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -7,16 +8,23 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.captain.smartbridge.API.ApiManager;
+import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.other.SensorAdapter;
-import com.captain.smartbridge.model.other.Sensor;
+import com.captain.smartbridge.model.SearchCodeReq;
+import com.captain.smartbridge.model.other.MonSensor;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Captain on 17/7/4.
@@ -29,6 +37,9 @@ public class SensorAcitivty extends AbsActivity {
     ListView sensorList;
     @BindView(R.id.sensor_swipe)
     SwipeRefreshLayout sensorSwipe;
+
+    String bridge = "";
+    List<MonSensor> sensors = new ArrayList<>();
 
     @Override
     protected void setSelfContentView() {
@@ -51,21 +62,35 @@ public class SensorAcitivty extends AbsActivity {
     }
 
     private void initList() {
-        List<Sensor> sensors = new ArrayList<>();
-        sensors.add(new Sensor("应力传感器1号", "cgqyl1", "应力", "电磁式", "桥面1", "1100"));
-        sensors.add(new Sensor("应力传感器2号", "cgqyl2", "应力", "电磁式", "桥面2", "1900"));
-        sensors.add(new Sensor("应变传感器1号", "cgqyb1", "应变", "光纤", "桥墩2", "1100"));
-        sensors.add(new Sensor("应变传感器2号", "cgqyb2", "应变", "电阻式", "主梁3", "1100"));
-        sensors.add(new Sensor("加速度传感器1号", "cgqjsd1", "加速度", "电阻式", "桥墩3", "1100"));
-        sensors.add(new Sensor("加速度传感器2号", "cgqjsd2", "加速度", "电阻式", "桥墩5", "1100"));
+        bridge = getIntent().getStringExtra("bridge");
+        SearchCodeReq req = new SearchCodeReq(bridge);
 
-        SensorAdapter adapter = new SensorAdapter(SensorAcitivty.this, sensors);
-        sensorList.setAdapter(adapter);
+        if (NetUtils.isNetworkAvailable(this)) {
+            ApiManager.getmService().monSensor(req).enqueue(new Callback<List<MonSensor>>() {
+                @Override
+                public void onResponse(Call<List<MonSensor>> call, Response<List<MonSensor>> response) {
+                    sensors = response.body();
+                    SensorAdapter adapter = new SensorAdapter(SensorAcitivty.this, sensors);
+                    sensorList.setAdapter(adapter);
+                }
+
+                @Override
+                public void onFailure(Call<List<MonSensor>> call, Throwable t) {
+                    t.printStackTrace();
+                    showNetWorkError();
+                }
+            });
+        } else {
+            showNetWorkError();
+        }
 
         sensorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                readyGo(SensorCurveActivity.class);
+                Intent intent = new Intent(SensorAcitivty.this, SensorCurveActivity.class);
+                intent.putExtra("sensor", new Gson().toJson(sensors.get(position)));
+                intent.putExtra("bridge", bridge);
+                startActivity(intent);
             }
         });
     }

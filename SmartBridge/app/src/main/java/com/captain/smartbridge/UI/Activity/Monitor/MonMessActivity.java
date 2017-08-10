@@ -60,6 +60,7 @@ public class MonMessActivity extends AbsActivity {
     }
 
     private void initList() {
+        //实际这两个字段会忽略
         String SF = "江苏省";
         String CF = "南京市";
         if (NetUtils.isNetworkAvailable(this)) {
@@ -75,15 +76,6 @@ public class MonMessActivity extends AbsActivity {
 
                     MonitorAdapter adapter = new MonitorAdapter(MonMessActivity.this, missions);
                     momessionList.setAdapter(adapter);
-
-                    momessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(MonMessActivity.this, SensorAcitivty.class);
-                            intent.putExtra("bridge", missions.get(position).getCode());
-                            startActivity(intent);
-                        }
-                    });
                 }
 
                 @Override
@@ -95,6 +87,16 @@ public class MonMessActivity extends AbsActivity {
         } else {
             showToast("请检查您的网络");
         }
+
+
+        momessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MonMessActivity.this, SensorAcitivty.class);
+                intent.putExtra("bridge", missions.get(position).getCode());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

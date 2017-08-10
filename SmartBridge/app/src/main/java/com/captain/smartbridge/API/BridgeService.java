@@ -20,7 +20,6 @@ import com.captain.smartbridge.model.SearchCodeRes;
 import com.captain.smartbridge.model.other.EvaGrade;
 import com.captain.smartbridge.model.other.EvaHistory;
 import com.captain.smartbridge.model.other.EvaluteMess;
-import com.captain.smartbridge.model.other.MonBridge;
 import com.captain.smartbridge.model.other.MonData;
 import com.captain.smartbridge.model.other.MonDataReq;
 import com.captain.smartbridge.model.other.MonSensor;
@@ -93,12 +92,18 @@ public interface BridgeService {
     @POST("app/detect/finished")
     Call<FinishRes> finish(@Body FinishReq finishReq);
 
-    //获取监测桥梁信息
-    @POST("app/monitor/info")
-    Call<MonBridge> monBridge(@Body SearchCodeReq searchCodeReq);
+
+//    接口弃用
+//    //获取监测桥梁信息
+//    @POST("app/monitor/info")
+//    Call<MonBridge> monBridge(@Body SearchCodeReq searchCodeReq);
+//
+//    //获取桥梁监测传感器信息
+//    @POST("app/monitor/sensor")
+//    Call<List<MonSensor>> monSensor(@Body SearchCodeReq searchCodeReq);
 
     //获取桥梁监测传感器信息
-    @POST("app/monitor/sensor")
+    @POST("app/monitor/sensorinfo")
     Call<List<MonSensor>> monSensor(@Body SearchCodeReq searchCodeReq);
 
     //获取传感器监测数据
