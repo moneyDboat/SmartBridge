@@ -18,6 +18,7 @@ import com.captain.smartbridge.model.other.EvaHistory;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -27,6 +28,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -50,6 +52,8 @@ public class EvalFragement extends Fragment {
 
     private PieChart mChart;
     private BarChart bChart;
+
+    List<String> dates = new ArrayList<>();
 
     public static EvalFragement newInstance(int page) {
         Bundle args = new Bundle();
@@ -239,6 +243,25 @@ public class EvalFragement extends Fragment {
 
         XAxis xLabels = bChart.getXAxis();
         xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
+        //将X轴值设为日期
+        for(EvaHistory grade:grades){
+            dates.add(grade.getLrsj());
+        }
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return dates.get((int)value);
+            }
+
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        };
+        xLabels.setValueFormatter(formatter);
+        xLabels.setGranularity(1f);
+        xLabels.setLabelRotationAngle(-30);
+
 
         setBarData(grades);
         bChart.animateY(3000);

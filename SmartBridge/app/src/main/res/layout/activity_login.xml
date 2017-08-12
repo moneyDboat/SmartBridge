@@ -40,6 +40,7 @@
         android:orientation="vertical">
 
         <com.github.florent37.materialtextfield.MaterialTextField
+            android:id="@+id/login_userField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -50,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="用户名"
+                android:maxLines="1"
                 android:textColor="#333"
                 android:textColorHint="#666"
                 android:textSize="15sp"/>
@@ -58,6 +60,7 @@
 
 
         <com.github.florent37.materialtextfield.MaterialTextField
+            android:id="@+id/login_pwdField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -68,6 +71,7 @@
                 android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:hint="密码"
                 android:inputType="textPassword"
                 android:textColor="#333"

@@ -1,5 +1,6 @@
 package com.captain.smartbridge.UI.Activity;
 
+import android.os.Bundle;
 import android.widget.EditText;
 
 import com.captain.smartbridge.API.ApiManager;
@@ -10,6 +11,7 @@ import com.captain.smartbridge.R;
 import com.captain.smartbridge.model.InfoRes;
 import com.captain.smartbridge.model.LoginReq;
 import com.dd.processbutton.iml.ActionProcessButton;
+import com.github.florent37.materialtextfield.MaterialTextField;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +32,10 @@ public class LoginActivity extends AbsActivity {
     EditText passwordText;
     @BindView(R.id.login_buttom)
     ActionProcessButton loginButtom;
+    @BindView(R.id.login_userField)
+    MaterialTextField loginUserField;
+    @BindView(R.id.login_pwdField)
+    MaterialTextField loginPwdField;
 
     String username = "";
     String pwd = "";
@@ -38,8 +44,8 @@ public class LoginActivity extends AbsActivity {
     void login() {
         username = userText.getText().toString();
         pwd = passwordText.getText().toString();
-//        String username = "fansen";
-//        String pwd = "123456";
+        //        String username = "fansen";
+        //        String pwd = "123456";
         loginButtom.setMode(ActionProcessButton.Mode.PROGRESS);
         loginButtom.setProgress(0);
         if (isValid(username, pwd)) {
@@ -64,14 +70,18 @@ public class LoginActivity extends AbsActivity {
 
         username = PreferenceUtils.getString(this, PreferenceUtils.Key.USER);
         pwd = PreferenceUtils.getString(this, PreferenceUtils.Key.PASS);
+        userText.setText(username);
+
+        loginUserField.setHasFocus(true);
 
         //如果有密码记录，则自动登录
-        if (pwd != ""){
-            LoginReq loginReq = new LoginReq(username, pwd);
-            postLogin(loginReq);
-        }else{
-            //注销用户后会清空密码
-            userText.setText(username);
+        if (pwd != "") {
+            passwordText.setText(pwd);
+            loginPwdField.setHasFocus(true);
+            loginButtom.setProgress(100);
+            readyGoThenKill(MainActivity.class);
+            //LoginReq loginReq = new LoginReq(username, pwd);
+            //postLogin(loginReq);
         }
 
     }
@@ -81,7 +91,7 @@ public class LoginActivity extends AbsActivity {
             ApiManager.getmService().login(loginReq).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if(response.body()==null){
+                    if (response.body() == null) {
                         showToast("用户名密码错误！");
                         loginButtom.setEnabled(true);
                         return;
@@ -152,4 +162,10 @@ public class LoginActivity extends AbsActivity {
         return true;
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }
