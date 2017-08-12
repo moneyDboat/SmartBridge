@@ -11,24 +11,24 @@ import android.preference.PreferenceManager;
 
 public class PreferenceUtils {
 
-//    {
-//        "content": {
-//        "username": "lei123",
-//                "roleType": 3,
-//                "registerDate": "2017-01-20",
-//                "headPortrait": null,
-//                "sf": null,
-//                "userId": 7,
-//                "inspectionDepartmentDM": "NJ2013",
-//                "phoneNumber": "12345678",
-//                "cs": null,
-//                "lastLoginTime": "2017-06-02 01:10:29",
-//                "password": "lei123",
-//                "nickname": "樊森",
-//                "email": "2331598677@qq.com"
-//    },
-//        "code": 200
-//    }
+    //    {
+    //        "content": {
+    //        "username": "lei123",
+    //                "roleType": 3,
+    //                "registerDate": "2017-01-20",
+    //                "headPortrait": null,
+    //                "sf": null,
+    //                "userId": 7,
+    //                "inspectionDepartmentDM": "NJ2013",
+    //                "phoneNumber": "12345678",
+    //                "cs": null,
+    //                "lastLoginTime": "2017-06-02 01:10:29",
+    //                "password": "lei123",
+    //                "nickname": "樊森",
+    //                "email": "2331598677@qq.com"
+    //    },
+    //        "code": 200
+    //    }
 
     public static class Key {
         public static final String ACCESS = "access_token";
@@ -48,6 +48,7 @@ public class PreferenceUtils {
         public static final String QIAOMIAN = "qiaomian";
         public static final String DANDU = "dandu";
         public static final String BINGHAI = "binghai";
+        public static final String PASS = "password";
     }
 
     public static final String DEFAULT_STRING = "";
@@ -56,15 +57,15 @@ public class PreferenceUtils {
     public static final long DEFAULT_LONG = 0;
     public static final float DEFAULT_FLOAT = 0.0f;
 
-//    public static Set<String> getStringSet(Context context, String key){
-//        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-//        return settings.getStringSet(key, new HashSet<String>());
-//    }
-//
-//    public static void putStringSet(Context context, final String key, final HashSet<String> value){
-//        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-//        settings.edit().putStringSet(key, value).commit();
-//    }
+    //    public static Set<String> getStringSet(Context context, String key){
+    //        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+    //        return settings.getStringSet(key, new HashSet<String>());
+    //    }
+    //
+    //    public static void putStringSet(Context context, final String key, final HashSet<String> value){
+    //        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+    //        settings.edit().putStringSet(key, value).commit();
+    //    }
 
     public static String getString(Context context, String key) {
         final SharedPreferences settings = PreferenceManager

@@ -31,10 +31,13 @@ public class LoginActivity extends AbsActivity {
     @BindView(R.id.login_buttom)
     ActionProcessButton loginButtom;
 
+    String username = "";
+    String pwd = "";
+
     @OnClick(R.id.login_buttom)
     void login() {
-        String username = userText.getText().toString();
-        String pwd = passwordText.getText().toString();
+        username = userText.getText().toString();
+        pwd = passwordText.getText().toString();
 //        String username = "fansen";
 //        String pwd = "123456";
         loginButtom.setMode(ActionProcessButton.Mode.PROGRESS);
@@ -59,7 +62,18 @@ public class LoginActivity extends AbsActivity {
     protected void initViews() {
         ButterKnife.bind(this);
 
-        userText.setText(PreferenceUtils.getString(this, PreferenceUtils.Key.USER));
+        username = PreferenceUtils.getString(this, PreferenceUtils.Key.USER);
+        pwd = PreferenceUtils.getString(this, PreferenceUtils.Key.PASS);
+
+        //如果有密码记录，则自动登录
+        if (pwd != ""){
+            LoginReq loginReq = new LoginReq(username, pwd);
+            postLogin(loginReq);
+        }else{
+            //注销用户后会清空密码
+            userText.setText(username);
+        }
+
     }
 
     private void postLogin(LoginReq loginReq) {
@@ -121,6 +135,7 @@ public class LoginActivity extends AbsActivity {
         PreferenceUtils.putString(this, PreferenceUtils.Key.PHONE, info.getPhoneNumber());
         PreferenceUtils.putString(this, PreferenceUtils.Key.NICK, info.getNickname());
         PreferenceUtils.putString(this, PreferenceUtils.Key.EMAIL, info.getEmail());
+        PreferenceUtils.putString(this, PreferenceUtils.Key.PASS, pwd);
     }
 
     private boolean isValid(String username, String pwd) {

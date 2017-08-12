@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.captain.smartbridge.API.ApiManager;
-import com.captain.smartbridge.Common.CommonUtils;
 import com.captain.smartbridge.Common.NetUtils;
+import com.captain.smartbridge.Common.PreferenceUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.model.InfoRes;
 
@@ -72,20 +72,20 @@ public class UserActivity extends AbsActivity {
 
     }
 
-    private void setUserInfo(){
-        if(NetUtils.isNetworkAvailable(this)){
+    private void setUserInfo() {
+        if (NetUtils.isNetworkAvailable(this)) {
             ApiManager.getmService().getInfo().enqueue(new Callback<InfoRes>() {
                 @Override
                 public void onResponse(Call<InfoRes> call, Response<InfoRes> response) {
                     InfoRes info = response.body();
-                    userDepart.setText(info.getInspectionDepartmentDM().toString());
+
+                    userDepart.setText(info.getInspectionDepartmentDM());
                     userEmail.setText(info.getEmail());
                     userName.setText(info.getUsername());
                     userNick.setText(info.getNickname());
                     userPhone.setText(info.getPhoneNumber());
-                    userSf.setText((info.getSf()==null?"":info.getSf())
-                            .concat(info.getCs()==null?"":info.getCs()));
-                    userType.setText(CommonUtils.types[info.getRoleType()]);
+                    userSf.setText((info.getSf() == null ? "" : info.getSf())
+                            .concat(info.getCs() == null ? "" : info.getCs()));
                 }
 
                 @Override
@@ -93,7 +93,7 @@ public class UserActivity extends AbsActivity {
                     showToast("网路出错");
                 }
             });
-        }else {
+        } else {
             showNetWorkError();
         }
     }
@@ -101,7 +101,10 @@ public class UserActivity extends AbsActivity {
 
     //退出登录
     //广播通知所有Activity结束
-    private void logout(){
+    private void logout() {
+        //清楚密码记录
+        PreferenceUtils.putString(UserActivity.this, PreferenceUtils.Key.PASS, "");
+
         Intent intent = new Intent();
         intent.setAction("exit_app");
         sendBroadcast(intent);
@@ -118,13 +121,14 @@ public class UserActivity extends AbsActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
 
     //显示对话框
-    private void showDialog(){
+    private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示");
         builder.setMessage("是否确定退出当前账户？");

@@ -11,8 +11,13 @@ public class MonData{
      * time : 2017-08-01 08:27:17
      */
 
-    private String value;
     private String time;
+    private String value;
+
+    public MonData(String time, String value){
+        this.time = time;
+        this.value = value;
+    }
 
     public String getValue() {
         return value;

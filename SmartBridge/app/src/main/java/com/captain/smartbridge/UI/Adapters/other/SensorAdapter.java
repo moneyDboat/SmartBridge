@@ -53,7 +53,7 @@ public class SensorAdapter extends BaseAdapter {
             rootView = inflater.inflate(R.layout.list_sensor, viewGroup, false);
             holder = new ViewHolder();
             holder.name = (TextView) rootView.findViewById(R.id.sensor_name);
-            holder.code = (TextView) rootView.findViewById(R.id.sensor_code);
+            //holder.code = (TextView) rootView.findViewById(R.id.sensor_code);
             holder.type = (TextView) rootView.findViewById(R.id.sensor_type);
             holder.material = (TextView) rootView.findViewById(R.id.sensor_material);
             holder.location = (TextView) rootView.findViewById(R.id.sensor_local);
@@ -64,7 +64,7 @@ public class SensorAdapter extends BaseAdapter {
 
         MonSensor item = mData.get(i);
         holder.name.setText(item.getCgqmc());
-        holder.code.setText(item.getYz());
+        //holder.code.setText(item.getYz());
         holder.type.setText(item.getCgqlxmc());
         if (item.getCgqclmc()!=null){
             holder.material.setText(item.getCgqclmc());
