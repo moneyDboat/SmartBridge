@@ -25,7 +25,7 @@
         <!--android:value="f2f543173f91b5be845ab3672af9ad22"-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="b803c107cc22ef92ab4649919e5d8314"/>
+            android:value="283d6751790f605ee256e4c5b7feab21"/>
         <!--声明定位service-->
         <service android:name="com.amap.api.location.APSService"></service>
 
@@ -127,6 +127,9 @@
             android:name=".UI.Activity.Monitor.SensorCurveActivity"
             android:label="传感器信息">
         </activity>
+        <activity android:name=".UI.Activity.Monitor.MonWarningActivity"
+            android:label="预警数据">
+        </activity>
 
         <activity
             android:name=".UI.Activity.Evalute.EvMessActivity"
@@ -139,7 +142,6 @@
         <activity android:name=".UI.Activity.Evalute.EvalInfoActivity"
             android:label="评估决策">
         </activity>
-
     </application>
 
 </manifest>

@@ -44,14 +44,12 @@ public class LoginActivity extends AbsActivity {
     void login() {
         username = userText.getText().toString();
         pwd = passwordText.getText().toString();
-        //        String username = "fansen";
-        //        String pwd = "123456";
         loginButtom.setMode(ActionProcessButton.Mode.PROGRESS);
         loginButtom.setProgress(0);
         if (isValid(username, pwd)) {
             LoginReq loginReq = new LoginReq(username, pwd);
             loginButtom.setEnabled(false);
-            postLogin(loginReq);
+            postLogin(loginReq, false);
         }
     }
 
@@ -79,14 +77,15 @@ public class LoginActivity extends AbsActivity {
             passwordText.setText(pwd);
             loginPwdField.setHasFocus(true);
             loginButtom.setProgress(100);
+            loginButtom.setText("自动登录中");
             readyGoThenKill(MainActivity.class);
-            //LoginReq loginReq = new LoginReq(username, pwd);
-            //postLogin(loginReq);
+            LoginReq loginReq = new LoginReq(username, pwd);
+            postLogin(loginReq, true);
         }
 
     }
 
-    private void postLogin(LoginReq loginReq) {
+    private void postLogin(LoginReq loginReq, final Boolean autoLogin) {
         if (NetUtils.isNetworkConnected(this)) {
             ApiManager.getmService().login(loginReq).enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -97,7 +96,11 @@ public class LoginActivity extends AbsActivity {
                         return;
                     }
                     loginButtom.setProgress(50);
-                    getUserInfo();
+                    if (autoLogin){
+                        readyGoThenKill(MainActivity.class);
+                    }else{
+                        getUserInfo();
+                    }
                 }
 
                 @Override

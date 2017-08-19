@@ -7,7 +7,9 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
@@ -52,6 +54,8 @@ public class SensorCurveActivity extends AbsActivity {
     LineChart chart;
     @BindView(R.id.curve_list)
     ListView curveList;
+    @BindView(R.id.curve_more)
+    TextView curveMore;
 
     List<MonData> data = new ArrayList<>();
     List<SimpleText> warnData = new ArrayList<>();
@@ -274,6 +278,13 @@ public class SensorCurveActivity extends AbsActivity {
     private void initList() {
         adapter = new TextListAdapter(SensorCurveActivity.this, warnData);
         curveList.setAdapter(adapter);
+
+        curveMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readyGo(MonWarningActivity.class);
+            }
+        });
     }
 
     @Override

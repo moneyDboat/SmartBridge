@@ -202,16 +202,16 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
     //获取地图上所有桥梁
     private void setMarker() {
-        //        aMap.setOnMarkerClickListener(this);
-        //        aMap.setInfoWindowAdapter(this);
         if (NetUtils.isNetworkAvailable(this)) {
             MapReq mapReq = new MapReq(SF, CF);
             ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
                 @Override
                 public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
                     bridges = response.body();
-                    for (MapRes bridge : bridges) {
-                        addMarkerToMap(bridge);
+                    if (bridges != null) {
+                        for (MapRes bridge : bridges) {
+                            addMarkerToMap(bridge);
+                        }
                     }
                 }
 
