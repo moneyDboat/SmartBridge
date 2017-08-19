@@ -32,7 +32,7 @@ import static com.captain.smartbridge.API.ApiManager.getmService;
  */
 
 public class DetectRecieveActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener,
-        AdapterView.OnItemClickListener{
+        AdapterView.OnItemClickListener {
     @BindView(R.id.dereceive_toolbar)
     Toolbar toolbar;
     @BindView(R.id.dereceive_list)
@@ -68,16 +68,21 @@ public class DetectRecieveActivity extends AbsActivity implements SwipeRefreshLa
     }
 
     private void initList() {
-        if(NetUtils.isNetworkConnected(this)){
+        if (NetUtils.isNetworkConnected(this)) {
             getmService().getDetect().enqueue(new Callback<List<DetectMission>>() {
                 @Override
                 public void onResponse(Call<List<DetectMission>> call, Response<List<DetectMission>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     missions = new ArrayList<>();
-                    for(DetectMission i :  response.body()){
+                    for (DetectMission i : response.body()) {
                         //状态为0代表待接收
-                        if (i.getStatus().equals("0")){
+                        if (i.getStatus().equals("0")) {
                             detectMissions.add(i);
-                            Mission mission = new Mission(i.getQlmc(),i.getQldm(), i.getRwfbry(),
+                            Mission mission = new Mission(i.getQlmc(), i.getQldm(), i.getRwfbry(),
                                     i.getRwjsry(), Integer.valueOf(i.getStatus()));
                             missions.add(mission);
                         }
@@ -95,7 +100,7 @@ public class DetectRecieveActivity extends AbsActivity implements SwipeRefreshLa
                     showNetWorkError();
                 }
             });
-        }else {
+        } else {
             dereceiveSwipe.setRefreshing(false);
             showNetWorkError();
         }

@@ -29,7 +29,7 @@ import retrofit2.Response;
 import static com.captain.smartbridge.API.ApiManager.getmService;
 
 public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener,
-        AdapterView.OnItemClickListener{
+        AdapterView.OnItemClickListener {
     @BindView(R.id.destatus_toolbar)
     Toolbar toolbar;
     @BindView(R.id.destatus_list)
@@ -60,7 +60,7 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
         //pull to refresh
         destatusSwipe.setOnRefreshListener(this);
 
-       //list
+        //list
         listView.setOnItemClickListener(this);
 
         //获取未完成的检测任务
@@ -68,20 +68,25 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
     }
 
     //获取检测任务
-    private void initList(){
-        if(NetUtils.isNetworkConnected(this)){
+    private void initList() {
+        if (NetUtils.isNetworkConnected(this)) {
             getmService().getDetect().enqueue(new Callback<List<DetectMission>>() {
                 @Override
                 public void onResponse(Call<List<DetectMission>> call, Response<List<DetectMission>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     missions = new ArrayList<>();
-                    for(DetectMission i :  response.body()){
+                    for (DetectMission i : response.body()) {
                         //状态为2代表已经完成
-                        if (i.getStatus().equals("2")){
+                        if (i.getStatus().equals("2")) {
                             continue;
                         }
 
                         detectMissions.add(i);
-                        Mission mission = new Mission(i.getQlmc(),i.getQldm(), i.getRwfbry(),
+                        Mission mission = new Mission(i.getQlmc(), i.getQldm(), i.getRwfbry(),
                                 i.getRwjsry(), Integer.valueOf(i.getStatus()));
                         missions.add(mission);
                     }
@@ -98,7 +103,7 @@ public class DetectStatusActivity extends AbsActivity implements SwipeRefreshLay
                     destatusSwipe.setRefreshing(false);
                 }
             });
-        }else {
+        } else {
             showNetWorkError();
             destatusSwipe.setRefreshing(false);
         }

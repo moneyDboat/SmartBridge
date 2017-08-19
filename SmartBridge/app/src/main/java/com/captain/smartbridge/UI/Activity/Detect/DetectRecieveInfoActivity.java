@@ -88,7 +88,7 @@ public class DetectRecieveInfoActivity extends AbsActivity {
         texts.add(new SimpleText("接收人员", info.getRwjsry()));
         texts.add(new SimpleText("完成时间", info.getRwwcsj()));
         String bz = info.getBz();
-        if (bz.equals("None")){
+        if (bz.equals("None")) {
             bz = "";
         }
         texts.add(new SimpleText("备注", bz));
@@ -98,12 +98,17 @@ public class DetectRecieveInfoActivity extends AbsActivity {
         dereceiveInforList.setAdapter(adapter);
     }
 
-    private void recieveMission(){
-        if (NetUtils.isNetworkAvailable(this)){
+    private void recieveMission() {
+        if (NetUtils.isNetworkAvailable(this)) {
             AcceptMissReq acceptMissReq = new AcceptMissReq(info.getJcrw_id());
             ApiManager.getmService().acceptDetect(acceptMissReq).enqueue(new Callback<AcceptMissRes>() {
                 @Override
                 public void onResponse(Call<AcceptMissRes> call, Response<AcceptMissRes> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     showToast("接收任务成功");
 
                     derecieveButton.setClickable(false);
@@ -122,7 +127,7 @@ public class DetectRecieveInfoActivity extends AbsActivity {
 
                 }
             });
-        }else{
+        } else {
             showNetWorkError();
         }
     }
@@ -139,8 +144,8 @@ public class DetectRecieveInfoActivity extends AbsActivity {
     }
 
 
-   //显示对话框
-    private void showDialog(){
+    //显示对话框
+    private void showDialog() {
         builder = new AlertDialog.Builder(this);
         builder.setTitle("提示");
         builder.setMessage("是否确定接收该检测任务？");

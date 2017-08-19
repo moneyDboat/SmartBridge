@@ -69,6 +69,11 @@ public class SensorAcitivty extends AbsActivity {
             ApiManager.getmService().monSensor(req).enqueue(new Callback<List<MonSensor>>() {
                 @Override
                 public void onResponse(Call<List<MonSensor>> call, Response<List<MonSensor>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     sensors = response.body();
                     SensorAdapter adapter = new SensorAdapter(SensorAcitivty.this, sensors);
                     sensorList.setAdapter(adapter);

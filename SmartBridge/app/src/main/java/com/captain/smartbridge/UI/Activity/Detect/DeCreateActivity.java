@@ -95,6 +95,11 @@ public class DeCreateActivity extends AbsActivity {
             ApiManager.getmService().getDepart().enqueue(new Callback<List<Department>>() {
                 @Override
                 public void onResponse(Call<List<Department>> call, Response<List<Department>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     departments = response.body();
                     List<String> items = new ArrayList<String>();
                     for (Department i : departments) {
@@ -143,6 +148,10 @@ public class DeCreateActivity extends AbsActivity {
         ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
             @Override
             public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
+                if (response.body() == null) {
+                    showToast("账户登录过期，请退出账户后重新登录");
+                    return;
+                }
                 for (MapRes i : response.body()) {
                     qldms.add(i.getQldm());
                     qlmcs.add(i.getQlmc());
@@ -202,13 +211,18 @@ public class DeCreateActivity extends AbsActivity {
         });
     }
 
-    private void createMission(){
+    private void createMission() {
         if (NetUtils.isNetworkAvailable(DeCreateActivity.this)) {
             CreateMissReq createMissReq = new CreateMissReq(code, jcdw);
 
             ApiManager.getmService().createDetect(createMissReq).enqueue(new Callback<CreateMissRes>() {
                 @Override
                 public void onResponse(Call<CreateMissRes> call, Response<CreateMissRes> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     showToast("检测任务创建成功！");
 
                     //延时关闭界面
@@ -228,7 +242,7 @@ public class DeCreateActivity extends AbsActivity {
                     showNetWorkError();
                 }
             });
-        }else {
+        } else {
             showNetWorkError();
         }
     }
@@ -244,7 +258,7 @@ public class DeCreateActivity extends AbsActivity {
     }
 
     //显示对话框
-    private void showDialog(){
+    private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示");
         builder.setMessage("是否新建检测任务？");

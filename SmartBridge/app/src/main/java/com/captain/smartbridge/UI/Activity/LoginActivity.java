@@ -122,8 +122,10 @@ public class LoginActivity extends AbsActivity {
             @Override
             public void onResponse(Call<InfoRes> call, Response<InfoRes> response) {
                 loginButtom.setProgress(100);
-                saveUserInfo(response.body());
-                readyGoThenKill(MainActivity.class);
+                if (response.body()!=null){
+                    saveUserInfo(response.body());
+                    readyGoThenKill(MainActivity.class);
+                }
             }
 
             @Override

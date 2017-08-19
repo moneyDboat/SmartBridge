@@ -94,6 +94,11 @@ public class DetectEntryActivity extends AbsActivity implements View.OnClickList
             ApiManager.getmService().finish(req).enqueue(new Callback<FinishRes>() {
                 @Override
                 public void onResponse(Call<FinishRes> call, Response<FinishRes> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     showToast("病害数据上传完成！");
 
                     button.setClickable(false);

@@ -107,6 +107,11 @@ public class DetectEntryInfoActivity extends AbsActivity {
         ApiManager.getmService().upGouJian(req).enqueue(new Callback<List<BuildEntryRes>>() {
             @Override
             public void onResponse(Call<List<BuildEntryRes>> call, Response<List<BuildEntryRes>> response) {
+                if (response.body() == null) {
+                    showToast("账户登录过期，请退出账户后重新登录");
+                    return;
+                }
+
                 PreferenceUtils.putString(DetectEntryInfoActivity.this, PreferenceUtils.Key.UPGOU,
                         new Gson().toJson(response.body()));
                 getDown(req);
@@ -123,6 +128,11 @@ public class DetectEntryInfoActivity extends AbsActivity {
         ApiManager.getmService().downGouJian(req).enqueue(new Callback<List<BuildEntryRes>>() {
             @Override
             public void onResponse(Call<List<BuildEntryRes>> call, Response<List<BuildEntryRes>> response) {
+                if (response.body() == null) {
+                    showToast("账户登录过期，请退出账户后重新登录");
+                    return;
+                }
+
                 PreferenceUtils.putString(DetectEntryInfoActivity.this, PreferenceUtils.Key.DOWNGOU,
                         new Gson().toJson(response.body()));
                 getQiaoMian(req);
@@ -140,6 +150,11 @@ public class DetectEntryInfoActivity extends AbsActivity {
         ApiManager.getmService().qiaomian(req).enqueue(new Callback<List<BuildEntryRes>>() {
             @Override
             public void onResponse(Call<List<BuildEntryRes>> call, Response<List<BuildEntryRes>> response) {
+                if (response.body() == null) {
+                    showToast("账户登录过期，请退出账户后重新登录");
+                    return;
+                }
+
                 PreferenceUtils.putString(DetectEntryInfoActivity.this, PreferenceUtils.Key.QIAOMIAN,
                         new Gson().toJson(response.body()));
                 getDanDu(req);
@@ -156,6 +171,11 @@ public class DetectEntryInfoActivity extends AbsActivity {
         ApiManager.getmService().dandu(req).enqueue(new Callback<List<BuildEntryRes>>() {
             @Override
             public void onResponse(Call<List<BuildEntryRes>> call, Response<List<BuildEntryRes>> response) {
+                if (response.body() == null) {
+                    showToast("账户登录过期，请退出账户后重新登录");
+                    return;
+                }
+
                 PreferenceUtils.putString(DetectEntryInfoActivity.this, PreferenceUtils.Key.DANDU,
                         new Gson().toJson(response.body()));
                 getBing();
@@ -173,6 +193,11 @@ public class DetectEntryInfoActivity extends AbsActivity {
         ApiManager.getmService().binghai().enqueue(new Callback<List<BinghaiRes>>() {
             @Override
             public void onResponse(Call<List<BinghaiRes>> call, Response<List<BinghaiRes>> response) {
+                if (response.body() == null) {
+                    showToast("账户登录过期，请退出账户后重新登录");
+                    return;
+                }
+
                 PreferenceUtils.putString(DetectEntryInfoActivity.this, PreferenceUtils.Key.BINGHAI,
                         new Gson().toJson(response.body()));
                 showToast("数据下载完成");

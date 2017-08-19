@@ -32,7 +32,7 @@ import static com.captain.smartbridge.API.ApiManager.getmService;
  */
 
 public class DetectSummaryActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener,
-        AdapterView.OnItemClickListener{
+        AdapterView.OnItemClickListener {
     @BindView(R.id.desummary_toolbar)
     Toolbar toolbar;
     @BindView(R.id.desummary_list)
@@ -69,15 +69,20 @@ public class DetectSummaryActivity extends AbsActivity implements SwipeRefreshLa
     }
 
     private void initList() {
-        if(NetUtils.isNetworkConnected(this)){
+        if (NetUtils.isNetworkConnected(this)) {
             getmService().getDetect().enqueue(new Callback<List<DetectMission>>() {
                 @Override
                 public void onResponse(Call<List<DetectMission>> call, Response<List<DetectMission>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     missions = new ArrayList<>();
-                    for(DetectMission i : response.body()){
+                    for (DetectMission i : response.body()) {
                         //状态为2代表已经完成
-                        if (i.getStatus().equals("2")){
-                            Mission mission = new Mission(i.getQlmc(),i.getQldm(), i.getRwfbry(),
+                        if (i.getStatus().equals("2")) {
+                            Mission mission = new Mission(i.getQlmc(), i.getQldm(), i.getRwfbry(),
                                     i.getRwjsry(), Integer.valueOf(i.getStatus()));
                             missions.add(mission);
                             detectMissions.add(i);
@@ -95,7 +100,7 @@ public class DetectSummaryActivity extends AbsActivity implements SwipeRefreshLa
                     showNetWorkError();
                 }
             });
-        }else {
+        } else {
             showNetWorkError();
         }
     }

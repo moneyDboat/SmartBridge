@@ -35,10 +35,10 @@ import retrofit2.Response;
 public class PageFragement extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     public static final String ID = "";
-    private  int mPage;
+    private int mPage;
     private View view;
 
-    public static PageFragement newInstance(int page){
+    public static PageFragement newInstance(int page) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
         PageFragement pageFragement = new PageFragement();
@@ -55,7 +55,7 @@ public class PageFragement extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        switch (mPage){
+        switch (mPage) {
             case 0:
                 return baseInforView(inflater, container);
             case 1:
@@ -67,16 +67,20 @@ public class PageFragement extends Fragment {
         }
     }
 
-    private View baseInforView(LayoutInflater inflater, ViewGroup container){
+    private View baseInforView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_baseinfor, container, false);
 
         String ID = BaseApplication.getID();
         SearchCodeReq searchCodeReq = new SearchCodeReq(ID);
 
-        if(NetUtils.isNetworkConnected(getActivity())){
+        if (NetUtils.isNetworkConnected(getActivity())) {
             ApiManager.getmService().search(searchCodeReq).enqueue(new Callback<List<SearchCodeRes>>() {
                 @Override
                 public void onResponse(Call<List<SearchCodeRes>> call, Response<List<SearchCodeRes>> response) {
+                    if (response.body() == null) {
+                        return;
+                    }
+
                     SearchCodeRes bridge = response.body().get(0);
 
                     List<SimpleText> texts = new ArrayList<>();
@@ -85,7 +89,7 @@ public class PageFragement extends Fragment {
                     texts.add(new SimpleText("桥梁分类", "特大桥"));
                     texts.add(new SimpleText("桥梁类型", "梁式桥"));
                     texts.add(new SimpleText("路线号", "G1001"));
-                    texts.add(new SimpleText("桥梁位置", bridge.getSf()+bridge.getCs()+bridge.getQx()));
+                    texts.add(new SimpleText("桥梁位置", bridge.getSf() + bridge.getCs() + bridge.getQx()));
                     texts.add(new SimpleText("幅度", "单幅"));
                     texts.add(new SimpleText("桥梁全长", "12004m"));
                     texts.add(new SimpleText("建桥时间", bridge.getJqsj()));
@@ -103,27 +107,31 @@ public class PageFragement extends Fragment {
 
                 }
             });
-        }else{
+        } else {
 
         }
         return view;
     }
 
-    private View buildView(LayoutInflater inflater, ViewGroup container){
+    private View buildView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_build, container, false);
 
         String id = BaseApplication.getID();
         SearchCodeReq searchCodeReq = new SearchCodeReq(id);
 
-        if(NetUtils.isNetworkConnected(getActivity())){
+        if (NetUtils.isNetworkConnected(getActivity())) {
             ApiManager.getmService().getGou(searchCodeReq).enqueue(new Callback<List<GouJian>>() {
                 @Override
                 public void onResponse(Call<List<GouJian>> call, Response<List<GouJian>> response) {
+                    if (response.body() == null) {
+                        return;
+                    }
+
                     List<GouJian> gous = response.body();
                     List<SimpleTexts> texts = new ArrayList<>();
-                    for(GouJian gou:gous){
-                        texts.add(new SimpleTexts(gou.getGjmc(),gou.getGjlxmc(),
-                                String.valueOf(gou.getGjsl()),gou.getGjjgm()));
+                    for (GouJian gou : gous) {
+                        texts.add(new SimpleTexts(gou.getGjmc(), gou.getGjlxmc(),
+                                String.valueOf(gou.getGjsl()), gou.getGjjgm()));
                     }
 
                     TextsListAdapter listAdapter = new TextsListAdapter(getActivity(), texts);
@@ -138,13 +146,13 @@ public class PageFragement extends Fragment {
 
                 }
             });
-        }else{
+        } else {
 
         }
         return view;
     }
 
-    private View pictureView(LayoutInflater inflater, ViewGroup container){
+    private View pictureView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_picture, container, false);
     }
 }

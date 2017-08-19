@@ -207,6 +207,11 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
                 @Override
                 public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
+                    if (response.body() == null){
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     bridges = response.body();
                     if (bridges != null) {
                         for (MapRes bridge : bridges) {

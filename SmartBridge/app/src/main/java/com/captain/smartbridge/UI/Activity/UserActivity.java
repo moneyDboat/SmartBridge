@@ -77,7 +77,13 @@ public class UserActivity extends AbsActivity {
             ApiManager.getmService().getInfo().enqueue(new Callback<InfoRes>() {
                 @Override
                 public void onResponse(Call<InfoRes> call, Response<InfoRes> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     InfoRes info = response.body();
+
 
                     userDepart.setText(info.getInspectionDepartmentDM());
                     userEmail.setText(info.getEmail());
@@ -86,6 +92,7 @@ public class UserActivity extends AbsActivity {
                     userPhone.setText(info.getPhoneNumber());
                     userSf.setText((info.getSf() == null ? "" : info.getSf())
                             .concat(info.getCs() == null ? "" : info.getCs()));
+
                 }
 
                 @Override

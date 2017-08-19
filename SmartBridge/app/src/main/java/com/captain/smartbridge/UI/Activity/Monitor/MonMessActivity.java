@@ -68,6 +68,11 @@ public class MonMessActivity extends AbsActivity {
             ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
                 @Override
                 public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     List<MapRes> bridges = response.body();
                     missions = new ArrayList<>();
                     for (MapRes i : bridges) {

@@ -32,7 +32,7 @@ import static com.captain.smartbridge.API.ApiManager.getmService;
  */
 
 public class DeEntryActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener,
-        AdapterView.OnItemClickListener{
+        AdapterView.OnItemClickListener {
     @BindView(R.id.deentry_toolbar)
     Toolbar toolbar;
     @BindView(R.id.deentry_list)
@@ -74,6 +74,11 @@ public class DeEntryActivity extends AbsActivity implements SwipeRefreshLayout.O
             getmService().getDetect().enqueue(new Callback<List<DetectMission>>() {
                 @Override
                 public void onResponse(Call<List<DetectMission>> call, Response<List<DetectMission>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     missions = new ArrayList<>();
                     for (DetectMission i : response.body()) {
                         //状态为1代表检测中

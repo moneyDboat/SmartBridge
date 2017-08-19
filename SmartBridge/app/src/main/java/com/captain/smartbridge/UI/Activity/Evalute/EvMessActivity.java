@@ -65,6 +65,11 @@ public class EvMessActivity extends AbsActivity {
             ApiManager.getmService().getEvaMess().enqueue(new Callback<List<EvaluteMess>>() {
                 @Override
                 public void onResponse(Call<List<EvaluteMess>> call, Response<List<EvaluteMess>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     evalutions = response.body();
 
                     List<Monitor> monitors = new ArrayList<>();

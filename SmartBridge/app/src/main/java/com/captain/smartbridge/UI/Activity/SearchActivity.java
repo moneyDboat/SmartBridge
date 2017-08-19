@@ -29,7 +29,7 @@ import retrofit2.Response;
  * Created by fish on 17-4-25.
  */
 
-public class SearchActivity extends AbsActivity implements AdapterView.OnItemClickListener{
+public class SearchActivity extends AbsActivity implements AdapterView.OnItemClickListener {
     @BindView(R.id.search_toolbar)
     Toolbar toolbar;
     @BindView(R.id.search_list)
@@ -70,10 +70,10 @@ public class SearchActivity extends AbsActivity implements AdapterView.OnItemCli
             public boolean onQueryTextSubmit(String query) {
                 Log.i("search", query);
                 search(query);
-//                if (!searchView.isIconified()) {
-//                    searchView.setIconified(true);
-//                }
-//                searchItem.collapseActionView();
+                //                if (!searchView.isIconified()) {
+                //                    searchView.setIconified(true);
+                //                }
+                //                searchItem.collapseActionView();
                 return false;
             }
 
@@ -102,6 +102,11 @@ public class SearchActivity extends AbsActivity implements AdapterView.OnItemCli
             ApiManager.getmService().search(searchCodeReq).enqueue(new Callback<List<SearchCodeRes>>() {
                 @Override
                 public void onResponse(Call<List<SearchCodeRes>> call, Response<List<SearchCodeRes>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     bridges = response.body();
                     SearchListAdapter searchListAdapter = new SearchListAdapter(SearchActivity.this, bridges);
                     searchList.setAdapter(searchListAdapter);

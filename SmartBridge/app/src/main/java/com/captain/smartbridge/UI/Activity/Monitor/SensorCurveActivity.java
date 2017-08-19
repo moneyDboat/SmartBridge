@@ -141,6 +141,11 @@ public class SensorCurveActivity extends AbsActivity {
             ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
                 @Override
                 public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
+                    if (response.body() == null) {
+                        showToast("账户登录过期，请退出账户后重新登录");
+                        return;
+                    }
+
                     data = response.body();
 
                     //使用测试数据数据

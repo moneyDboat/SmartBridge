@@ -38,7 +38,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="hello123"
                 android:textSize="12sp"/>
 
         </LinearLayout>
@@ -64,7 +63,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="船长"
                 android:textSize="12sp"/>
 
         </LinearLayout>
@@ -90,7 +88,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="桥梁管理单位"
                 android:textSize="12sp"/>
 
         </LinearLayout>
@@ -116,7 +113,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="安徽省"
                 android:textSize="12sp"/>
 
         </LinearLayout>
@@ -142,7 +138,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="东南大学"
                 android:textSize="12sp"/>
 
         </LinearLayout>
@@ -169,7 +164,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="3342"
                 android:textSize="12sp"/>
 
         </LinearLayout>
@@ -196,7 +190,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:gravity="center"
-                android:text="110120"
                 android:textSize="12sp"/>
 
         </LinearLayout>

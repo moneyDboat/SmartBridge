@@ -94,6 +94,10 @@ public class EvalFragement extends Fragment {
             ApiManager.getmService().getEvaGrade(req).enqueue(new Callback<EvaGrade>() {
                 @Override
                 public void onResponse(Call<EvaGrade> call, Response<EvaGrade> response) {
+                    if (response.body() == null) {
+                        return;
+                    }
+
                     setPieChart(view, response.body());
                 }
 
@@ -115,6 +119,10 @@ public class EvalFragement extends Fragment {
             ApiManager.getmService().getEvaHistory(req).enqueue(new Callback<List<EvaHistory>>() {
                 @Override
                 public void onResponse(Call<List<EvaHistory>> call, Response<List<EvaHistory>> response) {
+                    if (response.body() == null) {
+                        return;
+                    }
+
                     setBarChart(view, response.body());
                 }
 
