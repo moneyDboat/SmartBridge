@@ -1,6 +1,7 @@
 package com.captain.smartbridge.UI.Activity.Monitor;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -15,8 +16,7 @@ import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
-import com.captain.smartbridge.UI.Adapters.TextListAdapter;
-import com.captain.smartbridge.model.SimpleText;
+import com.captain.smartbridge.UI.Adapters.SensorDataAdapter;
 import com.captain.smartbridge.model.other.MonData;
 import com.captain.smartbridge.model.other.MonDataReq;
 import com.captain.smartbridge.model.other.MonSensor;
@@ -58,9 +58,7 @@ public class SensorCurveActivity extends AbsActivity {
     TextView curveMore;
 
     List<MonData> data = new ArrayList<>();
-    List<SimpleText> warnData = new ArrayList<>();
-    List<String> warnDates = new ArrayList<>();
-
+    List<MonData> warnData = new ArrayList<>();
     private final Timer timer = new Timer();
     private TimerTask task;
 
@@ -74,12 +72,13 @@ public class SensorCurveActivity extends AbsActivity {
     List<Entry> entries = null;
     LineDataSet dataSet = null;
     LineData lineData = null;
+    MonDataReq req = null;
 
     MonSensor sensor = null;
     String bridge = "";
     Boolean first = true;
 
-    TextListAdapter adapter = null;
+    SensorDataAdapter adapter = null;
 
     @Override
     protected void setSelfContentView() {
@@ -134,7 +133,7 @@ public class SensorCurveActivity extends AbsActivity {
     }
 
     private void getData() {
-        MonDataReq req = new MonDataReq();
+        req = new MonDataReq();
         req.setQldm(bridge);
         req.setCgqbh(sensor.getCgqbh());
         if (NetUtils.isNetworkAvailable(this)) {
@@ -149,10 +148,10 @@ public class SensorCurveActivity extends AbsActivity {
                     data = response.body();
 
                     //使用测试数据数据
-                    testData.remove(0);
-                    testData.add(new MonData(String.valueOf(year++),
-                            String.valueOf(sensor.getYz() + (Math.random() - 0.7) * 100)));
-                    data = testData;
+                    //                    testData.remove(0);
+                    //                    testData.add(new MonData(String.valueOf(year++),
+                    //                            String.valueOf(sensor.getYz() + (Math.random() - 0.7) * 100)));
+                    //                    data = testData;
 
                     if (data.size() == 0) {
                         showDialog();
@@ -167,19 +166,14 @@ public class SensorCurveActivity extends AbsActivity {
                         entries.add(new Entry(i, Float.valueOf(da.getValue())));
 
                         //这部分之后需要添加时间值的处理，切割字段
-                        dates.add(da.getTime());
+                        String time = da.getTime().split(" ")[1];
+                        dates.add(time);
 
-                        //筛选预警值
-                        if (Float.valueOf(da.getValue()) > sensor.getYz()) {
-                            if (!warnDates.contains(da.getTime())) {
-                                warnDates.add(da.getTime());
-                                SimpleText tmp = new SimpleText(da.getTime(), da.getValue());
-                                warnData.add(0, tmp);
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
                         i++;
                     }
+
+                    //获取预警数据
+                    getWarnData();
 
                     dataSet = new LineDataSet(entries, "传感器数值");
                     //important!!!
@@ -229,12 +223,36 @@ public class SensorCurveActivity extends AbsActivity {
         }
     }
 
+    private void getWarnData() {
+
+        ApiManager.getmService().monWarnData(req).enqueue(new Callback<List<MonData>>() {
+            @Override
+            public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
+                if (response.body() == null) {
+                    showToast("账户登录过期，请退出账户后重新登录");
+                    return;
+                }
+
+                warnData = response.body().subList(0,5);
+                adapter.notifyDataSetChanged();
+                adapter = new SensorDataAdapter(SensorCurveActivity.this, warnData);
+                curveList.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<MonData>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+
     private void initChart() {
         //生成模拟数据
-        for (int j = 0; j < 10; j++) {
-            testData.add(new MonData(String.valueOf(year++),
-                    String.valueOf(sensor.getYz() + (Math.random() - 0.7) * 100)));
-        }
+        //        for (int j = 0; j < 10; j++) {
+        //            testData.add(new MonData(String.valueOf(year++),
+        //                    String.valueOf(sensor.getYz() + (Math.random() - 0.7) * 100)));
+        //        }
         getData();
 
         chart.getDescription().setEnabled(false);
@@ -250,6 +268,7 @@ public class SensorCurveActivity extends AbsActivity {
         //x.setDrawGridLines(false);
         x.setGranularity(1f);
         x.setAxisMinimum(1f);
+        x.setLabelRotationAngle(-30);
         //x.setLabelRotationAngle(-30);
 
 
@@ -281,13 +300,15 @@ public class SensorCurveActivity extends AbsActivity {
     }
 
     private void initList() {
-        adapter = new TextListAdapter(SensorCurveActivity.this, warnData);
+        adapter = new SensorDataAdapter(SensorCurveActivity.this, warnData);
         curveList.setAdapter(adapter);
 
         curveMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readyGo(MonWarningActivity.class);
+                Intent intent = new Intent(SensorCurveActivity.this, MonWarningActivity.class);
+                intent.putExtra("req", new Gson().toJson(req));
+                startActivity(intent);
             }
         });
     }

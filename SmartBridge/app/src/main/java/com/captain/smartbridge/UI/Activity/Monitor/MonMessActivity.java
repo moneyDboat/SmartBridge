@@ -13,8 +13,7 @@ import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.other.MonitorAdapter;
-import com.captain.smartbridge.model.MapReq;
-import com.captain.smartbridge.model.MapRes;
+import com.captain.smartbridge.model.MonBridge;
 import com.captain.smartbridge.model.other.Monitor;
 
 import java.util.ArrayList;
@@ -60,23 +59,19 @@ public class MonMessActivity extends AbsActivity {
     }
 
     private void initList() {
-        //实际这两个字段会忽略
-        String SF = "江苏省";
-        String CF = "南京市";
         if (NetUtils.isNetworkAvailable(this)) {
-            MapReq mapReq = new MapReq(SF, CF);
-            ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
+            ApiManager.getmService().monBridges().enqueue(new Callback<List<MonBridge>>() {
                 @Override
-                public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
+                public void onResponse(Call<List<MonBridge>> call, Response<List<MonBridge>> response) {
                     if (response.body() == null) {
                         showToast("账户登录过期，请退出账户后重新登录");
                         return;
                     }
 
-                    List<MapRes> bridges = response.body();
+                    List<MonBridge> bridges = response.body();
                     missions = new ArrayList<>();
-                    for (MapRes i : bridges) {
-                        missions.add(new Monitor(i.getQlmc(), i.getQldm(), i.getSf() + i.getCs() + i.getQx()));
+                    for (MonBridge i : bridges) {
+                        missions.add(new Monitor(i.getQlmc(), i.getQldm(), i.getSf() + i.getSc() + i.getQx()));
                     }
 
                     MonitorAdapter adapter = new MonitorAdapter(MonMessActivity.this, missions);
@@ -84,7 +79,7 @@ public class MonMessActivity extends AbsActivity {
                 }
 
                 @Override
-                public void onFailure(Call<List<MapRes>> call, Throwable t) {
+                public void onFailure(Call<List<MonBridge>> call, Throwable t) {
                     t.printStackTrace();
                     showToast("网络错误");
                 }

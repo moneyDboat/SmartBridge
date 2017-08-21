@@ -15,6 +15,7 @@ import com.captain.smartbridge.model.InfoRes;
 import com.captain.smartbridge.model.LoginReq;
 import com.captain.smartbridge.model.MapReq;
 import com.captain.smartbridge.model.MapRes;
+import com.captain.smartbridge.model.MonBridge;
 import com.captain.smartbridge.model.SearchCodeReq;
 import com.captain.smartbridge.model.SearchCodeRes;
 import com.captain.smartbridge.model.other.EvaGrade;
@@ -102,6 +103,10 @@ public interface BridgeService {
 //    @POST("app/monitor/sensor")
 //    Call<List<MonSensor>> monSensor(@Body SearchCodeReq searchCodeReq);
 
+    //获取检测桥梁
+    @GET("app/monitor/monitedbridges")
+    Call<List<MonBridge>> monBridges();
+
     //获取桥梁监测传感器信息
     @POST("app/monitor/sensorinfo")
     Call<List<MonSensor>> monSensor(@Body SearchCodeReq searchCodeReq);
@@ -109,6 +114,9 @@ public interface BridgeService {
     //获取传感器监测数据
     @POST("app/monitor/data")
     Call<List<MonData>> monData(@Body MonDataReq monDataReq);
+
+    @POST("app/monitor/warning")
+    Call<List<MonData>> monWarnData(@Body MonDataReq monDataReq);
 
     //获取评估桥梁信息
     @GET("app/evaluate/info")

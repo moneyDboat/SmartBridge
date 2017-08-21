@@ -83,8 +83,6 @@ public class UserActivity extends AbsActivity {
                     }
 
                     InfoRes info = response.body();
-
-
                     userDepart.setText(info.getInspectionDepartmentDM());
                     userEmail.setText(info.getEmail());
                     userName.setText(info.getUsername());
