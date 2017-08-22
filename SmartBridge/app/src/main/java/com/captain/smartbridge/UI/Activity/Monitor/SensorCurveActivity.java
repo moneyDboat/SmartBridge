@@ -234,8 +234,11 @@ public class SensorCurveActivity extends AbsActivity {
                     showToast("账户登录过期，请退出账户后重新登录");
                     return;
                 }
-
-                warnData = response.body().subList(0,4);
+                warnData = response.body();
+                //最多只显示五行
+                if (warnData.size() > 5) {
+                    warnData = warnData.subList(0, 4);
+                }
                 adapter.notifyDataSetChanged();
                 adapter = new SensorDataAdapter(SensorCurveActivity.this, warnData);
                 curveList.setAdapter(adapter);
