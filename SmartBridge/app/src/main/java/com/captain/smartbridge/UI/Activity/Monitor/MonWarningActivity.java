@@ -61,6 +61,7 @@ public class MonWarningActivity extends AbsActivity {
     private void initList() {
         String reqjson = getIntent().getStringExtra("req");
         MonDataReq req = new Gson().fromJson(reqjson, MonDataReq.class);
+        req.setNumber("-100");
 
         //获取预警数据
         if (NetUtils.isNetworkAvailable(this)) {

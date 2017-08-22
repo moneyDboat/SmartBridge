@@ -5,20 +5,23 @@ package com.captain.smartbridge.model.other;
  */
 
 public class MonDataReq {
+
     /**
-     * qldm : G00010001
-     * cgqbh : cgqsgwy1
+     * id : 35
+     * cgqbh : cgqjsd1
+     * number : -10
      */
 
-    private String qldm;
+    private String id;
     private String cgqbh;
+    private String number;
 
-    public String getQldm() {
-        return qldm;
+    public String getId() {
+        return id;
     }
 
-    public void setQldm(String qldm) {
-        this.qldm = qldm;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCgqbh() {
@@ -27,5 +30,13 @@ public class MonDataReq {
 
     public void setCgqbh(String cgqbh) {
         this.cgqbh = cgqbh;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 }

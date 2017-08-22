@@ -8,20 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.captain.smartbridge.R;
-import com.captain.smartbridge.model.MonBridge;
+import com.captain.smartbridge.model.other.EvaluteMess;
 
 import java.util.List;
 
 /**
- * Created by Captain on 17/7/7.
+ * Created by Captain on 17/8/21.
  */
 
-public class MonitorAdapter extends BaseAdapter {
+public class EvMissAdapter extends BaseAdapter{
     private static int counter = 0;
-    List<MonBridge> mData = null;
+    List<EvaluteMess> mData = null;
     Context mContext = null;
 
-    public MonitorAdapter(Context context, List<MonBridge> data) {
+    public EvMissAdapter(Context context, List<EvaluteMess> data) {
         mContext = context;
         mData = data;
         counter = 0;
@@ -50,22 +50,20 @@ public class MonitorAdapter extends BaseAdapter {
 
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            rootView = inflater.inflate(R.layout.list_momession, viewGroup, false);
+            rootView = inflater.inflate(R.layout.list_evmiss, viewGroup, false);
             holder = new ViewHolder();
-            holder.name = (TextView) rootView.findViewById(R.id.momession_name);
-            holder.code = (TextView) rootView.findViewById(R.id.momession_code);
-            holder.location = (TextView) rootView.findViewById(R.id.momession_location);
-            holder.time = (TextView) rootView.findViewById(R.id.momession_time);
+            holder.name = (TextView) rootView.findViewById(R.id.evmiss_name);
+            holder.code = (TextView) rootView.findViewById(R.id.evmiss_code);
+            holder.location = (TextView) rootView.findViewById(R.id.evmiss_location);
             rootView.setTag(holder);
         } else {
             holder = (ViewHolder) rootView.getTag();
         }
 
-        MonBridge item = mData.get(i);
+        EvaluteMess item = mData.get(i);
         holder.name.setText(item.getQlmc());
-        holder.code.setText(item.getQldm());
-        holder.location.setText(item.getSf()+item.getSc()+item.getQx());
-        holder.time.setText(item.getKsjcsj());
+        holder.code.setText(item.getScore().substring(0, 6));
+        holder.location.setText(item.getQlwz());
         return rootView;
     }
 
@@ -73,6 +71,7 @@ public class MonitorAdapter extends BaseAdapter {
         public TextView name = null;
         public TextView code = null;
         public TextView location = null;
-        public TextView time = null;
     }
+
+
 }

@@ -24,6 +24,7 @@ import com.captain.smartbridge.model.other.EvaluteMess;
 import com.captain.smartbridge.model.other.MonData;
 import com.captain.smartbridge.model.other.MonDataReq;
 import com.captain.smartbridge.model.other.MonSensor;
+import com.captain.smartbridge.model.other.MonSensorReq;
 
 import java.util.List;
 
@@ -103,13 +104,13 @@ public interface BridgeService {
 //    @POST("app/monitor/sensor")
 //    Call<List<MonSensor>> monSensor(@Body SearchCodeReq searchCodeReq);
 
-    //获取检测桥梁
+    //获取监测桥梁
     @GET("app/monitor/monitedbridges")
     Call<List<MonBridge>> monBridges();
 
     //获取桥梁监测传感器信息
     @POST("app/monitor/sensorinfo")
-    Call<List<MonSensor>> monSensor(@Body SearchCodeReq searchCodeReq);
+    Call<List<MonSensor>> monSensor(@Body MonSensorReq req);
 
     //获取传感器监测数据
     @POST("app/monitor/data")

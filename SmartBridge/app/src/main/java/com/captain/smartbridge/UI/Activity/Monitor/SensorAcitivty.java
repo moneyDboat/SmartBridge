@@ -13,8 +13,8 @@ import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.other.SensorAdapter;
-import com.captain.smartbridge.model.SearchCodeReq;
 import com.captain.smartbridge.model.other.MonSensor;
+import com.captain.smartbridge.model.other.MonSensorReq;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -62,8 +62,9 @@ public class SensorAcitivty extends AbsActivity {
     }
 
     private void initList() {
-        bridge = getIntent().getStringExtra("bridge");
-        SearchCodeReq req = new SearchCodeReq(bridge);
+        bridge = getIntent().getStringExtra("id");
+        MonSensorReq req = new MonSensorReq();
+        req.setId(bridge);
 
         if (NetUtils.isNetworkAvailable(this)) {
             ApiManager.getmService().monSensor(req).enqueue(new Callback<List<MonSensor>>() {

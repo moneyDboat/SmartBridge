@@ -12,9 +12,8 @@ import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
-import com.captain.smartbridge.UI.Adapters.other.MonitorAdapter;
+import com.captain.smartbridge.UI.Adapters.other.EvMissAdapter;
 import com.captain.smartbridge.model.other.EvaluteMess;
-import com.captain.smartbridge.model.other.Monitor;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -72,11 +71,7 @@ public class EvMessActivity extends AbsActivity {
 
                     evalutions = response.body();
 
-                    List<Monitor> monitors = new ArrayList<>();
-                    for (EvaluteMess i :evalutions){
-                        monitors.add(new Monitor(i.getQlmc(), i.getScore().substring(0, 6), i.getQlwz()));
-                    }
-                    MonitorAdapter adapter = new MonitorAdapter(EvMessActivity.this, monitors);
+                    EvMissAdapter adapter = new EvMissAdapter(EvMessActivity.this, evalutions);
                     evmessionList.setAdapter(adapter);
                     evmessionSwipe.setRefreshing(false);
                 }

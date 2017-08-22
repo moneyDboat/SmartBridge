@@ -10,25 +10,21 @@ public class MonSensor {
      * cgqlxmc : 应力
      * jtwz : 1
      * bswz : 桥面
-     * pid : 35
      * cgqclmc : 电磁式
-     * ksjcsj : 2017-06-05
      * cgqmc : 应力传感器1号
-     * yz : 1100
+     * yz : 100.0
      * cgqbh : cgqyl1
-     * DmJclx : 结构性监测
+     * id : 35
      */
 
     private String cgqlxmc;
     private String jtwz;
     private String bswz;
-    private int pid;
     private String cgqclmc;
-    private String ksjcsj;
     private String cgqmc;
-    private int yz;
+    private Float yz;
     private String cgqbh;
-    private String DmJclx;
+    private int id;
 
     public String getCgqlxmc() {
         return cgqlxmc;
@@ -54,28 +50,12 @@ public class MonSensor {
         this.bswz = bswz;
     }
 
-    public int getPid() {
-        return pid;
-    }
-
-    public void setPid(int pid) {
-        this.pid = pid;
-    }
-
     public String getCgqclmc() {
         return cgqclmc;
     }
 
     public void setCgqclmc(String cgqclmc) {
         this.cgqclmc = cgqclmc;
-    }
-
-    public String getKsjcsj() {
-        return ksjcsj;
-    }
-
-    public void setKsjcsj(String ksjcsj) {
-        this.ksjcsj = ksjcsj;
     }
 
     public String getCgqmc() {
@@ -86,11 +66,11 @@ public class MonSensor {
         this.cgqmc = cgqmc;
     }
 
-    public int getYz() {
+    public float getYz() {
         return yz;
     }
 
-    public void setYz(int yz) {
+    public void setYz(float yz) {
         this.yz = yz;
     }
 
@@ -102,11 +82,11 @@ public class MonSensor {
         this.cgqbh = cgqbh;
     }
 
-    public String getDmJclx() {
-        return DmJclx;
+    public int getId() {
+        return id;
     }
 
-    public void setDmJclx(String DmJclx) {
-        this.DmJclx = DmJclx;
+    public void setId(int id) {
+        this.id = id;
     }
 }

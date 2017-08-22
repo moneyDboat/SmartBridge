@@ -134,8 +134,10 @@ public class SensorCurveActivity extends AbsActivity {
 
     private void getData() {
         req = new MonDataReq();
-        req.setQldm(bridge);
+        req.setId(bridge);
         req.setCgqbh(sensor.getCgqbh());
+        req.setNumber("-10");//默认值为－10，代表最近的十条数据
+
         if (NetUtils.isNetworkAvailable(this)) {
             ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
                 @Override
@@ -233,7 +235,7 @@ public class SensorCurveActivity extends AbsActivity {
                     return;
                 }
 
-                warnData = response.body().subList(0,5);
+                warnData = response.body().subList(0,4);
                 adapter.notifyDataSetChanged();
                 adapter = new SensorDataAdapter(SensorCurveActivity.this, warnData);
                 curveList.setAdapter(adapter);
@@ -260,6 +262,9 @@ public class SensorCurveActivity extends AbsActivity {
         chart.setViewPortOffsets(0, 0, 0, 0);
         //chart.setBackgroundColor(Color.rgb(104, 241, 175));
         chart.setBackgroundColor(Color.LTGRAY);
+
+
+        //之后需要去除动画效果
         chart.animateX(3000);
 
 

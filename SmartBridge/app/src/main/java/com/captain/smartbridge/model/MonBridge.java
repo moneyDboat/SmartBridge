@@ -7,18 +7,40 @@ package com.captain.smartbridge.model;
 public class MonBridge {
 
     /**
+     * qldm : G00010001
+     * qlmc : 太和县颍河第三大桥
      * sc : 阜阳市
      * qx : 太和县
-     * qldm : G00010001
+     * jclxmc : 施工监测
      * sf : 安徽省
-     * qlmc : 太和县颍河第三大桥
+     * ksjcsj : 2017-04-17
+     * id : 28
      */
 
+    private String qldm;
+    private String qlmc;
     private String sc;
     private String qx;
-    private String qldm;
+    private String jclxmc;
     private String sf;
-    private String qlmc;
+    private String ksjcsj;
+    private int id;
+
+    public String getQldm() {
+        return qldm;
+    }
+
+    public void setQldm(String qldm) {
+        this.qldm = qldm;
+    }
+
+    public String getQlmc() {
+        return qlmc;
+    }
+
+    public void setQlmc(String qlmc) {
+        this.qlmc = qlmc;
+    }
 
     public String getSc() {
         return sc;
@@ -36,12 +58,12 @@ public class MonBridge {
         this.qx = qx;
     }
 
-    public String getQldm() {
-        return qldm;
+    public String getJclxmc() {
+        return jclxmc;
     }
 
-    public void setQldm(String qldm) {
-        this.qldm = qldm;
+    public void setJclxmc(String jclxmc) {
+        this.jclxmc = jclxmc;
     }
 
     public String getSf() {
@@ -52,11 +74,19 @@ public class MonBridge {
         this.sf = sf;
     }
 
-    public String getQlmc() {
-        return qlmc;
+    public String getKsjcsj() {
+        return ksjcsj;
     }
 
-    public void setQlmc(String qlmc) {
-        this.qlmc = qlmc;
+    public void setKsjcsj(String ksjcsj) {
+        this.ksjcsj = ksjcsj;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
