@@ -1,6 +1,7 @@
 package com.captain.smartbridge.UI.Activity;
 
 import android.content.pm.ActivityInfo;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -35,7 +36,12 @@ public class WebActivity extends AbsActivity {
 
         //访问网页
         String id = BaseApplication.getID();
-        webView.getSettings().setJavaScriptEnabled(true);
+        WebSettings webSetting = webView.getSettings();
+        webSetting.setJavaScriptEnabled(true);
+        webSetting.setSupportZoom(true);
+        webSetting.setBuiltInZoomControls(true);
+        webSetting.setUseWideViewPort(true);
+        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("http://120.76.145.143:8080/bridge/threeDimensional/index/"+id);
     }
