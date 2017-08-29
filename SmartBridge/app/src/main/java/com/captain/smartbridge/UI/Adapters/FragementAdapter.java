@@ -12,8 +12,8 @@ import com.captain.smartbridge.UI.Fragment.PageFragement;
  */
 
 public class FragementAdapter extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[]{"基本信息","构件","照片"};
+    final int PAGE_COUNT = 4;
+    private String tabTitles[] = new String[]{"基本信息","构件","照片","三维模型"};
     private Context context;
 
 

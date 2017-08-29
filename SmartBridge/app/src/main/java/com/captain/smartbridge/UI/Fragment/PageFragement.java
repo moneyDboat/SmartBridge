@@ -1,5 +1,6 @@
 package com.captain.smartbridge.UI.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.BaseApplication;
+import com.captain.smartbridge.UI.Activity.WebActivity;
 import com.captain.smartbridge.UI.Adapters.TextListAdapter;
 import com.captain.smartbridge.UI.Adapters.TextsListAdapter;
 import com.captain.smartbridge.model.GouJian;
@@ -62,9 +65,25 @@ public class PageFragement extends Fragment {
                 return buildView(inflater, container);
             case 2:
                 return pictureView(inflater, container);
+            case 3:
+                return webView(inflater, container);
             default:
                 return null;
         }
+    }
+
+    private View webView(LayoutInflater inflater, ViewGroup container){
+        view = inflater.inflate(R.layout.fragment_web, container, false);
+        Button button = (Button)view.findViewById(R.id.fragment_web_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), WebActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        return view;
     }
 
     private View baseInforView(LayoutInflater inflater, ViewGroup container) {
