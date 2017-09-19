@@ -26,8 +26,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:src="@drawable/loginlogo"
-        android:background="@color/grey"/>
+        android:src="@drawable/loginlogo"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,7 +84,7 @@
             android:id="@+id/login_buttom"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:text="登  录"
             android:textColor="@android:color/white"
             android:textSize="20sp"
