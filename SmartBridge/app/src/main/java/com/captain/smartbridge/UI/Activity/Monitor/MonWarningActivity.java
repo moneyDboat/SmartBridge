@@ -16,6 +16,7 @@ import com.captain.smartbridge.model.other.MonDataReq;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,14 +74,16 @@ public class MonWarningActivity extends AbsActivity {
                         return;
                     }
                     warnData = response.body();
-
+                    Collections.reverse(warnData);
                     adapter = new SensorDataAdapter(MonWarningActivity.this, warnData);
                     warningList.setAdapter(adapter);
+                    warningSwipe.setRefreshing(false);
                 }
 
                 @Override
                 public void onFailure(Call<List<MonData>> call, Throwable t) {
                     t.printStackTrace();
+                    warningSwipe.setRefreshing(false);
                 }
             });
         }

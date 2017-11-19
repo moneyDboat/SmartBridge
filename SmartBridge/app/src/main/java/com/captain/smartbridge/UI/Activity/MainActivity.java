@@ -28,10 +28,13 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdate;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.UiSettings;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
@@ -45,8 +48,10 @@ import com.captain.smartbridge.UI.Activity.Evalute.EvMessActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.MonMessActivity;
 import com.captain.smartbridge.model.MapReq;
 import com.captain.smartbridge.model.MapRes;
+import com.captain.smartbridge.model.SearchCodeRes;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -113,7 +118,27 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             public void onClick(View view) {
                 //跳转到附近桥梁界面
                 Intent intent = new Intent(MainActivity.this, NearbyActivity.class);
+                List<Marker> markers = aMap.getMapScreenMarkers();
+                boolean mark = false;
+
+                //marker转成bridge
+                List<MapRes> bridges = new ArrayList<>();
+                for (Marker marker : markers) {
+                    MapRes bridge = new MapRes();
+                    if (marker.getTitle() == null) {
+                        mark = true;
+                        continue;
+                    }
+                    bridge.setQlmc(marker.getTitle());
+                    bridge.setQldm(marker.getSnippet());
+                    bridge.setSf("");
+                    bridge.setCs("");
+                    bridge.setQx("");
+                    bridges.add(bridge);
+                }
+
                 intent.putExtra("bridges", new Gson().toJson(bridges));
+                intent.putExtra("bool", mark);
                 startActivityForResult(intent, 1);
             }
         });
@@ -207,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             ApiManager.getmService().getMapInfo(mapReq).enqueue(new Callback<List<MapRes>>() {
                 @Override
                 public void onResponse(Call<List<MapRes>> call, Response<List<MapRes>> response) {
-                    if (response.body() == null){
+                    if (response.body() == null) {
                         showToast("账户登录过期，请退出账户后重新登录");
                         return;
                     }
@@ -402,7 +427,8 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 if (oldMarker != null) {
                     hideMarker(oldMarker);
                 }
-                oldMarker = aMap.getMapScreenMarkers().get(data.getIntExtra("ID", 0));
+                List<Marker> markers = aMap.getMapScreenMarkers();
+                oldMarker = markers.get(data.getIntExtra("ID", 0));
                 showMarker(oldMarker);
                 break;
 
@@ -412,9 +438,15 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 if (oldMarker != null) {
                     hideMarker(oldMarker);
                 }
-                String code = data.getStringExtra("code");
+                String bridgeString = data.getStringExtra("bridge");
+                SearchCodeRes bridge = new Gson().fromJson(bridgeString, SearchCodeRes.class);
+                CameraUpdate cameraUpdate = new CameraUpdateFactory().newCameraPosition(
+                        new CameraPosition(new LatLng(Double.valueOf(bridge.getWd()), Double.valueOf(bridge.getJd())),11,0,0));
+                aMap.moveCamera(cameraUpdate);
+
                 for (Marker marker : aMap.getMapScreenMarkers()) {
-                    if (marker.getSnippet() == code) {
+                    if (marker.getSnippet()!=null&&marker.getSnippet().equals(bridge.getQldm())) {
+                        oldMarker = marker;
                         showMarker(marker);
                         break;
                     }

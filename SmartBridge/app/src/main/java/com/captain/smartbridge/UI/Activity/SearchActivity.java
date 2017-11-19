@@ -16,6 +16,7 @@ import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Adapters.SearchListAdapter;
 import com.captain.smartbridge.model.SearchCodeReq;
 import com.captain.smartbridge.model.SearchCodeRes;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -110,6 +111,7 @@ public class SearchActivity extends AbsActivity implements AdapterView.OnItemCli
                     bridges = response.body();
                     SearchListAdapter searchListAdapter = new SearchListAdapter(SearchActivity.this, bridges);
                     searchList.setAdapter(searchListAdapter);
+                    searchList.setOnItemClickListener(SearchActivity.this);
                 }
 
                 @Override
@@ -126,7 +128,7 @@ public class SearchActivity extends AbsActivity implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent();
-        intent.putExtra("Code", bridges.get(position).getQldm());
+        intent.putExtra("bridge", new Gson().toJson(bridges.get(position)));
         SearchActivity.this.setResult(2, intent);
         SearchActivity.this.finish();
     }

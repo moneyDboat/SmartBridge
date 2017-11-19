@@ -179,8 +179,8 @@ public class SensorCurveActivity extends AbsActivity {
 
                     dataSet = new LineDataSet(entries, "传感器数值");
                     //important!!!
-                    dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                    dataSet.setCubicIntensity(0.2f);
+                    dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+                    //dataSet.setCubicIntensity(0.05f);
                     dataSet.setLineWidth(1.8f);
                     dataSet.setColor(Color.WHITE);
                     dataSet.setFillColor(Color.WHITE);

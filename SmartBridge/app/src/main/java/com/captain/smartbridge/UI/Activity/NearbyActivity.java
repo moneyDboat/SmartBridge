@@ -30,6 +30,9 @@ public class NearbyActivity extends AbsActivity implements AdapterView.OnItemCli
     @BindView(R.id.list_bridge)
     ListView listView;
 
+    //传过来的Marker数据是否包含自身位置
+    private Boolean loc = false;
+
     @Override
     protected void setSelfContentView() {
         setContentView(R.layout.activity_nearby);
@@ -63,6 +66,7 @@ public class NearbyActivity extends AbsActivity implements AdapterView.OnItemCli
         //由原来的从服务器获取改为从MainActivity获取
         //解决可能出现的次序问题
         String bridgesJson = getIntent().getStringExtra("bridges");
+        loc = getIntent().getBooleanExtra("bool", true);
         Type listType = new TypeToken<List<MapRes>>(){}.getType();
         List<MapRes> bridges = new Gson().fromJson(bridgesJson, listType);
         BridgeListAdapter listAdapter = new BridgeListAdapter(this, bridges);
@@ -74,7 +78,11 @@ public class NearbyActivity extends AbsActivity implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent();
-        intent.putExtra("ID", i);
+        if(loc){
+            intent.putExtra("ID", i);
+        }else{
+            intent.putExtra("ID", i-1);
+        }
         NearbyActivity.this.setResult(1, intent);
         NearbyActivity.this.finish();
     }
