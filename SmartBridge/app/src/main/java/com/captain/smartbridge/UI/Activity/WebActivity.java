@@ -43,6 +43,6 @@ public class WebActivity extends AbsActivity {
         webSetting.setUseWideViewPort(true);
         webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("http://120.76.145.143:8081/bridge/threeDimensional/index/"+id);
+        webView.loadUrl("http://120.76.145.143:8080/SmartBridge/threeDimensional/index/"+id);
     }
 }

@@ -47,6 +47,7 @@ public class MonWarningActivity extends AbsActivity {
 
     @Override
     protected void prepareDatas() {
+
     }
 
     @Override
@@ -55,6 +56,13 @@ public class MonWarningActivity extends AbsActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        warningSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initList();
+            }
+        });
 
         initList();
     }

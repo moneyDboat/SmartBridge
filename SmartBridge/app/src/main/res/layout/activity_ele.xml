@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <WebView
-        android:id=" @+id/web_view"
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/ele_piechart"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

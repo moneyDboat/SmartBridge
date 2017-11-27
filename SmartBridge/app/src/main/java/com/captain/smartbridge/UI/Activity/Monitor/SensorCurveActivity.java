@@ -7,9 +7,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.captain.smartbridge.API.ApiManager;
@@ -47,7 +49,7 @@ import retrofit2.Response;
  * Created by Captain on 17/7/7.
  */
 
-public class SensorCurveActivity extends AbsActivity {
+public class SensorCurveActivity extends AbsActivity{
     @BindView(R.id.curve_toolbar)
     Toolbar toolbar;
     @BindView(R.id.curve_chart)
@@ -56,11 +58,18 @@ public class SensorCurveActivity extends AbsActivity {
     ListView curveList;
     @BindView(R.id.curve_more)
     TextView curveMore;
+    @BindView(R.id.curve_num)
+    TextView curveNum;
+    @BindView(R.id.curve_seekbar)
+    SeekBar curveSeekbar;
 
     List<MonData> data = new ArrayList<>();
     List<MonData> warnData = new ArrayList<>();
     private final Timer timer = new Timer();
     private TimerTask task;
+    //传感器电量&数据条数
+    private int ele = 100;
+    private int num = 10;
 
     //for test
     List<MonData> testData = new ArrayList<>();
@@ -104,6 +113,28 @@ public class SensorCurveActivity extends AbsActivity {
 
         setTitle(sensor.getCgqmc());
         initChart();
+
+        //init seekbar
+        curveSeekbar.setProgress(10);
+        curveSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                curveNum.setText(""+seekBar.getProgress());
+                //重新获取数据
+                num = seekBar.getProgress();
+                getData();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void refreshData() {
@@ -136,7 +167,7 @@ public class SensorCurveActivity extends AbsActivity {
         req = new MonDataReq();
         req.setId(bridge);
         req.setCgqbh(sensor.getCgqbh());
-        req.setNumber("-10");//默认值为－10，代表最近的十条数据
+        req.setNumber("-"+num);//默认值为－10，代表最近的十条数据
 
         if (NetUtils.isNetworkAvailable(this)) {
             ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
@@ -320,15 +351,22 @@ public class SensorCurveActivity extends AbsActivity {
             }
         });
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.ele:
+                Intent intent = new Intent(SensorCurveActivity.this, eleActivity.class);
+                //代表传感器电量
+                intent.putExtra("ele", 80);
+                startActivity(intent);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+        return true;
     }
 
     //显示对话框
@@ -348,5 +386,12 @@ public class SensorCurveActivity extends AbsActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //查看电量的按钮
+        getMenuInflater().inflate(R.menu.menu_ele, menu);
+        return true;
     }
 }
