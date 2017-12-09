@@ -130,7 +130,7 @@
             android:name=".UI.Activity.Monitor.SensorCurveActivity"
             android:label="传感器信息">
         </activity>
-        <activity android:name=".UI.Activity.Monitor.eleActivity"
+        <activity android:name=".UI.Activity.Monitor.EleRingActivity"
                   android:label="传感器电量">
         </activity>
         <activity android:name=".UI.Activity.Monitor.MonWarningActivity"

@@ -378,14 +378,13 @@ public class SensorCurveActivity extends AbsActivity{
             case android.R.id.home:
                 finish();
             case R.id.ele:
-                Intent intent = new Intent(SensorCurveActivity.this, eleActivity.class);
+                Intent intent = new Intent(SensorCurveActivity.this, EleRingActivity.class);
 
                 //根据电压数据计算传感器的电量信息
                 float v = Float.valueOf(data.get(99).getVoltage());
-                ele = (int)(v*100/(4.2));
 
-                //代表传感器电量
-                intent.putExtra("ele", ele);
+                //传递电压值
+                intent.putExtra("ele", v);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
