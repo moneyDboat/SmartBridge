@@ -1,6 +1,8 @@
 package com.captain.smartbridge.UI.Activity.Monitor;
 
 import android.graphics.Color;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
@@ -24,6 +26,8 @@ import butterknife.ButterKnife;
 public class eleActivity extends AbsActivity {
     @BindView(R.id.ele_piechart)
     PieChart mChart;
+    @BindView(R.id.ele_toolbar)
+    Toolbar mToolbar;
 
     @Override
     protected void setSelfContentView() {
@@ -37,6 +41,8 @@ public class eleActivity extends AbsActivity {
     @Override
     protected void initViews() {
         ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //电量图
         int ele = getIntent().getIntExtra("ele", 100);
@@ -97,7 +103,7 @@ public class eleActivity extends AbsActivity {
 
         // add a lot of colors
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(Color.GREEN);
+        colors.add(Color.rgb(143,188,143));
         colors.add(Color.WHITE);
 
         dataSet.setColors(colors);
@@ -115,5 +121,16 @@ public class eleActivity extends AbsActivity {
 
         mChart.invalidate();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 }

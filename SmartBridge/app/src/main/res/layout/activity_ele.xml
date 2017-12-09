@@ -4,6 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <include
+        android:id="@+id/ele_toolbar"
+        layout="@layout/tool_bar">
+    </include>
+
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/ele_piechart"
         android:layout_marginLeft="20dp"

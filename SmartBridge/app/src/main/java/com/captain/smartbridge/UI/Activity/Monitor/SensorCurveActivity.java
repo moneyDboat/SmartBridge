@@ -35,6 +35,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -70,22 +71,23 @@ public class SensorCurveActivity extends AbsActivity{
     //传感器电量&数据条数
     private int ele = 100;
     private int num = 10;
+    private int max = 100;
 
     //for test
     List<MonData> testData = new ArrayList<>();
-    List<String> dates = null;
+    List<String> dates;
     int year = 2000;
 
     //避免重复调用，造成内存泄漏
     IAxisValueFormatter formatter = null;
     List<Entry> entries = null;
     LineDataSet dataSet = null;
-    LineData lineData = null;
     MonDataReq req = null;
+    MonDataReq warnReq = null;
 
     MonSensor sensor = null;
     String bridge = "";
-    Boolean first = true;
+    Boolean first = false;
 
     SensorDataAdapter adapter = null;
 
@@ -115,14 +117,18 @@ public class SensorCurveActivity extends AbsActivity{
         initChart();
 
         //init seekbar
-        curveSeekbar.setProgress(10);
         curveSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                curveNum.setText(""+seekBar.getProgress());
                 //重新获取数据
-                num = seekBar.getProgress();
-                getData();
+                num = progress+10;
+                curveNum.setText(""+num);
+
+                dataSet.setValues(entries.subList(0,num));
+                dataSet.setDrawValues(num<11);
+                LineData lineData = new LineData(dataSet);
+                chart.setData(lineData);
+                chart.invalidate();
             }
 
             @Override
@@ -133,6 +139,8 @@ public class SensorCurveActivity extends AbsActivity{
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+
+                //getData();
             }
         });
     }
@@ -167,7 +175,13 @@ public class SensorCurveActivity extends AbsActivity{
         req = new MonDataReq();
         req.setId(bridge);
         req.setCgqbh(sensor.getCgqbh());
-        req.setNumber("-"+num);//默认值为－10，代表最近的十条数据
+        //req.setNumber("-"+num);//默认值为－10，代表最近的十条数据
+        req.setNumber("-"+max);
+
+        warnReq = new MonDataReq();
+        warnReq.setId(bridge);
+        warnReq.setCgqbh(sensor.getCgqbh());
+        warnReq.setNumber("-4");
 
         if (NetUtils.isNetworkAvailable(this)) {
             ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
@@ -205,10 +219,11 @@ public class SensorCurveActivity extends AbsActivity{
                         i++;
                     }
 
+
                     //获取预警数据
                     getWarnData();
 
-                    dataSet = new LineDataSet(entries, "传感器数值");
+                    dataSet = new LineDataSet(entries.subList(0,num), "传感器数值");
                     //important!!!
                     dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
                     //dataSet.setCubicIntensity(0.05f);
@@ -217,16 +232,21 @@ public class SensorCurveActivity extends AbsActivity{
                     dataSet.setFillColor(Color.WHITE);
                     dataSet.setFillAlpha(100);
 
-                    lineData = new LineData(dataSet);
-                    chart.setData(lineData);
+                    //如果数据数量超过10就不显示具体数值
+                    dataSet.setDrawValues(num<11);
 
-                    chart.notifyDataSetChanged();
+                    LineData lineData = new LineData(dataSet);
+                    chart.setData(lineData);
 
                     //设置折线图横坐标
                     formatter = new IAxisValueFormatter() {
                         @Override
                         public String getFormattedValue(float value, AxisBase axis) {
-                            return dates.get((int) value);
+                            try {
+                                return dates.get((int) value);
+                            }catch (IndexOutOfBoundsException e){
+                                return "error";
+                            }
                         }
 
                         @Override
@@ -258,7 +278,7 @@ public class SensorCurveActivity extends AbsActivity{
 
     private void getWarnData() {
 
-        ApiManager.getmService().monWarnData(req).enqueue(new Callback<List<MonData>>() {
+        ApiManager.getmService().monWarnData(warnReq).enqueue(new Callback<List<MonData>>() {
             @Override
             public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
                 if (response.body() == null) {
@@ -266,10 +286,11 @@ public class SensorCurveActivity extends AbsActivity{
                     return;
                 }
                 warnData = response.body();
-                //最多只显示五行
-                if (warnData.size() > 5) {
-                    warnData = warnData.subList(0, 4);
+                //最多只显示四行
+                if (warnData.size() > 4) {
+                    warnData = warnData.subList(0, 3);
                 }
+                Collections.reverse(warnData);
                 adapter.notifyDataSetChanged();
                 adapter = new SensorDataAdapter(SensorCurveActivity.this, warnData);
                 curveList.setAdapter(adapter);
@@ -356,17 +377,19 @@ public class SensorCurveActivity extends AbsActivity{
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                break;
             case R.id.ele:
                 Intent intent = new Intent(SensorCurveActivity.this, eleActivity.class);
+
+                //根据电压数据计算传感器的电量信息
+                float v = Float.valueOf(data.get(99).getVoltage());
+                ele = (int)(v*100/(4.2));
+
                 //代表传感器电量
-                intent.putExtra("ele", 80);
+                intent.putExtra("ele", ele);
                 startActivity(intent);
-                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 
     //显示对话框
