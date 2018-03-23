@@ -118,6 +118,13 @@
         </activity>
 
 
+
+        <activity android:name=".UI.Activity.Monitor.MonitorActivity"
+            android:label="监测管理">
+        </activity>
+        <activity android:name=".UI.Activity.Monitor.fourgActivity"
+            android:label="4G监测">
+        </activity>
         <activity
             android:name=".UI.Activity.Monitor.MonMessActivity"
             android:label="桥梁监测">
