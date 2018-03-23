@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/monitor_toolbar"
+        android:id="@+id/check_toolbar"
         layout="@layout/tool_bar"></include>
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="无线传感"
+            android:text="定期检测"
             android:textColor="@color/grey"
             android:textSize="14sp" />
 
@@ -30,7 +30,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/pic_things"
+                android:id="@+id/pic_receive"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -40,13 +40,14 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_things" />
+                    android:padding="10dp"
+                    android:src="@drawable/ic_receive" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="物联网监测" />
+                    android:text="检测任务接收" />
             </LinearLayout>
 
             <View
@@ -57,7 +58,7 @@
                 android:background="@color/grey" />
 
             <LinearLayout
-                android:id="@+id/pic_4g"
+                android:id="@+id/pic_input"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -67,13 +68,14 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_4g" />
+                    android:padding="10dp"
+                    android:src="@drawable/ic_input" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="4G监测" />
+                    android:text="检测任务录入" />
             </LinearLayout>
         </LinearLayout>
 
@@ -91,7 +93,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/pic_pic"
+                android:id="@+id/pic_searmiss"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -101,13 +103,14 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_img" />
+                    android:padding="10dp"
+                    android:src="@drawable/ic_searmiss" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="图像监测" />
+                    android:text="历史查询" />
             </LinearLayout>
 
             <View
@@ -118,7 +121,7 @@
                 android:background="@color/grey" />
 
             <LinearLayout
-                android:id="@+id/pic_top"
+                android:id="@+id/pic_analye"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -128,20 +131,21 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_top" />
+                    android:padding="10dp"
+                    android:src="@drawable/ic_analye" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="顶升监测" />
+                    android:text="数据分析" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@color/white"
         android:orientation="vertical">
@@ -151,54 +155,66 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="噪声传感"
+            android:text="特殊检测"
             android:textColor="@color/grey"
             android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/text_speed"
+            <LinearLayout
+                android:id="@+id/pic_water"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/bar_bg"
-                android:gravity="center"
-                android:text="桥面车速监测"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/text_support"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/bar_bg"
-                android:gravity="center"
-                android:text="桥梁支座监测"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_water" />
 
-            <TextView
-                android:id="@+id/text_flex"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="水下声呐" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:id="@+id/pic_plane"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/bar_bg"
-                android:gravity="center"
-                android:text="桥梁伸缩缝监测"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_plane" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="无人机巡检" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>

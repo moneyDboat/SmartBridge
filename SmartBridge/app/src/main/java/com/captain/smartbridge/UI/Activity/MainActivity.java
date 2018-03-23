@@ -43,6 +43,7 @@ import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.Common.PreferenceUtils;
 import com.captain.smartbridge.R;
+import com.captain.smartbridge.UI.Activity.Check.CheckActivity;
 import com.captain.smartbridge.UI.Activity.Detect.DetectActivity;
 import com.captain.smartbridge.UI.Activity.Evalute.EvMessActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.MonMessActivity;
@@ -155,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                         startActivity(new Intent(MainActivity.this, UserActivity.class));
                         return true;
                     case R.id.main_menu_detect:
-                        startActivity(new Intent(MainActivity.this, DetectActivity.class));
+                        startActivity(new Intent(MainActivity.this, CheckActivity.class));
                         return true;
                     case R.id.main_menu_evalute:
                         startActivity(new Intent(MainActivity.this, EvMessActivity.class));
