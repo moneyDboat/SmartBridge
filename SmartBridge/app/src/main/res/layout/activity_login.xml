@@ -1,103 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:custom="http://schemas.android.com/tools"
-    android:background="@color/loginDark"
+    android:background="@drawable/login_bg"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/login_copyright"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
-        android:text="@string/copyright"
-        android:textColor="@color/blueGreen"
-        android:textSize="10sp"/>
-
-    <ImageView
-        android:id="@+id/login_view"
-        android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/loginlogo"/>
-
-    <LinearLayout
+    <RelativeLayout
+        android:background="#55000000"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/login_copyright"
-        android:layout_below="@id/login_view"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.github.florent37.materialtextfield.MaterialTextField
-            android:id="@+id/login_userField"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/login_copyright"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:mtf_image="@drawable/ic_account">
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:text="@string/copyright"
+            android:textColor="@color/blueGreen"
+            android:textSize="10sp" />
 
-            <EditText
-                android:id="@+id/login_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="用户名"
-                android:maxLines="1"
-                android:textColor="#333"
-                android:textColorHint="#666"
-                android:textSize="15sp"/>
+        <ImageView
+            android:id="@+id/login_view"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/loginlogo" />
 
-        </com.github.florent37.materialtextfield.MaterialTextField>
-
-
-        <com.github.florent37.materialtextfield.MaterialTextField
-            android:id="@+id/login_pwdField"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            app:mtf_image="@drawable/ic_key">
+            android:layout_height="match_parent"
+            android:layout_above="@id/login_copyright"
+            android:layout_below="@id/login_view"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/login_password"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:hint="密码"
-                android:inputType="textPassword"
-                android:textColor="#333"
-                android:textColorHint="#666"
-                android:textSize="15sp"/>
+                android:layout_height="50dp"
+                android:background="@drawable/login_input"
+                android:orientation="horizontal">
 
-        </com.github.florent37.materialtextfield.MaterialTextField>
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/login_account" />
 
-        <com.dd.processbutton.iml.ActionProcessButton
-            android:id="@+id/login_buttom"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="30dp"
-            android:text="登  录"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            custom:pb_colorComplete="@color/green_complete"
-            custom:pb_colorNormal="@color/blue_normal"
-            custom:pb_colorPressed="@color/blue_pressed"
-            custom:pb_colorProgress="@color/purple_progress"
-            custom:pb_textComplete="登录成功"
-            custom:pb_textProgress="正在验证"
-            custom:pb_textError="登录失败"
-            custom:pb_colorError="@color/red_error" />
+                <EditText
+                    android:id="@+id/login_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="用户名"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:textColor="#333"
+                    android:textColorHint="#666"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
-        <!--<Button-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/login_input"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/login_key" />
+
+                <EditText
+                    android:id="@+id/login_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="密码"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="#333"
+                    android:textColorHint="#666"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/login_buttom"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/normal_button"
+                android:text="登        录"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                custom:pb_colorComplete="@color/green_complete"
+                custom:pb_colorError="@color/red_error"
+                custom:pb_colorNormal="@color/blue_normal"
+                custom:pb_colorPressed="@color/blue_pressed"
+                custom:pb_colorProgress="@color/purple_progress"
+                custom:pb_textComplete="登录成功"
+                custom:pb_textError="登录失败"
+                custom:pb_textProgress="正在验证" />
+
+            <!--<Button-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="50dp"-->
             <!--android:layout_marginTop="10dp"-->
@@ -105,6 +123,7 @@
             <!--android:text="@string/login"-->
             <!--android:textColor="@color/white"-->
             <!--android:textSize="20sp"/>-->
-    </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

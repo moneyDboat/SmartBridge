@@ -1,6 +1,7 @@
 package com.captain.smartbridge.UI.Activity;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.captain.smartbridge.API.ApiManager;
@@ -31,11 +32,11 @@ public class LoginActivity extends AbsActivity {
     @BindView(R.id.login_password)
     EditText passwordText;
     @BindView(R.id.login_buttom)
-    ActionProcessButton loginButtom;
-    @BindView(R.id.login_userField)
-    MaterialTextField loginUserField;
-    @BindView(R.id.login_pwdField)
-    MaterialTextField loginPwdField;
+    Button loginButtom;
+//    @BindView(R.id.login_userField)
+//    MaterialTextField loginUserField;
+//    @BindView(R.id.login_pwdField)
+//    MaterialTextField loginPwdField;
 
     String username = "";
     String pwd = "";
@@ -44,8 +45,8 @@ public class LoginActivity extends AbsActivity {
     void login() {
         username = userText.getText().toString();
         pwd = passwordText.getText().toString();
-        loginButtom.setMode(ActionProcessButton.Mode.PROGRESS);
-        loginButtom.setProgress(0);
+//        loginButtom.setMode(ActionProcessButton.Mode.PROGRESS);
+//        loginButtom.setProgress(0);
         if (isValid(username, pwd)) {
             LoginReq loginReq = new LoginReq(username, pwd);
             loginButtom.setEnabled(false);
@@ -70,13 +71,13 @@ public class LoginActivity extends AbsActivity {
         pwd = PreferenceUtils.getString(this, PreferenceUtils.Key.PASS);
         userText.setText(username);
 
-        loginUserField.setHasFocus(true);
+//        loginUserField.setHasFocus(true);
 
         //如果有密码记录，则自动登录
         if (pwd != "") {
             passwordText.setText(pwd);
-            loginPwdField.setHasFocus(true);
-            loginButtom.setProgress(100);
+//            loginPwdField.setHasFocus(true);
+//            loginButtom.setProgress(100);
             loginButtom.setText("自动登录中");
             readyGoThenKill(MainActivity.class);
             LoginReq loginReq = new LoginReq(username, pwd);
@@ -95,7 +96,7 @@ public class LoginActivity extends AbsActivity {
                         loginButtom.setEnabled(true);
                         return;
                     }
-                    loginButtom.setProgress(50);
+//                    loginButtom.setProgress(50);
                     if (autoLogin){
                         readyGoThenKill(MainActivity.class);
                     }else{
@@ -106,13 +107,13 @@ public class LoginActivity extends AbsActivity {
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     t.printStackTrace();
-                    loginButtom.setProgress(-1);
+//                    loginButtom.setProgress(-1);
                     loginButtom.setEnabled(true);
                 }
             });
         } else {
             showNetWorkError();
-            loginButtom.setProgress(-1);
+//            loginButtom.setProgress(-1);
             loginButtom.setEnabled(true);
         }
     }
@@ -121,7 +122,7 @@ public class LoginActivity extends AbsActivity {
         ApiManager.getmService().getInfo().enqueue(new Callback<InfoRes>() {
             @Override
             public void onResponse(Call<InfoRes> call, Response<InfoRes> response) {
-                loginButtom.setProgress(100);
+//                loginButtom.setProgress(100);
                 if (response.body()!=null){
                     saveUserInfo(response.body());
                     readyGoThenKill(MainActivity.class);
@@ -131,7 +132,7 @@ public class LoginActivity extends AbsActivity {
             @Override
             public void onFailure(Call<InfoRes> call, Throwable t) {
                 showToast("用户名密码错误");
-                loginButtom.setProgress(-1);
+//                loginButtom.setProgress(-1);
                 loginButtom.setEnabled(true);
             }
         });
