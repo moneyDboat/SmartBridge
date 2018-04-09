@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.captain.smartbridge.UI.Fragment.MonFragement;
+import com.captain.smartbridge.UI.Fragment.fourgFragment;
 
 /**
  * Created by Captain on 17/8/21.
@@ -29,7 +29,7 @@ public class FourFraAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return MonFragement.newInstance(position);
+        return fourgFragment.newInstance(position);
     }
 
     @Override
