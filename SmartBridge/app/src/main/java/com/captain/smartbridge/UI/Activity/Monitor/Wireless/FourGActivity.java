@@ -1,25 +1,38 @@
-package com.captain.smartbridge.UI.Activity.Check.Regular;
+package com.captain.smartbridge.UI.Activity.Monitor.Wireless;
 
+/**
+ * Created by captain on 18-4-11.
+ */
+
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
+import com.captain.smartbridge.UI.Adapters.other.FourFraAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Captain on 18/4/11.
+ * Created by captain on 18-3-23.
  */
 
-public class ReciveActivity extends AbsActivity {
-    @BindView(R.id.recive_toolbar)
+public class FourGActivity extends AbsActivity {
+    @BindView(R.id.fourg_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.fourg_tab)
+    TabLayout fourgTab;
+    @BindView(R.id.fourg_page)
+    ViewPager fourgPage;
+
+    FourFraAdapter fourFraAdapter;
 
     @Override
     protected void setSelfContentView() {
-        setContentView(R.layout.activity_recive);
+        setContentView(R.layout.activity_fourg);
     }
 
     @Override
@@ -32,6 +45,11 @@ public class ReciveActivity extends AbsActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this);
+        fourgPage.setAdapter(fourFraAdapter);
+        fourgTab.setupWithViewPager(fourgPage);
+        fourgTab.setTabMode(TabLayout.MODE_FIXED);
     }
 
     @Override

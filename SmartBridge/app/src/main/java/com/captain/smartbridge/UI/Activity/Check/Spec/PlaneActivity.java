@@ -1,4 +1,4 @@
-package com.captain.smartbridge.UI.Activity.Check.Regular;
+package com.captain.smartbridge.UI.Activity.Check.Spec;
 
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -10,16 +10,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Captain on 18/4/11.
+ * Created by captain on 18-4-11.
  */
 
-public class ReciveActivity extends AbsActivity {
-    @BindView(R.id.recive_toolbar)
+public class PlaneActivity extends AbsActivity {
+    @BindView(R.id.plane_toolbar)
     Toolbar toolbar;
 
     @Override
     protected void setSelfContentView() {
-        setContentView(R.layout.activity_recive);
+        setContentView(R.layout.activity_plane);
     }
 
     @Override

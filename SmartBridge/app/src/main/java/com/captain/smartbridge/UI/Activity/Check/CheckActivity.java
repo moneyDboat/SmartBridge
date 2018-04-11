@@ -8,7 +8,12 @@ import android.widget.TextView;
 
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
-import com.captain.smartbridge.UI.Activity.Monitor.fourgActivity;
+import com.captain.smartbridge.UI.Activity.Check.Regular.AnalyeActivity;
+import com.captain.smartbridge.UI.Activity.Check.Regular.InputActivity;
+import com.captain.smartbridge.UI.Activity.Check.Regular.ReciveActivity;
+import com.captain.smartbridge.UI.Activity.Check.Regular.SearActivity;
+import com.captain.smartbridge.UI.Activity.Check.Spec.PlaneActivity;
+import com.captain.smartbridge.UI.Activity.Check.Spec.WaterActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,17 +69,17 @@ public class CheckActivity extends AbsActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.pic_receive:
-                break;
+                readyGo(ReciveActivity.class);
             case R.id.pic_input:
-                break;
+                readyGo(InputActivity.class);
             case R.id.pic_searmiss:
-                break;
+                readyGo(SearActivity.class);
             case R.id.pic_analye:
-                break;
+                readyGo(AnalyeActivity.class);
             case R.id.pic_water:
-                break;
+                readyGo(WaterActivity.class);
             case R.id.pic_plane:
-                break;
+                readyGo(PlaneActivity.class);
             default:
                 break;
         }

@@ -119,14 +119,44 @@
 
         <activity android:name=".UI.Activity.Check.CheckActivity"
             android:label="检测管理"></activity>
+        <activity android:name=".UI.Activity.Check.Regular.ReciveActivity"
+            android:label="检测任务接收"></activity>
+        <activity android:name=".UI.Activity.Check.Regular.InputActivity"
+            android:label="检测任务录入"></activity>
+        <activity android:name=".UI.Activity.Check.Regular.SearActivity"
+            android:label="历史查询"></activity>
+        <activity android:name=".UI.Activity.Check.Regular.AnalyeActivity"
+            android:label="数据分析"></activity>
+        <activity android:name=".UI.Activity.Check.Spec.WaterActivity"
+            android:label="水下声呐"></activity>
+        <activity android:name=".UI.Activity.Check.Spec.PlaneActivity"
+            android:label="无人机巡检"></activity>
 
 
 
         <activity android:name=".UI.Activity.Monitor.MonitorActivity"
             android:label="监测管理">
         </activity>
-        <activity android:name=".UI.Activity.Monitor.fourgActivity"
+        <activity android:name=".UI.Activity.Monitor.Wireless.ThingsActivity"
+            android:label="物联网检测">
+        </activity>
+        <activity android:name=".UI.Activity.Monitor.Wireless.FourGActivity"
             android:label="4G监测">
+        </activity>
+        <activity android:name=".UI.Activity.Monitor.Wireless.PicActivity"
+            android:label="图像检测">
+        </activity>
+        <activity android:name=".UI.Activity.Monitor.Wireless.TopActivity"
+            android:label="顶升监测">
+        </activity>
+        <activity android:name=".UI.Activity.Monitor.Noise.SpeedActivity"
+            android:label="桥面车速监测">
+        </activity>
+        <activity android:name=".UI.Activity.Monitor.Noise.SupportActivity"
+            android:label="桥梁支座监测">
+        </activity>
+        <activity android:name=".UI.Activity.Monitor.Noise.FlexActivity"
+            android:label="桥梁伸缩缝监测">
         </activity>
         <activity
             android:name=".UI.Activity.Monitor.MonMessActivity"
