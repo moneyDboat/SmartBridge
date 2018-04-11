@@ -17,9 +17,21 @@ import butterknife.ButterKnife;
  * Created by captain on 18-3-23.
  */
 
-public class CheckActivity extends AbsActivity{
+public class CheckActivity extends AbsActivity implements View.OnClickListener{
     @BindView(R.id.check_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.pic_receive)
+    LinearLayout recLayout;
+    @BindView(R.id.pic_input)
+    LinearLayout inputLayout;
+    @BindView(R.id.pic_searmiss)
+    LinearLayout searLayout;
+    @BindView(R.id.pic_analye)
+    LinearLayout analyeLayout;
+    @BindView(R.id.pic_water)
+    LinearLayout waterLayout;
+    @BindView(R.id.pic_plane)
+    LinearLayout planeLayout;
 
     @Override
     protected void setSelfContentView() {
@@ -45,6 +57,26 @@ public class CheckActivity extends AbsActivity{
                 finish();
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.pic_receive:
+                break;
+            case R.id.pic_input:
+                break;
+            case R.id.pic_searmiss:
+                break;
+            case R.id.pic_analye:
+                break;
+            case R.id.pic_water:
+                break;
+            case R.id.pic_plane:
+                break;
+            default:
+                break;
         }
     }
 }
