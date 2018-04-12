@@ -28,6 +28,9 @@ public class fourgFragment extends Fragment {
     private int mPage;
     private View view;
 
+    //是否是4G页面
+    private Boolean if4g = false;
+
     public static fourgFragment newInstance(int page) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);

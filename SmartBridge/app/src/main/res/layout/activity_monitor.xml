@@ -40,6 +40,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_gravity="center"
+                    android:padding="15dp"
                     android:src="@drawable/ic_things" />
 
                 <TextView
@@ -67,6 +68,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_gravity="center"
+                    android:padding="15dp"
                     android:src="@drawable/ic_4g" />
 
                 <TextView
@@ -101,6 +103,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_gravity="center"
+                    android:padding="15dp"
                     android:src="@drawable/ic_img" />
 
                 <TextView
@@ -128,6 +131,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_gravity="center"
+                    android:padding="15dp"
                     android:src="@drawable/ic_top" />
 
                 <TextView
@@ -167,7 +171,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/bar_bg"
+                android:background="@drawable/card_bg"
                 android:gravity="center"
                 android:text="桥面车速监测"
                 android:textColor="@color/white"
@@ -180,7 +184,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/bar_bg"
+                android:background="@drawable/card_bg"
                 android:gravity="center"
                 android:text="桥梁支座监测"
                 android:textColor="@color/white"
@@ -193,7 +197,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/bar_bg"
+                android:background="@drawable/card_bg"
                 android:gravity="center"
                 android:text="桥梁伸缩缝监测"
                 android:textColor="@color/white"

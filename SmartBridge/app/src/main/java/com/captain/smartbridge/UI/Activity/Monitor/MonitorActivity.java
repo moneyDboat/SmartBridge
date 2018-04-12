@@ -10,7 +10,13 @@ import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Activity.BaseApplication;
 import com.captain.smartbridge.UI.Activity.Check.Spec.PlaneActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Noise.FlexActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Noise.SpeedActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Noise.SupportActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.Wireless.FourGActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Wireless.PicActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Wireless.ThingsActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Wireless.TopActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,19 +76,19 @@ public class MonitorActivity extends AbsActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case (R.id.pic_things):
-                break;
+                readyGo(ThingsActivity.class);
             case (R.id.pic_4g):
                 readyGo(FourGActivity.class);
             case (R.id.pic_pic):
-                break;
+                readyGo(PicActivity.class);
             case (R.id.pic_top):
-                break;
+                readyGo(TopActivity.class);
             case (R.id.text_speed):
-                break;
+                readyGo(SpeedActivity.class);
             case (R.id.text_support):
-                break;
+                readyGo(SupportActivity.class);
             case (R.id.text_flex):
-                break;
+                readyGo(FlexActivity.class);
             default:
                 break;
         }

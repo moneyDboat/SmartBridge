@@ -1,10 +1,13 @@
 package com.captain.smartbridge.UI.Activity.Monitor.Wireless;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
+import com.captain.smartbridge.UI.Adapters.other.FourFraAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,6 +19,12 @@ import butterknife.ButterKnife;
 public class ThingsActivity extends AbsActivity {
     @BindView(R.id.things_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.things_tab)
+    TabLayout thingsTab;
+    @BindView(R.id.things_page)
+    ViewPager thingsPage;
+
+    FourFraAdapter fourFraAdapter;
 
     @Override
     protected void setSelfContentView() {
@@ -32,6 +41,12 @@ public class ThingsActivity extends AbsActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this);
+        thingsPage.setAdapter(fourFraAdapter);
+        thingsTab.setupWithViewPager(thingsPage);
+        thingsTab.setTabMode(TabLayout.MODE_FIXED);
     }
 
     @Override
