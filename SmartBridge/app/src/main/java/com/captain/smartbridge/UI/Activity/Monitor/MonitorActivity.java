@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
-import com.captain.smartbridge.UI.Activity.BaseApplication;
-import com.captain.smartbridge.UI.Activity.Check.Spec.PlaneActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.Noise.FlexActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.Noise.SpeedActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.Noise.SupportActivity;
@@ -20,7 +18,6 @@ import com.captain.smartbridge.UI.Activity.Monitor.Wireless.TopActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by captain on 18-3-23.
@@ -59,6 +56,14 @@ public class MonitorActivity extends AbsActivity implements View.OnClickListener
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        picThings.setOnClickListener(this);
+        pic4g.setOnClickListener(this);
+        picPic.setOnClickListener(this);
+        picTop.setOnClickListener(this);
+        textSpeed.setOnClickListener(this);
+        textSupport.setOnClickListener(this);
+        textFlex.setOnClickListener(this);
     }
 
     @Override
@@ -77,18 +82,25 @@ public class MonitorActivity extends AbsActivity implements View.OnClickListener
         switch (v.getId()) {
             case (R.id.pic_things):
                 readyGo(ThingsActivity.class);
+                break;
             case (R.id.pic_4g):
                 readyGo(FourGActivity.class);
+                break;
             case (R.id.pic_pic):
                 readyGo(PicActivity.class);
+                break;
             case (R.id.pic_top):
                 readyGo(TopActivity.class);
+                break;
             case (R.id.text_speed):
                 readyGo(SpeedActivity.class);
+                break;
             case (R.id.text_support):
                 readyGo(SupportActivity.class);
+                break;
             case (R.id.text_flex):
                 readyGo(FlexActivity.class);
+                break;
             default:
                 break;
         }

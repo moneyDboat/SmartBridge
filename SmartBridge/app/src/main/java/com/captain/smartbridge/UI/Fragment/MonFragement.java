@@ -13,7 +13,7 @@ import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.Monitor.SensorAcitivty;
-import com.captain.smartbridge.UI.Adapters.other.MonitorAdapter;
+import com.captain.smartbridge.UI.Adapters.tian.MonitorAdapter;
 import com.captain.smartbridge.model.MonBridge;
 
 import java.util.ArrayList;

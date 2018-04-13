@@ -68,7 +68,6 @@ public class fourgFragment extends Fragment {
 
         //创建虚拟数据
         List<MonData> data = new ArrayList<>();
-        data.add(new MonData("时间", "数据", "0"));
         data.add(new MonData("2018-03-14 11:58:31","-19.187","0"));
         data.add(new MonData("2018-03-14 11:58:01","-19.187","0"));
         data.add(new MonData("2018-03-14 11:57:29","-19.187","0"));

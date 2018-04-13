@@ -51,7 +51,7 @@ public class MonitorAdapter extends BaseAdapter {
 
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            rootView = inflater.inflate(R.layout.list_momession, viewGroup, false);
+            rootView = inflater.inflate(R.layout.list_monitor, viewGroup, false);
             holder = new ViewHolder();
             holder.name = (TextView) rootView.findViewById(R.id.momession_name);
             holder.code = (TextView) rootView.findViewById(R.id.momession_code);
