@@ -22,14 +22,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
+
             <com.captain.smartbridge.UI.View.BatteryView
                 android:id="@+id/four1_battery"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:layout_weight="1"
                 app:batteryPower="75" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/four1_batteryText"
             android:layout_width="0dp"
@@ -41,10 +43,10 @@
 
         <ImageView
             android:id="@+id/four1_signal"
-            android:src="@drawable/signal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:src="@drawable/signal" />
 
         <TextView
             android:id="@+id/four1_signalText"
@@ -66,34 +68,36 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:layout_marginTop="5dp"
             android:gravity="end"
             android:paddingRight="20dp"
-            android:layout_marginTop="5dp"
             android:text="当天数据"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
+
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/four1_chart"
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"/>
+            android:layout_height="200dp"
+            android:background="@color/white" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:background="@color/white"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/list_warning_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="20dp"
                 android:text="时间"
                 android:textColor="@color/BlackText"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/list_warning_context"
@@ -103,20 +107,20 @@
                 android:gravity="center"
                 android:text="数据"
                 android:textColor="@color/BlackText2"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/grey" />
+
         <ListView
             android:id="@+id/four1_list"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_height="match_parent"
             android:background="@color/white"></ListView>
 
     </LinearLayout>
-
 
 </LinearLayout>

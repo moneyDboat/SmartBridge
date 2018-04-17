@@ -26,6 +26,9 @@ public class ThingsActivity extends AbsActivity {
 
     FourFraAdapter fourFraAdapter;
 
+    String id = "";
+    String sensor = "";
+
     @Override
     protected void setSelfContentView() {
         setContentView(R.layout.activity_things);
@@ -42,8 +45,10 @@ public class ThingsActivity extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        id = getIntent().getStringExtra("id");
+        sensor = getIntent().getStringExtra("sensor");
 
-        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this);
+        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor);
         thingsPage.setAdapter(fourFraAdapter);
         thingsTab.setupWithViewPager(thingsPage);
         thingsTab.setTabMode(TabLayout.MODE_FIXED);

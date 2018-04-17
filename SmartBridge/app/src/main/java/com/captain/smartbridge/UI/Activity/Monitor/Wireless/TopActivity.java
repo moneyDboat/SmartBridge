@@ -25,6 +25,8 @@ public class TopActivity extends AbsActivity {
     ViewPager topPage;
 
     FourFraAdapter fourFraAdapter;
+    String id = "";
+    String sensor = "";
 
     @Override
     protected void setSelfContentView() {
@@ -42,7 +44,10 @@ public class TopActivity extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this);
+        id = getIntent().getStringExtra("id");
+        sensor = getIntent().getStringExtra("sensor");
+
+        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor);
         topPage.setAdapter(fourFraAdapter);
         topTab.setupWithViewPager(topPage);
         topTab.setTabMode(TabLayout.MODE_FIXED);

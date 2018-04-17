@@ -16,10 +16,15 @@ public class FourFraAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[]{"当前数据", "预警数据", "参数分析"};
     private Context context;
 
+    String id = "";
+    String sensor = "";
 
-    public FourFraAdapter(FragmentManager fm, Context context) {
+
+    public FourFraAdapter(FragmentManager fm, Context context, String id, String sensor) {
         super(fm);
         this.context = context;
+        this.id = id;
+        this.sensor = sensor;
     }
 
     @Override
@@ -29,7 +34,7 @@ public class FourFraAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return fourgFragment.newInstance(position);
+        return fourgFragment.newInstance(position, id, sensor);
     }
 
     @Override

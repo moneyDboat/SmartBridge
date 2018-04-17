@@ -47,7 +47,7 @@ public class SensorAcitivty extends AbsActivity {
     @BindView(R.id.sensor_swipe)
     SwipeRefreshLayout sensorSwipe;
 
-    String id = "";
+    String bridgeId = "";
     //监测种类
     String type = "";
     List<MonSensor> sensors = new ArrayList<>();
@@ -83,10 +83,10 @@ public class SensorAcitivty extends AbsActivity {
     }
 
     private void initList() {
-        id = getIntent().getStringExtra("id");
+        bridgeId = getIntent().getStringExtra("id");
         type = getIntent().getStringExtra("type");
         MonSensorReq req = new MonSensorReq();
-        req.setId(id);
+        req.setId(bridgeId);
 
         if (NetUtils.isNetworkAvailable(this)) {
             ApiManager.getmService().monSensor(req).enqueue(new Callback<List<MonSensor>>() {
@@ -123,8 +123,9 @@ public class SensorAcitivty extends AbsActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Class<?> cls = maps.get(type);
                 Intent intent = new Intent(SensorAcitivty.this, cls);
-                intent.putExtra("sensor", new Gson().toJson(sensors.get(position)));
-                intent.putExtra("id", id);
+                intent.putExtra("id", bridgeId);
+                intent.putExtra("sensor", sensors.get(position).getCgqbh());
+                //new Gson().toJson(sensors.get(position))
                 startActivity(intent);
             }
         });

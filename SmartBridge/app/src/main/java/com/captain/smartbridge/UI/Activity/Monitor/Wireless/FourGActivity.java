@@ -29,6 +29,8 @@ public class FourGActivity extends AbsActivity {
     ViewPager fourgPage;
 
     FourFraAdapter fourFraAdapter;
+    String id = "";
+    String sensor = "";
 
     @Override
     protected void setSelfContentView() {
@@ -46,7 +48,10 @@ public class FourGActivity extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this);
+        id = getIntent().getStringExtra("id");
+        sensor = getIntent().getStringExtra("sensor");
+
+        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor);
         fourgPage.setAdapter(fourFraAdapter);
         fourgTab.setupWithViewPager(fourgPage);
         fourgTab.setTabMode(TabLayout.MODE_FIXED);

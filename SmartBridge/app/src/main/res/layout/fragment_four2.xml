@@ -12,6 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="30dp"
             android:text="总计预警次数"
             android:textSize="16sp" />
@@ -28,8 +29,9 @@
     <ListView
         android:id="@+id/four2_list"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_margin="10dp"
+        android:layout_height="350dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/card_bg_white">
 
     </ListView>
