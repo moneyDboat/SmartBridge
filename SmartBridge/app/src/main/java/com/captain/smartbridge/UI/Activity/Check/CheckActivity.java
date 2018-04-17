@@ -14,6 +14,10 @@ import com.captain.smartbridge.UI.Activity.Check.Regular.ReciveActivity;
 import com.captain.smartbridge.UI.Activity.Check.Regular.SearActivity;
 import com.captain.smartbridge.UI.Activity.Check.Spec.PlaneActivity;
 import com.captain.smartbridge.UI.Activity.Check.Spec.WaterActivity;
+import com.captain.smartbridge.UI.Activity.Detect.DeEntryActivity;
+import com.captain.smartbridge.UI.Activity.Detect.DetectRecieveActivity;
+import com.captain.smartbridge.UI.Activity.Detect.DetectStatusActivity;
+import com.captain.smartbridge.UI.Activity.Detect.DetectSummaryActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +57,13 @@ public class CheckActivity extends AbsActivity implements View.OnClickListener{
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        recLayout.setOnClickListener(this);
+        inputLayout.setOnClickListener(this);
+        searLayout.setOnClickListener(this);
+        analyeLayout.setOnClickListener(this);
+        waterLayout.setOnClickListener(this);
+        planeLayout.setOnClickListener(this);
     }
 
     @Override
@@ -69,17 +80,29 @@ public class CheckActivity extends AbsActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.pic_receive:
-                readyGo(ReciveActivity.class);
+                readyGo(DetectRecieveActivity.class);
+                break;
+                //readyGo(ReciveActivity.class);
             case R.id.pic_input:
-                readyGo(InputActivity.class);
+                readyGo(DeEntryActivity.class);
+                break;
+                //readyGo(InputActivity.class);
             case R.id.pic_searmiss:
-                readyGo(SearActivity.class);
+                //原来的检测状态
+                readyGo(DetectStatusActivity.class);
+                break;
+                //readyGo(SearActivity.class);
             case R.id.pic_analye:
-                readyGo(AnalyeActivity.class);
+                //原来的检测汇总
+                readyGo(DetectSummaryActivity.class);
+                break;
+                //readyGo(AnalyeActivity.class);
             case R.id.pic_water:
                 readyGo(WaterActivity.class);
+                break;
             case R.id.pic_plane:
                 readyGo(PlaneActivity.class);
+                break;
             default:
                 break;
         }

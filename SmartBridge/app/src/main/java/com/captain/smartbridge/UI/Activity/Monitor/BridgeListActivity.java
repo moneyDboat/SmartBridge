@@ -72,7 +72,8 @@ public class BridgeListActivity extends AbsActivity {
 
                 @Override
                 public void onFailure(Call<List<MonBridge>> call, Throwable t) {
-
+                    t.printStackTrace();
+                    showNetWorkError();
                 }
             });
         }
@@ -82,6 +83,7 @@ public class BridgeListActivity extends AbsActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplication(), MonitorActivity.class);
                 intent.putExtra("id", String.valueOf(bridges.get(position).getId()));
+                intent.putExtra("bridge", String.valueOf(bridges.get(position).getQlmc()));
                 startActivity(intent);
             }
         });

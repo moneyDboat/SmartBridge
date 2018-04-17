@@ -31,7 +31,7 @@
                 android:id="@+id/momession_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="30dp"
                 android:text="G1001004"
                 android:textColor="@color/ThemePro"
                 android:textSize="16sp" />

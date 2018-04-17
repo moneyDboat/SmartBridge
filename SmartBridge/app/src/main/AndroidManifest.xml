@@ -133,9 +133,15 @@
             android:label="无人机巡检"></activity>
 
 
-
+        <activity android:name=".UI.Activity.Monitor.BridgeListActivity"
+            android:label="监测桥梁">
+        </activity>
         <activity android:name=".UI.Activity.Monitor.MonitorActivity"
             android:label="监测管理">
+        </activity>
+        <activity
+            android:name=".UI.Activity.Monitor.SensorAcitivty"
+            android:label="监测传感器">
         </activity>
         <activity android:name=".UI.Activity.Monitor.Wireless.ThingsActivity"
             android:label="nb-iot">
@@ -161,10 +167,6 @@
         <activity
             android:name=".UI.Activity.Monitor.MonMessActivity"
             android:label="桥梁监测">
-        </activity>
-        <activity
-            android:name=".UI.Activity.Monitor.SensorAcitivty"
-            android:label="桥梁传感器信息">
         </activity>
         <activity
             android:name=".UI.Activity.Monitor.SensorCurveActivity"

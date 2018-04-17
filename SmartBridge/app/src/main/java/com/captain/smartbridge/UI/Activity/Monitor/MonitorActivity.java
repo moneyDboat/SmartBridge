@@ -1,5 +1,6 @@
 package com.captain.smartbridge.UI.Activity.Monitor;
 
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.captain.smartbridge.UI.Activity.Monitor.Wireless.PicActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.Wireless.ThingsActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.Wireless.TopActivity;
 
+import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,6 +29,8 @@ import butterknife.ButterKnife;
 public class MonitorActivity extends AbsActivity implements View.OnClickListener {
     @BindView(R.id.monitor_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.monitor_bridge)
+    TextView bridgeText;
     @BindView(R.id.pic_things)
     LinearLayout picThings;
     @BindView(R.id.pic_4g)
@@ -40,6 +45,11 @@ public class MonitorActivity extends AbsActivity implements View.OnClickListener
     TextView textSupport;
     @BindView(R.id.text_flex)
     TextView textFlex;
+
+    String bridge = "";
+    String id = "";
+
+    HashMap<Integer, String> maps = new HashMap<>();
 
     @Override
     protected void setSelfContentView() {
@@ -57,6 +67,20 @@ public class MonitorActivity extends AbsActivity implements View.OnClickListener
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //获取桥梁id
+        bridge = getIntent().getStringExtra("bridge");
+        id = getIntent().getStringExtra("id");
+
+        maps.put(R.id.pic_things, "nbiot");
+        maps.put(R.id.pic_4g, "4G");
+        maps.put(R.id.pic_pic, "图像");
+        maps.put(R.id.pic_top, "top");
+        maps.put(R.id.text_speed, "speed");
+        maps.put(R.id.text_support, "support");
+        maps.put(R.id.text_flex, "flex");
+
+
+        bridgeText.setText("当前桥梁：" + bridge);
         picThings.setOnClickListener(this);
         pic4g.setOnClickListener(this);
         picPic.setOnClickListener(this);
@@ -79,30 +103,11 @@ public class MonitorActivity extends AbsActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case (R.id.pic_things):
-                readyGo(ThingsActivity.class);
-                break;
-            case (R.id.pic_4g):
-                readyGo(FourGActivity.class);
-                break;
-            case (R.id.pic_pic):
-                readyGo(PicActivity.class);
-                break;
-            case (R.id.pic_top):
-                readyGo(TopActivity.class);
-                break;
-            case (R.id.text_speed):
-                readyGo(SpeedActivity.class);
-                break;
-            case (R.id.text_support):
-                readyGo(SupportActivity.class);
-                break;
-            case (R.id.text_flex):
-                readyGo(FlexActivity.class);
-                break;
-            default:
-                break;
-        }
+        Intent intent = new Intent(getApplication(), SensorAcitivty.class);
+        intent.putExtra("id", id);
+        //选择监测种类
+        String type = maps.get(v.getId());
+        intent.putExtra("type", type);
+        startActivity(intent);
     }
 }

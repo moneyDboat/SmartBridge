@@ -12,12 +12,21 @@ import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Noise.FlexActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Noise.SpeedActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Noise.SupportActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Wireless.FourGActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Wireless.PicActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Wireless.ThingsActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Wireless.TopActivity;
 import com.captain.smartbridge.UI.Adapters.other.SensorAdapter;
 import com.captain.smartbridge.model.other.MonSensor;
 import com.captain.smartbridge.model.other.MonSensorReq;
+import com.captain.smartbridge.model.other.Monitor;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,8 +47,12 @@ public class SensorAcitivty extends AbsActivity {
     @BindView(R.id.sensor_swipe)
     SwipeRefreshLayout sensorSwipe;
 
-    String bridge = "";
+    String id = "";
+    //监测种类
+    String type = "";
     List<MonSensor> sensors = new ArrayList<>();
+
+    HashMap<String, Class<?>> maps = new HashMap<>();
 
     @Override
     protected void setSelfContentView() {
@@ -58,13 +71,22 @@ public class SensorAcitivty extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        maps.put("nbiot", ThingsActivity.class);
+        maps.put("4G", FourGActivity.class);
+        maps.put("图像", PicActivity.class);
+        maps.put("top", TopActivity.class);
+        maps.put("speed", SpeedActivity.class);
+        maps.put("support", SupportActivity.class);
+        maps.put("flex", FlexActivity.class);
+
         initList();
     }
 
     private void initList() {
-        bridge = getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
+        type = getIntent().getStringExtra("type");
         MonSensorReq req = new MonSensorReq();
-        req.setId(bridge);
+        req.setId(id);
 
         if (NetUtils.isNetworkAvailable(this)) {
             ApiManager.getmService().monSensor(req).enqueue(new Callback<List<MonSensor>>() {
@@ -75,7 +97,13 @@ public class SensorAcitivty extends AbsActivity {
                         return;
                     }
 
-                    sensors = response.body();
+                    //根据监测种类筛选传感器列表
+                    List<MonSensor> tmpData = response.body();
+                    for (MonSensor data : tmpData) {
+                        if (data.getCgqmc().startsWith(type)) {
+                            sensors.add(data);
+                        }
+                    }
                     SensorAdapter adapter = new SensorAdapter(SensorAcitivty.this, sensors);
                     sensorList.setAdapter(adapter);
                 }
@@ -93,9 +121,10 @@ public class SensorAcitivty extends AbsActivity {
         sensorList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(SensorAcitivty.this, SensorCurveActivity.class);
+                Class<?> cls = maps.get(type);
+                Intent intent = new Intent(SensorAcitivty.this, cls);
                 intent.putExtra("sensor", new Gson().toJson(sensors.get(position)));
-                intent.putExtra("bridge", bridge);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
         });

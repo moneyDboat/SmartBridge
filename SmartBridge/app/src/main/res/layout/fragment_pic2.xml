@@ -1,84 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginRight="10dp"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/card_bg"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/card_bg"/>
-    </LinearLayout>
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_bg" />
+        </LinearLayout>
+
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/card_bg"/>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="5dp"
+            android:text="发展情况描述"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
+
         <TextView
-            android:layout_width="0dp"
-            android:layout_marginLeft="10dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/card_bg"/>
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="      暂无"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="5dp"
+            android:text="处治建议"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="      暂无"
+            android:textSize="12sp" />
+
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:text="发展情况描述"
-        android:paddingLeft="5dp"
-        android:textSize="14sp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"/>
-    <view
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey"/>
-
-    <TextView
-        android:layout_marginTop="10dp"
-        android:text="      文字颜色为文字颜色为。"
-        android:layout_width="match_parent"
-        android:textSize="12sp"
-        android:layout_height="100dp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:text="处治建议"
-        android:paddingLeft="5dp"
-        android:textSize="14sp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"/>
-    <view
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey"/>
-
-    <TextView
-        android:layout_marginTop="10dp"
-        android:text="      文字颜色为文字颜色为。"
-        android:layout_width="match_parent"
-        android:textSize="12sp"
-        android:layout_height="100dp" />
 
 </LinearLayout>
