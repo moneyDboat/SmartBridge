@@ -51,7 +51,7 @@ public class FourGActivity extends AbsActivity {
         id = getIntent().getStringExtra("id");
         sensor = getIntent().getStringExtra("sensor");
 
-        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor);
+        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor, true);
         fourgPage.setAdapter(fourFraAdapter);
         fourgTab.setupWithViewPager(fourgPage);
         fourgTab.setTabMode(TabLayout.MODE_FIXED);

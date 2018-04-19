@@ -18,13 +18,15 @@ public class FourFraAdapter extends FragmentPagerAdapter {
 
     String id = "";
     String sensor = "";
+    Boolean if4g = false;
 
 
-    public FourFraAdapter(FragmentManager fm, Context context, String id, String sensor) {
+    public FourFraAdapter(FragmentManager fm, Context context, String id, String sensor, Boolean if4G) {
         super(fm);
         this.context = context;
         this.id = id;
         this.sensor = sensor;
+        this.if4g = if4G;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class FourFraAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return fourgFragment.newInstance(position, id, sensor);
+        return fourgFragment.newInstance(position, id, sensor, if4g);
     }
 
     @Override

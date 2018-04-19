@@ -48,7 +48,7 @@ public class ThingsActivity extends AbsActivity {
         id = getIntent().getStringExtra("id");
         sensor = getIntent().getStringExtra("sensor");
 
-        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor);
+        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor, false);
         thingsPage.setAdapter(fourFraAdapter);
         thingsTab.setupWithViewPager(thingsPage);
         thingsTab.setTabMode(TabLayout.MODE_FIXED);

@@ -57,15 +57,6 @@ public class PreferenceUtils {
     public static final long DEFAULT_LONG = 0;
     public static final float DEFAULT_FLOAT = 0.0f;
 
-    //    public static Set<String> getStringSet(Context context, String key){
-    //        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-    //        return settings.getStringSet(key, new HashSet<String>());
-    //    }
-    //
-    //    public static void putStringSet(Context context, final String key, final HashSet<String> value){
-    //        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-    //        settings.edit().putStringSet(key, value).commit();
-    //    }
 
     public static String getString(Context context, String key) {
         final SharedPreferences settings = PreferenceManager

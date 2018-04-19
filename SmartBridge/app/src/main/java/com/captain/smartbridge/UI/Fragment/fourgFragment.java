@@ -3,9 +3,10 @@ package com.captain.smartbridge.UI.Fragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +16,14 @@ import android.widget.ListView;
 import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
-import com.captain.smartbridge.UI.Activity.Monitor.SensorCurveActivity;
 import com.captain.smartbridge.UI.Adapters.SensorDataAdapter;
 import com.captain.smartbridge.UI.Adapters.tian.WarnListAdapter;
 import com.captain.smartbridge.UI.View.BatteryView;
 import com.captain.smartbridge.model.other.MonData;
 import com.captain.smartbridge.model.other.MonDataReq;
-import com.captain.smartbridge.model.other.MonSensor;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -33,8 +31,12 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,11 +69,16 @@ public class fourgFragment extends Fragment {
 
     SensorDataAdapter adapter = null;
 
+    final Timer timer = new Timer();
+    TimerTask task;
+    LineChart chart;
+    ListView listView;
+
 
     //是否是4G页面
-    private Boolean if4g = false;
+    static Boolean if4g = false;
 
-    public static fourgFragment newInstance(int page, String tId, String tSensor) {
+    public static fourgFragment newInstance(int page, String tId, String tSensor, Boolean if4G) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
         fourgFragment fragment = new fourgFragment();
@@ -79,6 +86,7 @@ public class fourgFragment extends Fragment {
 
         id = tId;
         sensor = tSensor;
+        if4g = if4G;
 
         return fragment;
     }
@@ -107,14 +115,121 @@ public class fourgFragment extends Fragment {
     private View firstView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_four1, container, false);
         BatteryView battery = (BatteryView) view.findViewById(R.id.four1_battery);
-        final LineChart chart = (LineChart) view.findViewById(R.id.four1_chart);
-        final ListView listView = (ListView) view.findViewById(R.id.four1_list);
+        chart = (LineChart) view.findViewById(R.id.four1_chart);
+        listView = (ListView) view.findViewById(R.id.four1_list);
 
+        initChart(chart);
+        refreshData();
+
+
+        return view;
+    }
+
+    private View secView(LayoutInflater inflater, ViewGroup container) {
+        view = inflater.inflate(R.layout.fragment_four2, container, false);
+        final ListView warnList = (ListView) view.findViewById(R.id.four2_list);
+
+        //创建虚拟数据
+//        List<MonData> data = new ArrayList<>();
+//        data.add(new MonData("2018-03-14 11:58:31", "-19.187", "0"));
+//        data.add(new MonData("2018-03-14 11:58:01", "-19.187", "0"));
+//        data.add(new MonData("2018-03-14 11:57:29", "-19.187", "0"));
+//        data.add(new MonData("2018-03-14 11:56:58", "-19.187", "0"));
+//        data.add(new MonData("2018-03-14 11:56:28", "-19.187", "0"));
+//        data.add(new MonData("2018-03-14 11:56:05", "-19.175", "0"));
+//        data.add(new MonData("2018-03-14 11:55:27", "-18.990", "0"));
+//        data.add(new MonData("2018-03-14 11:55:09", "-18.928", "0"));
+
+
+        warnReq.setId(id);
+        warnReq.setCgqbh(sensor);
+        warnReq.setNumber("-100");
+
+        if (NetUtils.isNetworkAvailable(getActivity())) {
+            ApiManager.getmService().monWarnData(warnReq).enqueue(new Callback<List<MonData>>() {
+                @Override
+                public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
+                    if (response.body() == null) {
+                        showDialog();
+                        return;
+                    }
+                    warnData = response.body();
+                    Collections.reverse(warnData);
+                    WarnListAdapter warnAdapter = new WarnListAdapter(getActivity(), warnData);
+                    warnList.setAdapter(warnAdapter);
+                    warnAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<List<MonData>> call, Throwable t) {
+
+                }
+            });
+        }
+        return view;
+    }
+
+    private View thirdView(LayoutInflater inflater, ViewGroup container) {
+        return null;
+    }
+
+    //显示对话框
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("提示");
+        builder.setMessage("当前传感器没有数据！");
+        //builder.setNegativeButton("取消", null);
+        //builder.setCancelable(true);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                getActivity().finish();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+    private void refreshData() {
+        //handle句柄
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                getData();
+                chart.invalidate();
+                super.handleMessage(msg);
+            }
+        };
+
+        //定时器任务
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
+            }
+        };
+
+        //启动定时器
+        //(*, 延迟执行时间, 循环时间)
+        timer.schedule(task, 0, 1000);
+    }
+
+    private void getData() {
 
         req = new MonDataReq();
         req.setId(id);
         req.setCgqbh(sensor);
-        req.setNumber("-10");
+        if (if4g) {
+            //4G传感器获取300个数据
+            req.setNumber("-300");
+        } else {
+            req.setNumber("-10");
+        }
 
         if (NetUtils.isNetworkAvailable(getActivity())) {
             ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
@@ -134,6 +249,7 @@ public class fourgFragment extends Fragment {
                     WarnListAdapter adapter = new WarnListAdapter(getActivity(), data);
                     listView.setAdapter(adapter);
 
+                    //清空传感器数据
                     entries = new ArrayList<>();
                     dates = new ArrayList<>();
                     int i = 0;
@@ -172,70 +288,21 @@ public class fourgFragment extends Fragment {
                         }
                     };
                     XAxis xAxis = chart.getXAxis();
-                    xAxis.setValueFormatter(formatter);
-
-                    initChart(chart);
+                    if (!if4g) {
+                        //4G页面不需要显示横坐标
+                        xAxis.setValueFormatter(formatter);
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<List<MonData>> call, Throwable t) {
-
+                    t.printStackTrace();
                 }
             });
         }
-
-        return view;
-    }
-
-    private View secView(LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(R.layout.fragment_four2, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.four2_list);
-
-        //创建虚拟数据
-        List<MonData> data = new ArrayList<>();
-        data.add(new MonData("2018-03-14 11:58:31", "-19.187", "0"));
-        data.add(new MonData("2018-03-14 11:58:01", "-19.187", "0"));
-        data.add(new MonData("2018-03-14 11:57:29", "-19.187", "0"));
-        data.add(new MonData("2018-03-14 11:56:58", "-19.187", "0"));
-        data.add(new MonData("2018-03-14 11:56:28", "-19.187", "0"));
-        data.add(new MonData("2018-03-14 11:56:05", "-19.175", "0"));
-        data.add(new MonData("2018-03-14 11:55:27", "-18.990", "0"));
-        data.add(new MonData("2018-03-14 11:55:09", "-18.928", "0"));
-
-        WarnListAdapter adapter = new WarnListAdapter(getActivity(), data);
-        listView.setAdapter(adapter);
-        return view;
-    }
-
-    private View thirdView(LayoutInflater inflater, ViewGroup container) {
-        return null;
-    }
-
-    //显示对话框
-    private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("提示");
-        builder.setMessage("当前传感器没有数据！");
-        //builder.setNegativeButton("取消", null);
-        //builder.setCancelable(true);
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                getActivity().finish();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private void initChart(LineChart chart) {
-        //生成模拟数据
-        //        for (int j = 0; j < 10; j++) {
-        //            testData.add(new MonData(String.valueOf(year++),
-        //                    String.valueOf(sensor.getYz() + (Math.random() - 0.7) * 100)));
-        //        }
         chart.getDescription().setEnabled(false);
         chart.setTouchEnabled(false);
         chart.setViewPortOffsets(0, 0, 0, 0);
@@ -244,7 +311,7 @@ public class fourgFragment extends Fragment {
 
 
         //之后需要去除动画效果
-        chart.animateX(3000);
+        //chart.animateX(3000);
 
 
         XAxis x = chart.getXAxis();
@@ -254,6 +321,11 @@ public class fourgFragment extends Fragment {
         x.setAxisMinimum(1f);
         x.setLabelRotationAngle(-30);
         //x.setLabelRotationAngle(-30);
+
+        //4G页面不显示横坐标
+        if (if4g) {
+            chart.getXAxis().setEnabled(false);
+        }
 
 
         YAxis y = chart.getAxisLeft();
