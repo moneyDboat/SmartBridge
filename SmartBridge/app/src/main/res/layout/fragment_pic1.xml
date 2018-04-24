@@ -12,13 +12,13 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
-        <TextView
+        <ImageView
+            android:id="@+id/pic1_img"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/card_bg"
-            android:paddingLeft="5dp"
-            android:text="当前图像" />
+            android:paddingLeft="5dp"/>
 
         <TextView
             android:layout_width="match_parent"

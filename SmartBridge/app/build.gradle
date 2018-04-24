@@ -21,6 +21,7 @@ android {
     }
 }
 
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -54,6 +55,7 @@ dependencies {
     compile files('/Users/Captain/Desktop/git/SmartBridge/SmartBridge/libs/AMap_Location_V3.3.0_20170118.jar')
     compile files('/home/captain/git/SmartBridge/SmartBridge/libs/Amap_2DMap_V4.2.0_20170209.jar')
     compile files('/home/captain/git/SmartBridge/SmartBridge/libs/AMap_Location_V3.3.0_20170118.jar')
+    //compile files('/home/captain/git/SmartBridge/SmartBridge/libs/glide-full-4.7.0 .jar')
 }
 repositories {
     mavenCentral()

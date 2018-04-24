@@ -47,7 +47,7 @@ public class TopActivity extends AbsActivity {
         id = getIntent().getStringExtra("id");
         sensor = getIntent().getStringExtra("sensor");
 
-        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor);
+        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor, false);
         topPage.setAdapter(fourFraAdapter);
         topTab.setupWithViewPager(topPage);
         topTab.setTabMode(TabLayout.MODE_FIXED);

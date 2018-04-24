@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
@@ -118,8 +119,12 @@ public class fourgFragment extends Fragment {
         chart = (LineChart) view.findViewById(R.id.four1_chart);
         listView = (ListView) view.findViewById(R.id.four1_list);
 
+
+        //定时器暂时有bug
+        //refreshData();
+
         initChart(chart);
-        refreshData();
+        getData();
 
 
         return view;
@@ -128,6 +133,7 @@ public class fourgFragment extends Fragment {
     private View secView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_four2, container, false);
         final ListView warnList = (ListView) view.findViewById(R.id.four2_list);
+        final TextView warnCount = (TextView) view.findViewById(R.id.four2_warnCount);
 
         //创建虚拟数据
 //        List<MonData> data = new ArrayList<>();
@@ -140,10 +146,10 @@ public class fourgFragment extends Fragment {
 //        data.add(new MonData("2018-03-14 11:55:27", "-18.990", "0"));
 //        data.add(new MonData("2018-03-14 11:55:09", "-18.928", "0"));
 
-
+        warnReq = new MonDataReq();
         warnReq.setId(id);
         warnReq.setCgqbh(sensor);
-        warnReq.setNumber("-100");
+        warnReq.setNumber("-1000");
 
         if (NetUtils.isNetworkAvailable(getActivity())) {
             ApiManager.getmService().monWarnData(warnReq).enqueue(new Callback<List<MonData>>() {
@@ -155,6 +161,7 @@ public class fourgFragment extends Fragment {
                     }
                     warnData = response.body();
                     Collections.reverse(warnData);
+                    warnCount.setText(String.valueOf(warnData.size()));
                     WarnListAdapter warnAdapter = new WarnListAdapter(getActivity(), warnData);
                     warnList.setAdapter(warnAdapter);
                     warnAdapter.notifyDataSetChanged();
@@ -267,6 +274,9 @@ public class fourgFragment extends Fragment {
                     dataSet.setColor(Color.WHITE);
                     dataSet.setFillColor(Color.WHITE);
                     dataSet.setFillAlpha(100);
+                    //4G界面不标点, 不显示具体数值
+                    dataSet.setDrawCircles(false);
+                    dataSet.setDrawValues(false);
 
                     LineData lineData = new LineData(dataSet);
                     chart.setData(lineData);
@@ -291,7 +301,11 @@ public class fourgFragment extends Fragment {
                     if (!if4g) {
                         //4G页面不需要显示横坐标
                         xAxis.setValueFormatter(formatter);
+                        dataSet.setDrawCircles(true);
+                        dataSet.setDrawValues(true);
                     }
+
+                    chart.invalidate();
                 }
 
                 @Override

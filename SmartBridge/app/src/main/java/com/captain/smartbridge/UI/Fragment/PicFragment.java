@@ -7,7 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.module.AppGlideModule;
 import com.captain.smartbridge.R;
 
 /**
@@ -49,6 +52,8 @@ public class PicFragment extends Fragment {
 
     private View firstView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_pic1, container, false);
+        ImageView img1 = (ImageView) view.findViewById(R.id.pic1_img);
+        //Glide.with(getActivity()).load("http://p7l9j0wh9.bkt.clouddn.com/PIC00065.jpg").into(img1);
         return view;
     }
 
