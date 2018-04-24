@@ -23,6 +23,7 @@ import com.captain.smartbridge.model.other.EvaHistory;
 import com.captain.smartbridge.model.other.EvaluteMess;
 import com.captain.smartbridge.model.other.MonData;
 import com.captain.smartbridge.model.other.MonDataReq;
+import com.captain.smartbridge.model.other.MonPicData;
 import com.captain.smartbridge.model.other.MonSensor;
 import com.captain.smartbridge.model.other.MonSensorReq;
 
@@ -115,6 +116,10 @@ public interface BridgeService {
     //获取传感器监测数据
     @POST("app/monitor/data")
     Call<List<MonData>> monData(@Body MonDataReq monDataReq);
+
+    //获取图片传感器监测数据
+    @POST("app/monitor/data")
+    Call<List<MonPicData>> monPic(@Body MonDataReq monDataReq);
 
     @POST("app/monitor/warning")
     Call<List<MonData>> monWarnData(@Body MonDataReq monDataReq);

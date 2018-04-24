@@ -25,6 +25,8 @@ public class PicActivity extends AbsActivity {
     ViewPager picPage;
 
     PicFraAdapter adapter;
+    String id = "";
+    String sensor = "";
 
     @Override
     protected void setSelfContentView() {
@@ -42,7 +44,10 @@ public class PicActivity extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        adapter = new PicFraAdapter(getSupportFragmentManager(), this);
+        id = getIntent().getStringExtra("id");
+        sensor = getIntent().getStringExtra("sensor");
+
+        adapter = new PicFraAdapter(getSupportFragmentManager(), this, id, sensor);
         picPage.setAdapter(adapter);
         picTab.setupWithViewPager(picPage);
         picTab.setTabMode(TabLayout.MODE_FIXED);

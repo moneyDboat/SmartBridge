@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.captain.smartbridge.UI.Fragment.PicFragment;
-import com.captain.smartbridge.UI.Fragment.fourgFragment;
 
 /**
  * Created by captain on 18-4-12.
@@ -17,10 +16,15 @@ public class PicFraAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[]{"当前图像", "历史对比"};
     private Context context;
 
+    private String id;
+    private String sensor;
 
-    public PicFraAdapter(FragmentManager fm, Context context) {
+
+    public PicFraAdapter(FragmentManager fm, Context context, String id, String sensor) {
         super(fm);
         this.context = context;
+        this.id = id;
+        this.sensor = sensor;
     }
 
     @Override
@@ -30,7 +34,7 @@ public class PicFraAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return PicFragment.newInstance(position);
+        return PicFragment.newInstance(position, id, sensor);
     }
 
     @Override

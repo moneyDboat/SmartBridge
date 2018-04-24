@@ -10,8 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.module.AppGlideModule;
+import com.captain.smartbridge.API.ApiManager;
+import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
+import com.captain.smartbridge.model.other.MonDataReq;
+import com.captain.smartbridge.model.other.MonPicData;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by captain on 18-4-12.
@@ -23,7 +32,19 @@ public class PicFragment extends Fragment {
     private int mPage;
     private View view;
 
-    public static PicFragment newInstance(int page) {
+    static String id;
+    static String sensor;
+    static MonDataReq req = new MonDataReq();
+    static String url1;
+    static String url2;
+
+    public static PicFragment newInstance(int page, String tid, String tsensor) {
+        id = tid;
+        sensor = tsensor;
+        req.setId(tid);
+        req.setCgqbh(tsensor);
+        req.setNumber("-2");
+
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
         PicFragment fragment = new PicFragment();
@@ -52,13 +73,57 @@ public class PicFragment extends Fragment {
 
     private View firstView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_pic1, container, false);
-        ImageView img1 = (ImageView) view.findViewById(R.id.pic1_img);
-        //Glide.with(getActivity()).load("http://p7l9j0wh9.bkt.clouddn.com/PIC00065.jpg").into(img1);
+        final ImageView img1 = (ImageView) view.findViewById(R.id.pic1_img);
+
+        if (NetUtils.isNetworkAvailable(getActivity())){
+            ApiManager.getmService().monPic(req).enqueue(new Callback<List<MonPicData>>() {
+                @Override
+                public void onResponse(Call<List<MonPicData>> call, Response<List<MonPicData>> response) {
+                    String url = response.body().get(1).getQiniuurl();
+                    Glide.with(getActivity()).load(url).centerCrop().into(img1);
+                }
+
+                @Override
+                public void onFailure(Call<List<MonPicData>> call, Throwable t) {
+
+                }
+            });
+        }
+//        String url = "http://p7l9j0wh9.bkt.clouddn.com/PIC00065.jpg";
+//        Glide.with(getActivity()).load(url).centerCrop().into(img1);
+
         return view;
     }
 
     private View secView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_pic2, container, false);
+        final ImageView img1 = (ImageView) view.findViewById(R.id.pic2_img1);
+        ImageView img2 = (ImageView) view.findViewById(R.id.pic2_img2);
+        final ImageView img3 = (ImageView) view.findViewById(R.id.pic2_img3);
+        ImageView img4 = (ImageView) view.findViewById(R.id.pic2_img4);
+
+        if (NetUtils.isNetworkAvailable(getActivity())){
+            ApiManager.getmService().monPic(req).enqueue(new Callback<List<MonPicData>>() {
+                @Override
+                public void onResponse(Call<List<MonPicData>> call, Response<List<MonPicData>> response) {
+                    String url1 = response.body().get(1).getQiniuurl();
+                    String url3 = response.body().get(0).getQiniuurl();
+                    Glide.with(getActivity()).load(url1).centerCrop().into(img1);
+                    Glide.with(getActivity()).load(url3).centerCrop().into(img3);
+                }
+
+                @Override
+                public void onFailure(Call<List<MonPicData>> call, Throwable t) {
+
+                }
+            });
+        }
+
+//        String url1 = "http://p7l9j0wh9.bkt.clouddn.com/PIC00065.jpg";
+//        Glide.with(getActivity()).load(url1).centerCrop().into(img1);
+//
+//        String url2 = "http://p7l9j0wh9.bkt.clouddn.com/00101.jpg";
+//        Glide.with(getActivity()).load(url2).centerCrop().into(img2);
         return view;
     }
 
