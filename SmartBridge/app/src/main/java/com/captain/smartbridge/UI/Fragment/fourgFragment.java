@@ -112,6 +112,12 @@ public class fourgFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        timer.cancel();
+        super.onDestroy();
+    }
+
     private View firstView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_four1, container, false);
         BatteryView battery = (BatteryView) view.findViewById(R.id.four1_battery);
@@ -120,11 +126,8 @@ public class fourgFragment extends Fragment {
 
 
         //定时器暂时有bug
-        //refreshData();
-
         initChart(chart);
-        getData();
-
+        refreshData();
 
         return view;
     }
@@ -205,9 +208,9 @@ public class fourgFragment extends Fragment {
             @Override
             public void handleMessage(Message msg) {
                 getData();
-                chart.invalidate();
                 super.handleMessage(msg);
             }
+
         };
 
         //定时器任务
@@ -252,7 +255,17 @@ public class fourgFragment extends Fragment {
                         return;
                     }
 
-                    WarnListAdapter adapter = new WarnListAdapter(getActivity(), data);
+                    List<MonData> listData = new ArrayList<>();
+                    if (if4g){
+                        for (MonData da : data){
+                            for (String value : da.getValue().split("\\|\\|")){
+                                listData.add(new MonData(da.getTime(), value, ""));
+                            }
+                        }
+                    }else {
+                        listData = data;
+                    }
+                    WarnListAdapter adapter = new WarnListAdapter(getActivity(), listData);
                     listView.setAdapter(adapter);
 
                     //清空传感器数据
