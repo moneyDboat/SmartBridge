@@ -32,7 +32,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -233,7 +232,7 @@ public class fourgFragment extends Fragment {
         req.setCgqbh(sensor);
         if (if4g) {
             //4G传感器获取300个数据
-            req.setNumber("-300");
+            req.setNumber("-3");
         } else {
             req.setNumber("-10");
         }
@@ -260,11 +259,22 @@ public class fourgFragment extends Fragment {
                     entries = new ArrayList<>();
                     dates = new ArrayList<>();
                     int i = 0;
-                    for (MonData da : data) {
-                        entries.add(new Entry(i, Float.valueOf(da.getValue())));
-                        String time = da.getTime().split(" ")[1];
-                        dates.add(time);
-                        i++;
+                    if (if4g){
+                        for (MonData da : data){
+                            for (String value : da.getValue().split("\\|\\|")){
+                                if (!value.equals("")){
+                                    entries.add(new Entry(i, Float.valueOf(value)));
+                                }
+                                i++;
+                            }
+                        }
+                    }else{
+                        for (MonData da : data){
+                            entries.add(new Entry(i, Float.valueOf(da.getValue())));
+                            String time = da.getTime().split(" ")[1];
+                            dates.add(time);
+                            i++;
+                        }
                     }
                     dataSet = new LineDataSet(entries, "传感器数值");
                     //important!!!
