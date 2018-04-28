@@ -1,9 +1,11 @@
 package com.captain.smartbridge.UI.Fragment;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,8 +81,12 @@ public class PicFragment extends Fragment {
             ApiManager.getmService().monPic(req).enqueue(new Callback<List<MonPicData>>() {
                 @Override
                 public void onResponse(Call<List<MonPicData>> call, Response<List<MonPicData>> response) {
-                    String url = response.body().get(1).getQiniuurl();
-                    Glide.with(getActivity()).load(url).centerCrop().into(img1);
+                    if (response.body().size() == 2){
+                        String url = response.body().get(1).getQiniuurl();
+                        Glide.with(getActivity()).load(url).centerCrop().into(img1);
+                    }else{
+                        showDialog();
+                    }
                 }
 
                 @Override
@@ -106,10 +112,12 @@ public class PicFragment extends Fragment {
             ApiManager.getmService().monPic(req).enqueue(new Callback<List<MonPicData>>() {
                 @Override
                 public void onResponse(Call<List<MonPicData>> call, Response<List<MonPicData>> response) {
-                    String url1 = response.body().get(1).getQiniuurl();
-                    String url3 = response.body().get(0).getQiniuurl();
-                    Glide.with(getActivity()).load(url1).centerCrop().into(img1);
-                    Glide.with(getActivity()).load(url3).centerCrop().into(img3);
+                    if (response.body().size() == 2) {
+                        String url1 = response.body().get(1).getQiniuurl();
+                        String url3 = response.body().get(0).getQiniuurl();
+                        Glide.with(getActivity()).load(url1).centerCrop().into(img1);
+                        Glide.with(getActivity()).load(url3).centerCrop().into(img3);
+                    }
                 }
 
                 @Override
@@ -125,6 +133,25 @@ public class PicFragment extends Fragment {
 //        String url2 = "http://p7l9j0wh9.bkt.clouddn.com/00101.jpg";
 //        Glide.with(getActivity()).load(url2).centerCrop().into(img2);
         return view;
+    }
+
+    //显示对话框
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("提示");
+        builder.setMessage("当前传感器没有数据！");
+        //builder.setNegativeButton("取消", null);
+        //builder.setCancelable(true);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                getActivity().finish();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
