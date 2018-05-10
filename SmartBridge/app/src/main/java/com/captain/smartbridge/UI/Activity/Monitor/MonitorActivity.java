@@ -103,6 +103,10 @@ public class MonitorActivity extends AbsActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        //测试顶升界面用
+        if (v.getId() == R.id.pic_top){
+            readyGo(TopActivity.class);
+        }
         Intent intent = new Intent(getApplication(), SensorAcitivty.class);
         intent.putExtra("id", id);
         //选择监测种类

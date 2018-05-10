@@ -1,5 +1,6 @@
 package com.captain.smartbridge.UI.Fragment;
 
+
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,10 +49,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by captain on 18-3-23.
+ * Created by captain on 18-5-10.
  */
 
-public class fourgFragment extends Fragment {
+public class TopFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     public static final String ID = "";
     private int mPage;
@@ -77,19 +80,14 @@ public class fourgFragment extends Fragment {
     LineChart chart;
     ListView listView;
 
-
-    //是否是4G页面
-    static Boolean if4g = false;
-
-    public static fourgFragment newInstance(int page, String tId, String tSensor, Boolean if4G) {
+    public static TopFragment newInstance(int page, String tId, String tSensor) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
-        fourgFragment fragment = new fourgFragment();
+        TopFragment fragment = new TopFragment();
         fragment.setArguments(args);
 
         id = tId;
         sensor = tSensor;
-        if4g = if4G;
 
         return fragment;
     }
@@ -130,7 +128,7 @@ public class fourgFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //切换曲线（当天数据，本周数据，本月数据）
                 String[] times = getResources().getStringArray(R.array.time);
-                Toast.makeText(getActivity(), "你点击的是："+times[position], 2000).show();
+                //Toast.makeText(getActivity(), "你点击的是：" + times[position], 2000).show();
             }
         });
 
@@ -148,17 +146,6 @@ public class fourgFragment extends Fragment {
         final ListView warnList = (ListView) view.findViewById(R.id.four2_list);
         final TextView warnCount = (TextView) view.findViewById(R.id.four2_warnCount);
 
-        //创建虚拟数据
-//        List<MonData> data = new ArrayList<>();
-//        data.add(new MonData("2018-03-14 11:58:31", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:58:01", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:57:29", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:56:58", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:56:28", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:56:05", "-19.175", "0"));
-//        data.add(new MonData("2018-03-14 11:55:27", "-18.990", "0"));
-//        data.add(new MonData("2018-03-14 11:55:09", "-18.928", "0"));
-
         warnReq = new MonDataReq();
         warnReq.setId(id);
         warnReq.setCgqbh(sensor);
@@ -170,7 +157,6 @@ public class fourgFragment extends Fragment {
                 public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
                     if (response.body() == null) {
                         showDialog();
-                        //关闭定时器
                         timer.cancel();
                         return;
                     }
@@ -192,7 +178,70 @@ public class fourgFragment extends Fragment {
     }
 
     private View thirdView(LayoutInflater inflater, ViewGroup container) {
-        return null;
+        view = inflater.inflate(R.layout.fragment_top, container, false);
+        final LinearLayout linear1 = (LinearLayout) view.findViewById(R.id.fra_top_lay1);
+        final ImageView img1 = (ImageView) view.findViewById(R.id.fra_top_img1);
+        final LinearLayout out1 = (LinearLayout) view.findViewById(R.id.fra_top_out1);
+        final LinearLayout linear2 = (LinearLayout) view.findViewById(R.id.fra_top_lay2);
+        final ImageView img2 = (ImageView) view.findViewById(R.id.fra_top_img2);
+        final LinearLayout out2 = (LinearLayout) view.findViewById(R.id.fra_top_out2);
+        final LinearLayout linear3 = (LinearLayout) view.findViewById(R.id.fra_top_lay3);
+        final ImageView img3 = (ImageView) view.findViewById(R.id.fra_top_img3);
+        final LinearLayout out3 = (LinearLayout) view.findViewById(R.id.fra_top_out3);
+
+
+        linear1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (linear1.getVisibility() == View.VISIBLE){
+                    out1.setVisibility(View.GONE);
+                    img1.setImageResource(R.drawable.down_white);
+                }else {
+                    out1.setVisibility(View.VISIBLE);
+                    img1.setImageResource(R.drawable.right_white);
+                }
+                out2.setVisibility(View.GONE);
+                img2.setImageResource(R.drawable.down_white);
+                out3.setVisibility(View.GONE);
+                img3.setImageResource(R.drawable.down_white);
+            }
+        });
+        linear2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (linear2.getVisibility() == View.VISIBLE){
+                    out2.setVisibility(View.GONE);
+                    img2.setImageResource(R.drawable.down_white);
+                }else {
+                    out2.setVisibility(View.VISIBLE);
+                    img2.setImageResource(R.drawable.right_white);
+                }
+                out1.setVisibility(View.GONE);
+                img1.setImageResource(R.drawable.down_white);
+                out3.setVisibility(View.GONE);
+                img3.setImageResource(R.drawable.down_white);
+            }
+        });
+        linear3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (linear3.getVisibility() == View.VISIBLE){
+                    out3.setVisibility(View.GONE);
+                    img3.setImageResource(R.drawable.down_white);
+                }else {
+                    out3.setVisibility(View.VISIBLE);
+                    img3.setImageResource(R.drawable.right_white);
+                }
+                out1.setVisibility(View.GONE);
+                img1.setImageResource(R.drawable.down_white);
+                out2.setVisibility(View.GONE);
+                img2.setImageResource(R.drawable.down_white);
+            }
+        });
+
+
+        return view;
+
     }
 
     //显示对话框
@@ -246,12 +295,7 @@ public class fourgFragment extends Fragment {
         req = new MonDataReq();
         req.setId(id);
         req.setCgqbh(sensor);
-        if (if4g) {
-            //4G传感器获取300个数据
-            req.setNumber("-3");
-        } else {
-            req.setNumber("-10");
-        }
+        req.setNumber("-10");
 
         if (NetUtils.isNetworkAvailable(getActivity())) {
             ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
@@ -269,15 +313,7 @@ public class fourgFragment extends Fragment {
                     }
 
                     List<MonData> listData = new ArrayList<>();
-                    if (if4g){
-                        for (MonData da : data){
-                            for (String value : da.getValue().split("\\|\\|")){
-                                listData.add(new MonData(da.getTime(), value, ""));
-                            }
-                        }
-                    }else {
-                        listData = data;
-                    }
+                    listData = data;
                     WarnListAdapter adapter = new WarnListAdapter(getActivity(), listData);
                     listView.setAdapter(adapter);
 
@@ -285,22 +321,11 @@ public class fourgFragment extends Fragment {
                     entries = new ArrayList<>();
                     dates = new ArrayList<>();
                     int i = 0;
-                    if (if4g){
-                        for (MonData da : data){
-                            for (String value : da.getValue().split("\\|\\|")){
-                                if (!value.equals("")){
-                                    entries.add(new Entry(i, Float.valueOf(value)));
-                                }
-                                i++;
-                            }
-                        }
-                    }else{
-                        for (MonData da : data){
-                            entries.add(new Entry(i, Float.valueOf(da.getValue())));
-                            String time = da.getTime().split(" ")[1];
-                            dates.add(time);
-                            i++;
-                        }
+                    for (MonData da : data) {
+                        entries.add(new Entry(i, Float.valueOf(da.getValue())));
+                        String time = da.getTime().split(" ")[1];
+                        dates.add(time);
+                        i++;
                     }
                     dataSet = new LineDataSet(entries, "传感器数值");
                     //important!!!
@@ -310,7 +335,6 @@ public class fourgFragment extends Fragment {
                     dataSet.setColor(Color.WHITE);
                     dataSet.setFillColor(Color.WHITE);
                     dataSet.setFillAlpha(100);
-                    //4G界面不标点, 不显示具体数值
                     dataSet.setDrawCircles(false);
                     dataSet.setDrawValues(false);
 
@@ -334,13 +358,6 @@ public class fourgFragment extends Fragment {
                         }
                     };
                     XAxis xAxis = chart.getXAxis();
-                    if (!if4g) {
-                        //4G页面不需要显示横坐标
-                        xAxis.setValueFormatter(formatter);
-                        dataSet.setDrawCircles(true);
-                        dataSet.setDrawValues(true);
-                    }
-
                     chart.invalidate();
                 }
 
@@ -371,11 +388,6 @@ public class fourgFragment extends Fragment {
         x.setAxisMinimum(1f);
         x.setLabelRotationAngle(-30);
         //x.setLabelRotationAngle(-30);
-
-        //4G页面不显示横坐标
-        if (if4g) {
-            chart.getXAxis().setEnabled(false);
-        }
 
 
         YAxis y = chart.getAxisLeft();

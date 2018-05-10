@@ -65,16 +65,16 @@
         android:background="@drawable/card_bg"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
+
+        <Spinner
+            android:id="@+id/four1_spinner"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
-            android:gravity="end"
-            android:paddingRight="20dp"
-            android:text="当天数据"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:prompt="请选择时间段"
+            android:entries="@array/time"
+            android:spinnerMode="dialog"></Spinner>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/four1_chart"
