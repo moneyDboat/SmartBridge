@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -123,12 +124,17 @@ public class TopFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_four1, container, false);
         BatteryView battery = (BatteryView) view.findViewById(R.id.four1_battery);
         Spinner spinner = (Spinner) view.findViewById(R.id.four1_spinner);
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //切换曲线（当天数据，本周数据，本月数据）
                 String[] times = getResources().getStringArray(R.array.time);
                 //Toast.makeText(getActivity(), "你点击的是：" + times[position], 2000).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -156,7 +162,8 @@ public class TopFragment extends Fragment {
                 @Override
                 public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
                     if (response.body() == null) {
-                        showDialog();
+                        //调试用
+                        //showDialog();
                         timer.cancel();
                         return;
                     }
@@ -179,21 +186,20 @@ public class TopFragment extends Fragment {
 
     private View thirdView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_top, container, false);
-        final LinearLayout linear1 = (LinearLayout) view.findViewById(R.id.fra_top_lay1);
+        final RelativeLayout linear1 = (RelativeLayout) view.findViewById(R.id.fra_top_lay1);
         final ImageView img1 = (ImageView) view.findViewById(R.id.fra_top_img1);
         final LinearLayout out1 = (LinearLayout) view.findViewById(R.id.fra_top_out1);
-        final LinearLayout linear2 = (LinearLayout) view.findViewById(R.id.fra_top_lay2);
+        final RelativeLayout linear2 = (RelativeLayout) view.findViewById(R.id.fra_top_lay2);
         final ImageView img2 = (ImageView) view.findViewById(R.id.fra_top_img2);
         final LinearLayout out2 = (LinearLayout) view.findViewById(R.id.fra_top_out2);
-        final LinearLayout linear3 = (LinearLayout) view.findViewById(R.id.fra_top_lay3);
+        final RelativeLayout linear3 = (RelativeLayout) view.findViewById(R.id.fra_top_lay3);
         final ImageView img3 = (ImageView) view.findViewById(R.id.fra_top_img3);
         final LinearLayout out3 = (LinearLayout) view.findViewById(R.id.fra_top_out3);
-
 
         linear1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (linear1.getVisibility() == View.VISIBLE){
+                if (out1.getVisibility() == View.VISIBLE){
                     out1.setVisibility(View.GONE);
                     img1.setImageResource(R.drawable.down_white);
                 }else {
@@ -209,7 +215,7 @@ public class TopFragment extends Fragment {
         linear2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (linear2.getVisibility() == View.VISIBLE){
+                if (out2.getVisibility() == View.VISIBLE){
                     out2.setVisibility(View.GONE);
                     img2.setImageResource(R.drawable.down_white);
                 }else {
@@ -225,7 +231,7 @@ public class TopFragment extends Fragment {
         linear3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (linear3.getVisibility() == View.VISIBLE){
+                if (out3.getVisibility() == View.VISIBLE){
                     out3.setVisibility(View.GONE);
                     img3.setImageResource(R.drawable.down_white);
                 }else {

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
 import com.captain.smartbridge.UI.Adapters.other.FourFraAdapter;
+import com.captain.smartbridge.UI.Adapters.tian.TopFraAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +25,7 @@ public class TopActivity extends AbsActivity {
     @BindView(R.id.top_page)
     ViewPager topPage;
 
-    FourFraAdapter fourFraAdapter;
+    TopFraAdapter adapter;
     String id = "";
     String sensor = "";
 
@@ -47,8 +48,8 @@ public class TopActivity extends AbsActivity {
         id = getIntent().getStringExtra("id");
         sensor = getIntent().getStringExtra("sensor");
 
-        fourFraAdapter = new FourFraAdapter(getSupportFragmentManager(), this, id, sensor, false);
-        topPage.setAdapter(fourFraAdapter);
+        adapter = new TopFraAdapter(getSupportFragmentManager(), this, id, sensor);
+        topPage.setAdapter(adapter);
         topTab.setupWithViewPager(topPage);
         topTab.setTabMode(TabLayout.MODE_FIXED);
     }

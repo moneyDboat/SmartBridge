@@ -125,12 +125,17 @@ public class fourgFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_four1, container, false);
         BatteryView battery = (BatteryView) view.findViewById(R.id.four1_battery);
         Spinner spinner = (Spinner) view.findViewById(R.id.four1_spinner);
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //切换曲线（当天数据，本周数据，本月数据）
                 String[] times = getResources().getStringArray(R.array.time);
                 Toast.makeText(getActivity(), "你点击的是："+times[position], 2000).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
