@@ -7,7 +7,7 @@
     <include
         android:id="@+id/fly_toolbar"
         layout="@layout/tool_bar"></include>
-<a></a>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,7 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:entries="@array/plane_splot"></Spinner>
+                android:entries="@array/plane_splot"
+                android:spinnerMode="dialog"></Spinner>
         </LinearLayout>
 
         <LinearLayout
@@ -76,21 +77,22 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/tmp_4" />
         </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="相关信息"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            />
+            android:text="相关信息"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="14sp"
-            android:text="文字颜色为#b3b3b3文字颜色为#b3b3b3文字颜色为#b3b3b3文字颜色为#b3b3b3文字颜色为#b3b3b3文字颜色为#b3b3b3"
             android:gravity="center"
-            android:textColor="#b3b3b3"/>
+            android:text="文字颜色为#b3b3b3文字颜色为#b3b3b3文字颜色为#b3b3b3文字颜色为#b3b3b3文字颜色为#b3b3b3文字颜色为#b3b3b3"
+            android:textColor="#b3b3b3"
+            android:textSize="14sp" />
     </LinearLayout>
 
 
