@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.captain.smartbridge">
+    package="com.captain.smartbridge">
 
     <!-- 申请必要的权限-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
         android:name=".UI.Activity.BaseApplication"
@@ -25,7 +25,7 @@
         <!--android:value="f2f543173f91b5be845ab3672af9ad22"-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="283d6751790f605ee256e4c5b7feab21"/>
+            android:value="283d6751790f605ee256e4c5b7feab21" />
         <!--声明定位service-->
         <service android:name="com.amap.api.location.APSService"></service>
 
@@ -40,156 +40,144 @@
         </activity>
         <activity android:name=".UI.Activity.LoginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".UI.Activity.SearchActivity"
-            android:label="@string/search">
-        </activity>
+            android:label="@string/search"></activity>
         <activity
             android:name=".UI.Activity.UserActivity"
-            android:label="用户信息">
-        </activity>
+            android:label="用户信息"></activity>
         <activity
             android:name=".UI.Activity.AboutActivity"
-            android:label="关于">
-        </activity>
+            android:label="关于"></activity>
         <activity
             android:name=".UI.Activity.Detect.DetectActivity"
-            android:label="检测管理">
-        </activity>
+            android:label="检测管理"></activity>
         <activity
             android:name=".UI.Activity.BridgeActivity"
-            android:label="桥梁详情">
-        </activity>
-        <activity android:name=".UI.Activity.WebActivity"
-                  android:label="三维模型">
-        </activity>
+            android:label="桥梁详情"></activity>
+        <activity
+            android:name=".UI.Activity.WebActivity"
+            android:label="三维模型"></activity>
         <activity
             android:name=".UI.Activity.NearbyActivity"
-            android:label="附近桥梁">
-        </activity>
+            android:label="附近桥梁"></activity>
         <activity
             android:name=".UI.Activity.Detect.DetectStatusActivity"
-            android:label="检测任务状态">
-        </activity>
+            android:label="检测任务状态"></activity>
         <activity
             android:name=".UI.Activity.Detect.DetectInfoActivity"
-            android:label="检测任务详情">
-        </activity>
+            android:label="检测任务详情"></activity>
         <activity
             android:name=".UI.Activity.Detect.DeCreateActivity"
-            android:label="新建检测任务">
-        </activity>
+            android:label="新建检测任务"></activity>
         <activity
             android:name=".UI.Activity.Detect.DetectSummaryActivity"
-            android:label="已完成任务汇总">
-        </activity>
+            android:label="已完成任务汇总"></activity>
         <activity
             android:name=".UI.Activity.Detect.DetectRecieveActivity"
-            android:label="检测任务接收">
-        </activity>
+            android:label="检测任务接收"></activity>
         <activity
             android:name=".UI.Activity.Detect.DetectRecieveInfoActivity"
-            android:label="接收任务详情">
-        </activity>
+            android:label="接收任务详情"></activity>
         <activity
             android:name=".UI.Activity.Detect.DeEntryActivity"
-            android:label="检测任务录入">
-        </activity>
+            android:label="检测任务录入"></activity>
         <activity
             android:name=".UI.Activity.Detect.DetectEntryInfoActivity"
-            android:label="录入任务详情">
-        </activity>
+            android:label="录入任务详情"></activity>
         <activity
             android:name=".UI.Activity.Detect.DetectEntryActivity"
-            android:label="病害录入">
-        </activity>
+            android:label="病害录入"></activity>
         <activity
             android:name=".UI.Activity.Detect.EntryBuildActivity"
-            android:label="上部构件病害录入">
-        </activity>
+            android:label="上部构件病害录入"></activity>
         <activity
             android:name=".UI.Activity.Detect.DeEntryInfoAcitivity"
-            android:label="病害录入">
-        </activity>
+            android:label="病害录入"></activity>
 
-        <activity android:name=".UI.Activity.Check.CheckActivity"
+        <activity
+            android:name=".UI.Activity.Check.CheckActivity"
             android:label="检测管理"></activity>
-        <activity android:name=".UI.Activity.Check.Regular.ReciveActivity"
+        <activity
+            android:name=".UI.Activity.Check.Regular.ReciveActivity"
             android:label="检测任务接收"></activity>
-        <activity android:name=".UI.Activity.Check.Regular.InputActivity"
+        <activity
+            android:name=".UI.Activity.Check.Regular.InputActivity"
             android:label="检测任务录入"></activity>
-        <activity android:name=".UI.Activity.Check.Regular.SearActivity"
+        <activity
+            android:name=".UI.Activity.Check.Regular.SearActivity"
             android:label="历史查询"></activity>
-        <activity android:name=".UI.Activity.Check.Regular.AnalyeActivity"
+        <activity
+            android:name=".UI.Activity.Check.Regular.AnalyeActivity"
             android:label="数据分析"></activity>
-        <activity android:name=".UI.Activity.Check.Spec.WaterActivity"
+        <activity
+            android:name=".UI.Activity.Check.Spec.WaterActivity"
             android:label="水下声呐"></activity>
-        <activity android:name=".UI.Activity.Check.Spec.PlaneActivity"
+        <activity
+            android:name=".UI.Activity.Check.Spec.PlaneActivity"
             android:label="无人机巡检"></activity>
+        <activity
+            android:name=".UI.Activity.Check.Spec.FlyActivity"
+            android:label="历年飞行轨迹"></activity>
 
 
-        <activity android:name=".UI.Activity.Monitor.BridgeListActivity"
-            android:label="监测桥梁">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.MonitorActivity"
-            android:label="监测管理">
-        </activity>
+        <activity
+            android:name=".UI.Activity.Monitor.BridgeListActivity"
+            android:label="监测桥梁"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.MonitorActivity"
+            android:label="监测管理"></activity>
         <activity
             android:name=".UI.Activity.Monitor.SensorAcitivty"
-            android:label="监测传感器">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.Wireless.ThingsActivity"
-            android:label="nb-iot">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.Wireless.FourGActivity"
-            android:label="4G监测">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.Wireless.PicActivity"
-            android:label="图像检测">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.Wireless.TopActivity"
-            android:label="顶升监测">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.Noise.SpeedActivity"
-            android:label="桥面车速监测">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.Noise.SupportActivity"
-            android:label="桥梁支座监测">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.Noise.FlexActivity"
-            android:label="桥梁伸缩缝监测">
-        </activity>
+            android:label="监测传感器"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.Wireless.ThingsActivity"
+            android:label="nb-iot"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.Wireless.FourGActivity"
+            android:label="4G监测"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.Wireless.PicActivity"
+            android:label="图像检测"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.Wireless.TopActivity"
+            android:label="顶升监测"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.Noise.SpeedActivity"
+            android:label="桥面车速监测"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.Noise.SupportActivity"
+            android:label="桥梁支座监测"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.Noise.FlexActivity"
+            android:label="桥梁伸缩缝监测"></activity>
         <activity
             android:name=".UI.Activity.Monitor.MonMessActivity"
-            android:label="桥梁监测">
-        </activity>
+            android:label="桥梁监测"></activity>
         <activity
             android:name=".UI.Activity.Monitor.SensorCurveActivity"
-            android:label="传感器信息">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.EleRingActivity"
-                  android:label="传感器电量">
-        </activity>
-        <activity android:name=".UI.Activity.Monitor.MonWarningActivity"
-            android:label="预警数据">
-        </activity>
+            android:label="传感器信息"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.EleRingActivity"
+            android:label="传感器电量"></activity>
+        <activity
+            android:name=".UI.Activity.Monitor.MonWarningActivity"
+            android:label="预警数据"></activity>
 
         <activity
             android:name=".UI.Activity.Evalute.EvMessActivity"
-            android:label="评估决策">
-        </activity>
+            android:label="评估决策"></activity>
         <activity
             android:name=".UI.Activity.Evalute.EvalActivity"
-            android:label="桥梁状态评估">
-        </activity>
-        <activity android:name=".UI.Activity.Evalute.EvalInfoActivity"
-            android:label="评估决策">
-        </activity>
+            android:label="桥梁状态评估"></activity>
+        <activity
+            android:name=".UI.Activity.Evalute.EvalInfoActivity"
+            android:label="评估决策"></activity>
     </application>
 
 </manifest>
