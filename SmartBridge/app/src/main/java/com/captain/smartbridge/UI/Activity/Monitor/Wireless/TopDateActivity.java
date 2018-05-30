@@ -1,4 +1,4 @@
-package com.captain.smartbridge.UI.Activity.Monitor;
+package com.captain.smartbridge.UI.Activity.Monitor.Wireless;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -7,30 +7,31 @@ import android.view.MenuItem;
 
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
-import com.captain.smartbridge.UI.Adapters.other.MonMesFraAdapter;
+import com.captain.smartbridge.UI.Adapters.tian.TopDataFraAdapter;
+import com.captain.smartbridge.UI.Adapters.tian.TopFraAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Captain on 17/7/4.
+ * Created by captain on 18-5-30.
  */
 
-public class MonMessActivity extends AbsActivity {
-    @BindView(R.id.momession_toolbar)
+public class TopDateActivity extends AbsActivity {
+    @BindView(R.id.topdata_toolbar)
     Toolbar toolbar;
-    @BindView(R.id.monmession_tab)
-    TabLayout monmessionTab;
-    @BindView(R.id.monmession_page)
-    ViewPager monmessionPage;
+    @BindView(R.id.topdata_tab)
+    TabLayout topTab;
+    @BindView(R.id.topdata_page)
+    ViewPager topPage;
 
-
-    MonMesFraAdapter fraAdapter;
-
+    TopDataFraAdapter adapter;
+    String id = "";
+    String sensor = "";
 
     @Override
     protected void setSelfContentView() {
-        setContentView(R.layout.activity_momession);
+        setContentView(R.layout.activity_topdata);
     }
 
     @Override
@@ -44,10 +45,13 @@ public class MonMessActivity extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fraAdapter = new MonMesFraAdapter(getSupportFragmentManager(), this);
-        monmessionPage.setAdapter(fraAdapter);
-        monmessionTab.setupWithViewPager(monmessionPage);
-        monmessionTab.setTabMode(TabLayout.MODE_FIXED);
+//        id = getIntent().getStringExtra("id");
+//        sensor = getIntent().getStringExtra("sensor");
+
+        adapter = new TopDataFraAdapter(getSupportFragmentManager(), this, id, sensor);
+        topPage.setAdapter(adapter);
+        topTab.setupWithViewPager(topPage);
+        topTab.setTabMode(TabLayout.MODE_FIXED);
     }
 
     @Override
@@ -59,4 +63,5 @@ public class MonMessActivity extends AbsActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

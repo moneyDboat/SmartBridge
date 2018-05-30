@@ -16,6 +16,7 @@ import com.captain.smartbridge.UI.Activity.Monitor.Wireless.FourGActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.Wireless.PicActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.Wireless.ThingsActivity;
 import com.captain.smartbridge.UI.Activity.Monitor.Wireless.TopActivity;
+import com.captain.smartbridge.UI.Activity.Monitor.Wireless.TopDateActivity;
 
 import java.util.HashMap;
 

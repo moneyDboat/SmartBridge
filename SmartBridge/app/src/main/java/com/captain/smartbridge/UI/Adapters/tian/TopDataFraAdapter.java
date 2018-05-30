@@ -5,23 +5,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.captain.smartbridge.UI.Fragment.TopFragment;
-import com.captain.smartbridge.UI.Fragment.fourgFragment;
+import com.captain.smartbridge.UI.Fragment.TopDataFragment;
 
 /**
- * Created by Captain on 17/8/21.
+ * Created by captain on 18-5-30.
  */
 
-public class TopFraAdapter extends FragmentPagerAdapter {
+public class TopDataFraAdapter extends FragmentPagerAdapter{
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[]{"监测传感器", "数据分布"};
+    private String tabTitles[] = new String[]{"当前数据", "预警数据"};
     private Context context;
 
     String id = "";
     String sensor = "";
 
-
-    public TopFraAdapter(FragmentManager fm, Context context, String id, String sensor) {
+    public TopDataFraAdapter(FragmentManager fm, Context context, String id, String sensor) {
         super(fm);
         this.context = context;
         this.id = id;
@@ -35,7 +33,7 @@ public class TopFraAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TopFragment.newInstance(position, id, sensor);
+        return TopDataFragment.newInstance(position, id, sensor);
     }
 
     @Override

@@ -13,7 +13,9 @@ import com.captain.smartbridge.UI.Activity.Check.Regular.InputActivity;
 import com.captain.smartbridge.UI.Activity.Check.Regular.ReciveActivity;
 import com.captain.smartbridge.UI.Activity.Check.Regular.SearActivity;
 import com.captain.smartbridge.UI.Activity.Check.Spec.PlaneActivity;
+import com.captain.smartbridge.UI.Activity.Check.Spec.PlaneBridgeListActivity;
 import com.captain.smartbridge.UI.Activity.Check.Spec.WaterActivity;
+import com.captain.smartbridge.UI.Activity.Check.Spec.WaterBridgeListActivity;
 import com.captain.smartbridge.UI.Activity.Detect.DeEntryActivity;
 import com.captain.smartbridge.UI.Activity.Detect.DetectRecieveActivity;
 import com.captain.smartbridge.UI.Activity.Detect.DetectStatusActivity;
@@ -98,10 +100,10 @@ public class CheckActivity extends AbsActivity implements View.OnClickListener{
                 break;
                 //readyGo(AnalyeActivity.class);
             case R.id.pic_water:
-                readyGo(WaterActivity.class);
+                readyGo(WaterBridgeListActivity.class);
                 break;
             case R.id.pic_plane:
-                readyGo(PlaneActivity.class);
+                readyGo(PlaneBridgeListActivity.class);
                 break;
             default:
                 break;

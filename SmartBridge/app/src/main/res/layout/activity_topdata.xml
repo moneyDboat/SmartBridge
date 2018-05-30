@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <include
-        android:id="@+id/water_toolbar"
-        layout="@layout/tool_bar">
-    </include>
+        android:id="@+id/topdata_toolbar"
+        layout="@layout/tool_bar"></include>
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/water_tab"
+        android:id="@+id/topdata_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/water_page"
+        android:id="@+id/topdata_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:background="@color/white">
+
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

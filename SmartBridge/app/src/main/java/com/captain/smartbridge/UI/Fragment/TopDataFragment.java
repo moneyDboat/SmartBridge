@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
@@ -46,10 +48,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by captain on 18-3-23.
+ * Created by captain on 18-5-30.
  */
 
-public class fourgFragment extends Fragment {
+public class TopDataFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     public static final String ID = "";
     private int mPage;
@@ -68,7 +70,6 @@ public class fourgFragment extends Fragment {
 
     static String id;
     static String sensor;
-    Boolean first = false;
 
     SensorDataAdapter adapter = null;
 
@@ -77,19 +78,14 @@ public class fourgFragment extends Fragment {
     LineChart chart;
     ListView listView;
 
-
-    //是否是4G页面
-    static Boolean if4g = false;
-
-    public static fourgFragment newInstance(int page, String tId, String tSensor, Boolean if4G) {
+    public static TopDataFragment newInstance(int page, String tId, String tSensor) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
-        fourgFragment fragment = new fourgFragment();
+        TopDataFragment fragment = new TopDataFragment();
         fragment.setArguments(args);
 
         id = tId;
         sensor = tSensor;
-        if4g = if4G;
 
         return fragment;
     }
@@ -108,8 +104,6 @@ public class fourgFragment extends Fragment {
                 return firstView(inflater, container);
             case 1:
                 return secView(inflater, container);
-            case 2:
-                return thirdView(inflater, container);
             default:
                 return null;
         }
@@ -130,7 +124,7 @@ public class fourgFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //切换曲线（当天数据，本周数据，本月数据）
                 String[] times = getResources().getStringArray(R.array.time);
-                Toast.makeText(getActivity(), "你点击的是："+times[position], 2000).show();
+                //Toast.makeText(getActivity(), "你点击的是：" + times[position], 2000).show();
             }
 
             @Override
@@ -143,7 +137,7 @@ public class fourgFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.four1_list);
 
         initChart(chart);
-        refreshData();
+        //refreshData();
 
         return view;
     }
@@ -152,17 +146,6 @@ public class fourgFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_four2, container, false);
         final ListView warnList = (ListView) view.findViewById(R.id.four2_list);
         final TextView warnCount = (TextView) view.findViewById(R.id.four2_warnCount);
-
-        //创建虚拟数据
-//        List<MonData> data = new ArrayList<>();
-//        data.add(new MonData("2018-03-14 11:58:31", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:58:01", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:57:29", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:56:58", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:56:28", "-19.187", "0"));
-//        data.add(new MonData("2018-03-14 11:56:05", "-19.175", "0"));
-//        data.add(new MonData("2018-03-14 11:55:27", "-18.990", "0"));
-//        data.add(new MonData("2018-03-14 11:55:09", "-18.928", "0"));
 
         warnReq = new MonDataReq();
         warnReq.setId(id);
@@ -174,7 +157,9 @@ public class fourgFragment extends Fragment {
                 @Override
                 public void onResponse(Call<List<MonData>> call, Response<List<MonData>> response) {
                     if (response.body() == null) {
-                        showDialog();
+                        //调试用
+                        //showDialog();
+                        timer.cancel();
                         return;
                     }
                     warnData = response.body();
@@ -194,10 +179,6 @@ public class fourgFragment extends Fragment {
         return view;
     }
 
-    private View thirdView(LayoutInflater inflater, ViewGroup container) {
-        return null;
-    }
-
     //显示对话框
     private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -205,9 +186,6 @@ public class fourgFragment extends Fragment {
         builder.setMessage("当前传感器没有数据！");
         //builder.setNegativeButton("取消", null);
         //builder.setCancelable(true);
-
-        //关闭定时器
-        timer.cancel();
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -252,12 +230,7 @@ public class fourgFragment extends Fragment {
         req = new MonDataReq();
         req.setId(id);
         req.setCgqbh(sensor);
-        if (if4g) {
-            //4G传感器获取300个数据
-            req.setNumber("-3");
-        } else {
-            req.setNumber("-10");
-        }
+        req.setNumber("-10");
 
         if (NetUtils.isNetworkAvailable(getActivity())) {
             ApiManager.getmService().monData(req).enqueue(new Callback<List<MonData>>() {
@@ -275,15 +248,7 @@ public class fourgFragment extends Fragment {
                     }
 
                     List<MonData> listData = new ArrayList<>();
-                    if (if4g){
-                        for (MonData da : data){
-                            for (String value : da.getValue().split("\\|\\|")){
-                                listData.add(new MonData(da.getTime(), value, ""));
-                            }
-                        }
-                    }else {
-                        listData = data;
-                    }
+                    listData = data;
                     WarnListAdapter adapter = new WarnListAdapter(getActivity(), listData);
                     listView.setAdapter(adapter);
 
@@ -291,22 +256,11 @@ public class fourgFragment extends Fragment {
                     entries = new ArrayList<>();
                     dates = new ArrayList<>();
                     int i = 0;
-                    if (if4g){
-                        for (MonData da : data){
-                            for (String value : da.getValue().split("\\|\\|")){
-                                if (!value.equals("")){
-                                    entries.add(new Entry(i, Float.valueOf(value)));
-                                }
-                                i++;
-                            }
-                        }
-                    }else{
-                        for (MonData da : data){
-                            entries.add(new Entry(i, Float.valueOf(da.getValue())));
-                            String time = da.getTime().split(" ")[1];
-                            dates.add(time);
-                            i++;
-                        }
+                    for (MonData da : data) {
+                        entries.add(new Entry(i, Float.valueOf(da.getValue())));
+                        String time = da.getTime().split(" ")[1];
+                        dates.add(time);
+                        i++;
                     }
                     dataSet = new LineDataSet(entries, "传感器数值");
                     //important!!!
@@ -316,7 +270,6 @@ public class fourgFragment extends Fragment {
                     dataSet.setColor(Color.WHITE);
                     dataSet.setFillColor(Color.WHITE);
                     dataSet.setFillAlpha(100);
-                    //4G界面不标点, 不显示具体数值
                     dataSet.setDrawCircles(false);
                     dataSet.setDrawValues(false);
 
@@ -340,13 +293,6 @@ public class fourgFragment extends Fragment {
                         }
                     };
                     XAxis xAxis = chart.getXAxis();
-                    if (!if4g) {
-                        //4G页面不需要显示横坐标
-                        xAxis.setValueFormatter(formatter);
-                        dataSet.setDrawCircles(true);
-                        dataSet.setDrawValues(true);
-                    }
-
                     chart.invalidate();
                 }
 
@@ -377,11 +323,6 @@ public class fourgFragment extends Fragment {
         x.setAxisMinimum(1f);
         x.setLabelRotationAngle(-30);
         //x.setLabelRotationAngle(-30);
-
-        //4G页面不显示横坐标
-        if (if4g) {
-            chart.getXAxis().setEnabled(false);
-        }
 
 
         YAxis y = chart.getAxisLeft();

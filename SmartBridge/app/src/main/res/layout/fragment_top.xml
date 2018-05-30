@@ -56,12 +56,14 @@
                     android:gravity="center"
                     android:text="动态位移平面图" />
 
-                <ImageView
+                <com.captain.smartbridge.UI.View.RGBView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/card" />
+                    android:background="@drawable/card"/>
+
+                <!--android:background="@drawable/card"-->
 
                 <TextView
                     android:layout_width="match_parent"
@@ -125,12 +127,11 @@
                     android:gravity="center"
                     android:text="平面动态数据热点图" />
 
-                <ImageView
+                <com.captain.smartbridge.UI.View.RGBView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/card" />
+                    android:layout_marginRight="10dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -192,12 +193,12 @@
                     android:gravity="center"
                     android:text="应变图" />
 
-                <ImageView
+                <com.captain.smartbridge.UI.View.TenView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/card" />
+                    android:background="@drawable/card"/>
 
                 <TextView
                     android:layout_width="match_parent"

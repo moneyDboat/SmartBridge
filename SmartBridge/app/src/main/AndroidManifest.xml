@@ -115,9 +115,13 @@
         <activity
             android:name=".UI.Activity.Check.Regular.AnalyeActivity"
             android:label="数据分析"></activity>
+        <activity android:name=".UI.Activity.Check.Spec.WaterBridgeListActivity"
+            android:label="桥梁列表"></activity>
         <activity
             android:name=".UI.Activity.Check.Spec.WaterActivity"
             android:label="水下声呐"></activity>
+        <activity android:name=".UI.Activity.Check.Spec.PlaneBridgeListActivity"
+            android:label="桥梁列表"></activity>
         <activity
             android:name=".UI.Activity.Check.Spec.PlaneActivity"
             android:label="无人机巡检"></activity>
@@ -143,7 +147,9 @@
             android:label="4G监测"></activity>
         <activity
             android:name=".UI.Activity.Monitor.Wireless.PicActivity"
-            android:label="图像检测"></activity>
+            android:label="图像监测"></activity>
+        <activity android:name=".UI.Activity.Monitor.Wireless.TopDateActivity"
+            android:label="顶升监测数据"></activity>
         <activity
             android:name=".UI.Activity.Monitor.Wireless.TopActivity"
             android:label="顶升监测"></activity>
@@ -156,9 +162,6 @@
         <activity
             android:name=".UI.Activity.Monitor.Noise.FlexActivity"
             android:label="桥梁伸缩缝监测"></activity>
-        <activity
-            android:name=".UI.Activity.Monitor.MonMessActivity"
-            android:label="桥梁监测"></activity>
         <activity
             android:name=".UI.Activity.Monitor.SensorCurveActivity"
             android:label="传感器信息"></activity>

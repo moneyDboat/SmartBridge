@@ -80,6 +80,12 @@ public class SensorAcitivty extends AbsActivity {
         maps.put("flex", FlexActivity.class);
 
         initList();
+        //设置下拉刷新操作
+        sensorSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+            }
+        });
     }
 
     private void initList() {
