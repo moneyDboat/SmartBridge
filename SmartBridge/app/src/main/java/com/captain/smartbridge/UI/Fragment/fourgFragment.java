@@ -141,19 +141,17 @@ public class fourgFragment extends Fragment {
                         break;
                     case 1:
                         //本周数据
-                        int weekIndex = cal.get(Calendar.DAY_OF_WEEK) - 1;
+                        int weekIndex = cal.get(Calendar.DAY_OF_WEEK) - 2;
                         if (weekIndex < 0){
                             weekIndex = 0;
                         }
                         number = weekIndex * 1440 + cal.get(Calendar.HOUR_OF_DAY) * 60
                                 + cal.get(Calendar.MINUTE);
-                        Toast.makeText(getActivity(), String.valueOf(number), 2000).show();
                         break;
                     case 2:
                         //本月数据
                         number = (cal.get(Calendar.DATE)-1) * 1440 + cal.get(Calendar.HOUR_OF_DAY) * 60
                                 + cal.get(Calendar.MINUTE);
-                        Toast.makeText(getActivity(), String.valueOf(number), 2000).show();
                         break;
                 }
             }
@@ -237,6 +235,7 @@ public class fourgFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                //退出当前界面
                 getActivity().finish();
             }
         });
