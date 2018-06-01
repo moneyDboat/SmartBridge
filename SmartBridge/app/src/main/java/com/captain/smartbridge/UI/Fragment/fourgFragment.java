@@ -36,6 +36,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
@@ -70,16 +71,20 @@ public class fourgFragment extends Fragment {
     static String sensor;
     Boolean first = false;
 
-    SensorDataAdapter adapter = null;
-
     final Timer timer = new Timer();
     TimerTask task;
     LineChart chart;
     ListView listView;
-
+    WarnListAdapter adapter = null;
 
     //是否是4G页面
     static Boolean if4g = false;
+
+    //解决当天数据，本周数据和本月数据的切换
+    //4G界面不受影响，已经是300条数据
+    //物联网检测传感器最多100条数据
+    int number = -10;
+    Calendar cal = Calendar.getInstance();
 
     public static fourgFragment newInstance(int page, String tId, String tSensor, Boolean if4G) {
         Bundle args = new Bundle();
@@ -129,8 +134,28 @@ public class fourgFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //切换曲线（当天数据，本周数据，本月数据）
-                String[] times = getResources().getStringArray(R.array.time);
-                Toast.makeText(getActivity(), "你点击的是："+times[position], 2000).show();
+                switch (position){
+                    case 0:
+                        //当天数据
+                        number = -10;
+                        break;
+                    case 1:
+                        //本周数据
+                        int weekIndex = cal.get(Calendar.DAY_OF_WEEK) - 1;
+                        if (weekIndex < 0){
+                            weekIndex = 0;
+                        }
+                        number = weekIndex * 1440 + cal.get(Calendar.HOUR_OF_DAY) * 60
+                                + cal.get(Calendar.MINUTE);
+                        Toast.makeText(getActivity(), String.valueOf(number), 2000).show();
+                        break;
+                    case 2:
+                        //本月数据
+                        number = (cal.get(Calendar.DATE)-1) * 1440 + cal.get(Calendar.HOUR_OF_DAY) * 60
+                                + cal.get(Calendar.MINUTE);
+                        Toast.makeText(getActivity(), String.valueOf(number), 2000).show();
+                        break;
+                }
             }
 
             @Override
@@ -256,7 +281,7 @@ public class fourgFragment extends Fragment {
             //4G传感器获取300个数据
             req.setNumber("-3");
         } else {
-            req.setNumber("-10");
+            req.setNumber(String.valueOf(number));
         }
 
         if (NetUtils.isNetworkAvailable(getActivity())) {
@@ -275,33 +300,33 @@ public class fourgFragment extends Fragment {
                     }
 
                     List<MonData> listData = new ArrayList<>();
-                    if (if4g){
-                        for (MonData da : data){
-                            for (String value : da.getValue().split("\\|\\|")){
+                    if (if4g) {
+                        for (MonData da : data) {
+                            for (String value : da.getValue().split("\\|\\|")) {
                                 listData.add(new MonData(da.getTime(), value, ""));
                             }
                         }
-                    }else {
+                    } else {
                         listData = data;
                     }
-                    WarnListAdapter adapter = new WarnListAdapter(getActivity(), listData);
+                    adapter = new WarnListAdapter(getActivity(), listData);
                     listView.setAdapter(adapter);
 
                     //清空传感器数据
                     entries = new ArrayList<>();
                     dates = new ArrayList<>();
                     int i = 0;
-                    if (if4g){
-                        for (MonData da : data){
-                            for (String value : da.getValue().split("\\|\\|")){
-                                if (!value.equals("")){
+                    if (if4g) {
+                        for (MonData da : data) {
+                            for (String value : da.getValue().split("\\|\\|")) {
+                                if (!value.equals("")) {
                                     entries.add(new Entry(i, Float.valueOf(value)));
                                 }
                                 i++;
                             }
                         }
-                    }else{
-                        for (MonData da : data){
+                    } else {
+                        for (MonData da : data) {
                             entries.add(new Entry(i, Float.valueOf(da.getValue())));
                             String time = da.getTime().split(" ")[1];
                             dates.add(time);
