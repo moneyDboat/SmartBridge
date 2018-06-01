@@ -225,7 +225,8 @@ public class fourgFragment extends Fragment {
     private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("提示");
-        builder.setMessage("当前传感器没有数据！");
+        //builder.setMessage("当前传感器没有数据！");
+        builder.setMessage("没有数据！");
         //builder.setNegativeButton("取消", null);
         //builder.setCancelable(true);
 
