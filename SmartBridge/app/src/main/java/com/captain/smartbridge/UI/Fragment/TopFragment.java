@@ -165,6 +165,10 @@ public class TopFragment extends Fragment {
         final RelativeLayout linear3 = (RelativeLayout) view.findViewById(R.id.fra_top_lay3);
         final ImageView img3 = (ImageView) view.findViewById(R.id.fra_top_img3);
         final LinearLayout out3 = (LinearLayout) view.findViewById(R.id.fra_top_out3);
+        final RelativeLayout linear4 = (RelativeLayout) view.findViewById(R.id.fra_top_lay4);
+        final ImageView img4 = (ImageView) view.findViewById(R.id.fra_top_img4);
+        final LinearLayout out4 = (LinearLayout) view.findViewById(R.id.fra_top_out4);
+
 
         linear1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +184,8 @@ public class TopFragment extends Fragment {
                 img2.setImageResource(R.drawable.down_white);
                 out3.setVisibility(View.GONE);
                 img3.setImageResource(R.drawable.down_white);
+                out4.setVisibility(View.GONE);
+                img4.setImageResource(R.drawable.down_white);
             }
         });
         linear2.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +202,8 @@ public class TopFragment extends Fragment {
                 img1.setImageResource(R.drawable.down_white);
                 out3.setVisibility(View.GONE);
                 img3.setImageResource(R.drawable.down_white);
+                out4.setVisibility(View.GONE);
+                img4.setImageResource(R.drawable.down_white);
             }
         });
         linear3.setOnClickListener(new View.OnClickListener() {
@@ -212,6 +220,26 @@ public class TopFragment extends Fragment {
                 img1.setImageResource(R.drawable.down_white);
                 out2.setVisibility(View.GONE);
                 img2.setImageResource(R.drawable.down_white);
+                out4.setVisibility(View.GONE);
+                img4.setImageResource(R.drawable.down_white);
+            }
+        });
+        linear4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (out4.getVisibility() == View.VISIBLE) {
+                    out4.setVisibility(View.GONE);
+                    img4.setImageResource(R.drawable.down_white);
+                } else {
+                    out4.setVisibility(View.VISIBLE);
+                    img4.setImageResource(R.drawable.right_white);
+                }
+                out1.setVisibility(View.GONE);
+                img1.setImageResource(R.drawable.down_white);
+                out2.setVisibility(View.GONE);
+                img2.setImageResource(R.drawable.down_white);
+                out3.setVisibility(View.GONE);
+                img3.setImageResource(R.drawable.down_white);
             }
         });
 
