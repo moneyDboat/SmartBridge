@@ -13,4 +13,15 @@
         <item>5</item>
         <item>6</item>
     </string-array>
+    <string-array name="pic_time">
+        <item>当前图片</item>
+        <item>6月9日</item>
+        <item>6月10日</item>
+        <item>6月11日</item>
+    </string-array>
+    <string-array name="pic_time2">
+        <item>6月9日</item>
+        <item>6月10日</item>
+        <item>6月11日</item>
+    </string-array>
 </resources>

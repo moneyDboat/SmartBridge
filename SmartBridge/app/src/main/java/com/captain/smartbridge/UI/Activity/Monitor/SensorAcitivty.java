@@ -44,8 +44,6 @@ public class SensorAcitivty extends AbsActivity {
     Toolbar toolbar;
     @BindView(R.id.sensor_list)
     ListView sensorList;
-    @BindView(R.id.sensor_swipe)
-    SwipeRefreshLayout sensorSwipe;
 
     String bridgeId = "";
     //监测种类
@@ -80,12 +78,6 @@ public class SensorAcitivty extends AbsActivity {
         maps.put("flex", FlexActivity.class);
 
         initList();
-        //设置下拉刷新操作
-        sensorSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-            }
-        });
     }
 
     private void initList() {

@@ -115,16 +115,18 @@
         <activity
             android:name=".UI.Activity.Check.Regular.AnalyeActivity"
             android:label="数据分析"></activity>
-        <activity android:name=".UI.Activity.Check.Spec.WaterBridgeListActivity"
+        <activity android:name=".UI.Activity.Check.Spec.List.SpecBriActivity"
             android:label="桥梁列表"></activity>
         <activity
             android:name=".UI.Activity.Check.Spec.WaterActivity"
             android:label="水下声呐"></activity>
-        <activity android:name=".UI.Activity.Check.Spec.PlaneBridgeListActivity"
-            android:label="桥梁列表"></activity>
+        <activity android:name=".UI.Activity.Check.Spec.List.WaSenActivity"
+            android:label="水下点列表"></activity>
         <activity
             android:name=".UI.Activity.Check.Spec.PlaneActivity"
             android:label="无人机巡检"></activity>
+        <activity android:name=".UI.Activity.Check.Spec.List.FlySenActivity"
+            android:label="无人机列表"></activity>
         <activity
             android:name=".UI.Activity.Check.Spec.FlyActivity"
             android:label="历年飞行轨迹"></activity>

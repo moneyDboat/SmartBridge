@@ -10,11 +10,20 @@ public class MonDataReq {
      * id : 35
      * cgqbh : cgqjsd1
      * number : -10
+     * StartTime : 2018-06-04 00:00:00
+     * StopTime : 2018-06-05 00:00:00
      */
 
     private String id;
     private String cgqbh;
     private String number;
+    private String StartTime;
+    private String StopTime;
+
+    public MonDataReq(){
+        StartTime = "";
+        StopTime = "";
+    }
 
     public String getId() {
         return id;
@@ -38,5 +47,21 @@ public class MonDataReq {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public String getStartTime() {
+        return StartTime;
+    }
+
+    public void setStartTime(String startTime) {
+        StartTime = startTime;
+    }
+
+    public String getStopTime() {
+        return StopTime;
+    }
+
+    public void setStopTime(String stopTime) {
+        StopTime = stopTime;
     }
 }

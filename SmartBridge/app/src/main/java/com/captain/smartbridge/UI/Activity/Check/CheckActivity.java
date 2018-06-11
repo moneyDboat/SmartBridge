@@ -1,21 +1,14 @@
 package com.captain.smartbridge.UI.Activity.Check;
 
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.AbsActivity;
-import com.captain.smartbridge.UI.Activity.Check.Regular.AnalyeActivity;
-import com.captain.smartbridge.UI.Activity.Check.Regular.InputActivity;
-import com.captain.smartbridge.UI.Activity.Check.Regular.ReciveActivity;
-import com.captain.smartbridge.UI.Activity.Check.Regular.SearActivity;
-import com.captain.smartbridge.UI.Activity.Check.Spec.PlaneActivity;
-import com.captain.smartbridge.UI.Activity.Check.Spec.PlaneBridgeListActivity;
-import com.captain.smartbridge.UI.Activity.Check.Spec.WaterActivity;
-import com.captain.smartbridge.UI.Activity.Check.Spec.WaterBridgeListActivity;
+import com.captain.smartbridge.UI.Activity.Check.Spec.List.SpecBriActivity;
 import com.captain.smartbridge.UI.Activity.Detect.DeEntryActivity;
 import com.captain.smartbridge.UI.Activity.Detect.DetectRecieveActivity;
 import com.captain.smartbridge.UI.Activity.Detect.DetectStatusActivity;
@@ -100,10 +93,14 @@ public class CheckActivity extends AbsActivity implements View.OnClickListener{
                 break;
                 //readyGo(AnalyeActivity.class);
             case R.id.pic_water:
-                readyGo(WaterBridgeListActivity.class);
+                Intent intent0 = new Intent(this, SpecBriActivity.class);
+                intent0.putExtra("type", 0);
+                startActivity(intent0);
                 break;
             case R.id.pic_plane:
-                readyGo(PlaneBridgeListActivity.class);
+                Intent intent1 = new Intent(this, SpecBriActivity.class);
+                intent1.putExtra("type", 1);
+                startActivity(intent1);
                 break;
             default:
                 break;

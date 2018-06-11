@@ -109,6 +109,10 @@ public interface BridgeService {
     @GET("app/monitor/monitedbridges")
     Call<List<MonBridge>> monBridges();
 
+    //获取特殊检测桥梁
+    @GET("app/monitor/monitedwrjbridges")
+    Call<List<MonBridge>> monwrjBridges();
+
     //获取桥梁监测传感器信息
     @POST("app/monitor/sensorinfo")
     Call<List<MonSensor>> monSensor(@Body MonSensorReq req);

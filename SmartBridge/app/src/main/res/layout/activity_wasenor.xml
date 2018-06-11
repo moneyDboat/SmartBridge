@@ -5,13 +5,13 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/planebridgelist_toolbar"
+        android:id="@+id/wasensor_toolbar"
         layout="@layout/tool_bar"></include>
 
     <ListView
-        android:id="@+id/planebridgelist_list"
+        android:id="@+id/wasensor_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     </ListView>
 

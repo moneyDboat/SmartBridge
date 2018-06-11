@@ -17,6 +17,8 @@ import com.captain.smartbridge.R;
  */
 
 public abstract class AbsActivity extends AppCompatActivity {
+    MyReceiver receiver = new MyReceiver();
+    IntentFilter filter = new IntentFilter();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,8 +33,6 @@ public abstract class AbsActivity extends AppCompatActivity {
 
     protected void regListener() {
         //注册广播接收者
-        MyReceiver receiver = new MyReceiver();
-        IntentFilter filter = new IntentFilter();
         filter.addAction("exit_app");
         registerReceiver(receiver, filter);
     }
@@ -102,6 +102,7 @@ public abstract class AbsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(receiver);
     }
 
     class MyReceiver extends BroadcastReceiver{

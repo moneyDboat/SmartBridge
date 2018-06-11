@@ -95,8 +95,6 @@ public class PicFragment extends Fragment {
                 }
             });
         }
-//        String url = "http://p7l9j0wh9.bkt.clouddn.com/PIC00065.jpg";
-//        Glide.with(getActivity()).load(url).centerCrop().into(img1);
 
         return view;
     }
