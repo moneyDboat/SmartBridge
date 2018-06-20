@@ -99,7 +99,7 @@ public class TopFragment extends Fragment {
                     List<MonSensor> tmpData = response.body();
                     for (MonSensor data : tmpData) {
                         //顶升根据传感器类型名称字段判断
-                        if (data.getCgqlxmc().equals("应变") || data.getCgqlxmc().equals("位移"))
+                        if (data.getCgqlxmc().contains("应变") || data.getCgqlxmc().contains("位移"))
                         sensors.add(data);
                     }
 

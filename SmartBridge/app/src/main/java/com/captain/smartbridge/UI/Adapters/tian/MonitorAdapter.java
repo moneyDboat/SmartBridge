@@ -64,7 +64,7 @@ public class MonitorAdapter extends BaseAdapter {
 
         MonBridge item = mData.get(i);
         holder.name.setText(item.getQlmc());
-        holder.code.setText(item.getQldm());
+        holder.code.setText(item.getJclxmc());
         holder.location.setText(item.getSf() + item.getSc() + item.getQx());
         holder.time.setText(item.getKsjcsj());
         return rootView;

@@ -12,7 +12,7 @@
         android:layout_marginLeft="20dp"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
@@ -20,7 +20,7 @@
 
             <TextView
                 android:id="@+id/momession_name"
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="南京长江大桥"
                 android:textColor="@color/BlackText"
@@ -31,11 +31,12 @@
                 android:id="@+id/momession_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:text="G1001004"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="30dp"
+                android:text="施工监测"
                 android:textColor="@color/ThemePro"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:textSize="15sp" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/momession_location"

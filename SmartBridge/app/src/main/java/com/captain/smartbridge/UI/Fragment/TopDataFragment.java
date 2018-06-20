@@ -137,7 +137,7 @@ public class TopDataFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.four1_list);
 
         initChart(chart);
-        //refreshData();
+        refreshData();
 
         return view;
     }
@@ -186,6 +186,9 @@ public class TopDataFragment extends Fragment {
         builder.setMessage("当前传感器没有数据！");
         //builder.setNegativeButton("取消", null);
         //builder.setCancelable(true);
+
+        //关闭定时器
+        timer.cancel();
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -226,7 +229,6 @@ public class TopDataFragment extends Fragment {
     }
 
     private void getData() {
-
         req = new MonDataReq();
         req.setId(id);
         req.setCgqbh(sensor);
@@ -247,8 +249,7 @@ public class TopDataFragment extends Fragment {
                         return;
                     }
 
-                    List<MonData> listData = new ArrayList<>();
-                    listData = data;
+                    List<MonData> listData = data;
                     WarnListAdapter adapter = new WarnListAdapter(getActivity(), listData);
                     listView.setAdapter(adapter);
 

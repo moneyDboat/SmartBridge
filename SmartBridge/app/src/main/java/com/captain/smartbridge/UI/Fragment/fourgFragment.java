@@ -134,7 +134,7 @@ public class fourgFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //切换曲线（当天数据，本周数据，本月数据）
-                switch (position){
+                switch (position) {
                     case 0:
                         //当天数据
                         number = -10;
@@ -142,7 +142,7 @@ public class fourgFragment extends Fragment {
                     case 1:
                         //本周数据
                         int weekIndex = cal.get(Calendar.DAY_OF_WEEK) - 2;
-                        if (weekIndex < 0){
+                        if (weekIndex < 0) {
                             weekIndex = 0;
                         }
                         number = weekIndex * 1440 + cal.get(Calendar.HOUR_OF_DAY) * 60
@@ -150,7 +150,7 @@ public class fourgFragment extends Fragment {
                         break;
                     case 2:
                         //本月数据
-                        number = (cal.get(Calendar.DATE)-1) * 1440 + cal.get(Calendar.HOUR_OF_DAY) * 60
+                        number = (cal.get(Calendar.DATE) - 1) * 1440 + cal.get(Calendar.HOUR_OF_DAY) * 60
                                 + cal.get(Calendar.MINUTE);
                         break;
                 }
@@ -273,7 +273,6 @@ public class fourgFragment extends Fragment {
     }
 
     private void getData() {
-
         req = new MonDataReq();
         req.setId(id);
         req.setCgqbh(sensor);
