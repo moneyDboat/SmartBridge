@@ -348,7 +348,7 @@ public class SensorCurveActivity extends AbsActivity{
 
         //添加阈值线
         //Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-        LimitLine ll = new LimitLine(sensor.getYz(), "阈值");
+        LimitLine ll = new LimitLine(Float.parseFloat(sensor.getYz()), "阈值");
         ll.setLineWidth(4f);
         ll.enableDashedLine(10f, 10f, 0f);
         ll.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);

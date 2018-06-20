@@ -18,6 +18,8 @@ import com.captain.smartbridge.model.MapRes;
 import com.captain.smartbridge.model.MonBridge;
 import com.captain.smartbridge.model.SearchCodeReq;
 import com.captain.smartbridge.model.SearchCodeRes;
+import com.captain.smartbridge.model.TopData;
+import com.captain.smartbridge.model.TopDataReq;
 import com.captain.smartbridge.model.other.EvaGrade;
 import com.captain.smartbridge.model.other.EvaHistory;
 import com.captain.smartbridge.model.other.EvaluteMess;
@@ -120,6 +122,10 @@ public interface BridgeService {
     //获取传感器监测数据
     @POST("app/monitor/data")
     Call<List<MonData>> monData(@Body MonDataReq monDataReq);
+
+    //获取多个传感器数据（用于顶升监测数据分布）
+    @POST
+    Call<List<TopData>> topData(@Body TopDataReq req);
 
     //获取图片传感器监测数据
     @POST("app/monitor/data")

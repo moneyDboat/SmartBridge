@@ -14,6 +14,8 @@ public class MonSensor {
      * cgqmc : 应力传感器1号
      * yz : 100.0
      * cgqbh : cgqyl1
+     * x : ""
+     * y : ""
      * id : 35
      */
 
@@ -22,8 +24,10 @@ public class MonSensor {
     private String bswz;
     private String cgqclmc;
     private String cgqmc;
-    private Float yz;
+    private String yz;
     private String cgqbh;
+    private String x;
+    private String y;
     private int id;
 
     public String getCgqlxmc() {
@@ -66,11 +70,11 @@ public class MonSensor {
         this.cgqmc = cgqmc;
     }
 
-    public float getYz() {
+    public String getYz() {
         return yz;
     }
 
-    public void setYz(float yz) {
+    public void setYz(String yz) {
         this.yz = yz;
     }
 
@@ -80,6 +84,22 @@ public class MonSensor {
 
     public void setCgqbh(String cgqbh) {
         this.cgqbh = cgqbh;
+    }
+
+    public String getX() {
+        return x;
+    }
+
+    public void setX(String x) {
+        this.x = x;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public void setY(String y) {
+        this.y = y;
     }
 
     public int getId() {

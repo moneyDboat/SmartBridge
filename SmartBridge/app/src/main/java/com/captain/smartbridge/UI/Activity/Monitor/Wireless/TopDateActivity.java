@@ -45,8 +45,8 @@ public class TopDateActivity extends AbsActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        id = getIntent().getStringExtra("id");
-//        sensor = getIntent().getStringExtra("sensor");
+        id = getIntent().getStringExtra("id");
+        sensor = getIntent().getStringExtra("sensor");
 
         adapter = new TopDataFraAdapter(getSupportFragmentManager(), this, id, sensor);
         topPage.setAdapter(adapter);

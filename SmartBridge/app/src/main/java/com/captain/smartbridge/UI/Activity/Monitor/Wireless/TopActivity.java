@@ -46,9 +46,8 @@ public class TopActivity extends AbsActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         id = getIntent().getStringExtra("id");
-        sensor = getIntent().getStringExtra("sensor");
 
-        adapter = new TopFraAdapter(getSupportFragmentManager(), this, id, sensor);
+        adapter = new TopFraAdapter(getSupportFragmentManager(), this, id);
         topPage.setAdapter(adapter);
         topTab.setupWithViewPager(topPage);
         topTab.setTabMode(TabLayout.MODE_FIXED);

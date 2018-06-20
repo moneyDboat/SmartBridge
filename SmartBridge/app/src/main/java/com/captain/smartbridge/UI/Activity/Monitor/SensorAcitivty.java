@@ -98,17 +98,18 @@ public class SensorAcitivty extends AbsActivity {
                     //根据监测种类筛选传感器列表
                     List<MonSensor> tmpData = response.body();
                     for (MonSensor data : tmpData) {
+                        //除了顶升其他根据传感器名称判断
                         if (data.getCgqmc().startsWith(type)) {
                             sensors.add(data);
                         }
                     }
+
                     SensorAdapter adapter = new SensorAdapter(SensorAcitivty.this, sensors);
                     sensorList.setAdapter(adapter);
                 }
 
                 @Override
                 public void onFailure(Call<List<MonSensor>> call, Throwable t) {
-                    t.printStackTrace();
                     showNetWorkError();
                 }
             });

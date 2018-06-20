@@ -80,7 +80,6 @@ public class MonitorActivity extends AbsActivity implements View.OnClickListener
         maps.put(R.id.text_support, "support");
         maps.put(R.id.text_flex, "flex");
 
-
         bridgeText.setText("当前桥梁：" + bridge);
         picThings.setOnClickListener(this);
         pic4g.setOnClickListener(this);
@@ -104,16 +103,17 @@ public class MonitorActivity extends AbsActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        //测试顶升界面用
+        //顶升检测会跳转到单独的界面，其他都是跳转到对应的传感器列表
         if (v.getId() == R.id.pic_top){
-            readyGo(TopActivity.class);
-            return;
+            Intent intent = new Intent(getApplication(), TopActivity.class);
+            intent.putExtra("id", id);
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(getApplication(), SensorAcitivty.class);
+            intent.putExtra("id", id);
+            //选择监测种类
+            intent.putExtra("type", maps.get(v.getId()));
+            startActivity(intent);
         }
-        Intent intent = new Intent(getApplication(), SensorAcitivty.class);
-        intent.putExtra("id", id);
-        //选择监测种类
-        String type = maps.get(v.getId());
-        intent.putExtra("type", type);
-        startActivity(intent);
     }
 }

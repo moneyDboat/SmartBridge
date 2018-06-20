@@ -18,14 +18,12 @@ public class TopFraAdapter extends FragmentPagerAdapter {
     private Context context;
 
     String id = "";
-    String sensor = "";
 
 
-    public TopFraAdapter(FragmentManager fm, Context context, String id, String sensor) {
+    public TopFraAdapter(FragmentManager fm, Context context, String id) {
         super(fm);
         this.context = context;
         this.id = id;
-        this.sensor = sensor;
     }
 
     @Override
@@ -35,7 +33,7 @@ public class TopFraAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TopFragment.newInstance(position, id, sensor);
+        return TopFragment.newInstance(position, id);
     }
 
     @Override

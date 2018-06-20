@@ -3,11 +3,7 @@ package com.captain.smartbridge.UI.Fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -19,36 +15,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.captain.smartbridge.API.ApiManager;
 import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.Monitor.Wireless.TopDateActivity;
-import com.captain.smartbridge.UI.Adapters.SensorDataAdapter;
 import com.captain.smartbridge.UI.Adapters.tian.SensorAdapter;
-import com.captain.smartbridge.UI.Adapters.tian.WarnListAdapter;
-import com.captain.smartbridge.UI.View.BatteryView;
-import com.captain.smartbridge.model.other.MonData;
-import com.captain.smartbridge.model.other.MonDataReq;
 import com.captain.smartbridge.model.other.MonSensor;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.captain.smartbridge.model.other.MonSensorReq;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,36 +41,16 @@ public class TopFragment extends Fragment {
     private int mPage;
     private View view;
 
-    List<MonData> data = new ArrayList<>();
-    List<MonData> warnData = new ArrayList<>();
+    static String bridgeId = "";
 
-    //避免重复调用，造成内存泄漏
-    IAxisValueFormatter formatter = null;
-    List<Entry> entries = null;
-    List<String> dates = null;
-    LineDataSet dataSet = null;
-    MonDataReq req = null;
-    MonDataReq warnReq = null;
 
-    static String id;
-    static String sensor;
-    Boolean first = false;
-
-    SensorDataAdapter adapter = null;
-
-    final Timer timer = new Timer();
-    TimerTask task;
-    LineChart chart;
-    ListView listView;
-
-    public static TopFragment newInstance(int page, String tId, String tSensor) {
+    public static TopFragment newInstance(int page, String tId) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
         TopFragment fragment = new TopFragment();
         fragment.setArguments(args);
 
-        id = tId;
-        sensor = tSensor;
+        bridgeId = tId;
 
         return fragment;
     }
@@ -119,38 +76,54 @@ public class TopFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        timer.cancel();
         super.onDestroy();
     }
 
     private View firstView(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_sensor, container, false);
         final ListView listView = (ListView) view.findViewById(R.id.frasensor_list);
-        List<MonSensor> sensors = new ArrayList<>();
 
-        //模拟传感器数据
-        MonSensor sensor1 = new MonSensor();
-        sensor1.setCgqmc("顶升传感器1");
-        sensor1.setBswz("桥面");
-        sensor1.setCgqlxmc("应变");
-        sensor1.setCgqclmc("电磁式");
-        MonSensor sensor2 = new MonSensor();
-        sensor2.setCgqmc("顶升传感器2");
-        sensor2.setBswz("桥面");
-        sensor2.setCgqlxmc("应变");
-        sensor2.setCgqclmc("电磁式");
-        sensors.add(sensor1);
-        sensors.add(sensor2);
+        final List<MonSensor> sensors = new ArrayList<>();
+        final MonSensorReq req = new MonSensorReq();
+        req.setId(bridgeId);
 
-        SensorAdapter adapter = new SensorAdapter(getActivity(), sensors);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), TopDateActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (NetUtils.isNetworkAvailable(getActivity())) {
+            ApiManager.getmService().monSensor(req).enqueue(new Callback<List<MonSensor>>() {
+                @Override
+                public void onResponse(Call<List<MonSensor>> call, Response<List<MonSensor>> response) {
+                    if (response.body() == null) {
+                        return;
+                    }
+
+                    //筛选顶升传感器
+                    List<MonSensor> tmpData = response.body();
+                    for (MonSensor data : tmpData) {
+                        //顶升根据传感器类型名称字段判断
+                        if (data.getCgqlxmc().equals("应变") || data.getCgqlxmc().equals("位移"))
+                        sensors.add(data);
+                    }
+
+                    SensorAdapter adapter = new SensorAdapter(getActivity(), sensors);
+                    listView.setAdapter(adapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(getActivity(), TopDateActivity.class);
+                            intent.putExtra("id", bridgeId);
+                            intent.putExtra("sensor",sensors.get(position).getCgqbh());
+                            startActivity(intent);
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onFailure(Call<List<MonSensor>> call, Throwable t) {
+
+                }
+            });
+        }
+
         return view;
     }
 

@@ -102,7 +102,6 @@ public abstract class AbsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(receiver);
     }
 
     class MyReceiver extends BroadcastReceiver{
