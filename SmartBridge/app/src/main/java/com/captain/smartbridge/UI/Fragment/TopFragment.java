@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -23,13 +24,14 @@ import com.captain.smartbridge.UI.Activity.Monitor.Wireless.TopDateActivity;
 import com.captain.smartbridge.UI.Adapters.tian.SensorAdapter;
 import com.captain.smartbridge.UI.View.RGBView;
 import com.captain.smartbridge.UI.View.TenView;
+import com.captain.smartbridge.model.TopData;
+import com.captain.smartbridge.model.TopDataReq;
 import com.captain.smartbridge.model.other.MonSensor;
 import com.captain.smartbridge.model.other.MonSensorReq;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +45,8 @@ public class TopFragment extends Fragment {
     public static final String ID = "";
     private int mPage;
     private View view;
+
+    List<MonSensor> sensors = new ArrayList<>();
 
     static String bridgeId = "";
 
@@ -86,7 +90,6 @@ public class TopFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_sensor, container, false);
         final ListView listView = (ListView) view.findViewById(R.id.frasensor_list);
 
-        final List<MonSensor> sensors = new ArrayList<>();
         final MonSensorReq req = new MonSensorReq();
         req.setId(bridgeId);
 
@@ -222,7 +225,87 @@ public class TopFragment extends Fragment {
             }
         });
 
-        rgb1.setRGB(15,0,0,15,15);
+        final MonSensorReq req = new MonSensorReq();
+        req.setId(bridgeId);
+
+        if (NetUtils.isNetworkAvailable(getActivity())) {
+            ApiManager.getmService().monSensor(req).enqueue(new Callback<List<MonSensor>>() {
+                @Override
+                public void onResponse(Call<List<MonSensor>> call, Response<List<MonSensor>> response) {
+                    if (response.body() == null) {
+                        return;
+                    }
+
+                    //筛选顶升传感器
+                    List<MonSensor> tmpData = response.body();
+                    for (MonSensor data : tmpData) {
+                        //顶升根据传感器类型名称字段判断
+                        if (data.getCgqlxmc().contains("应变") || data.getCgqlxmc().contains("位移"))
+                            sensors.add(data);
+                    }
+
+                    //获取顶升检测所有传感器的数值
+                    List<String> tops = new ArrayList<>();
+                    for (MonSensor sensor : sensors) {
+                        tops.add(sensor.getCgqbh());
+                    }
+                    final TopDataReq req = new TopDataReq();
+                    req.setId(bridgeId);
+                    req.setCgqbh(tops);
+
+                    //数组初始化为0
+                    final float[] a = {0, 0, 0, 0};
+                    final float[] b = {0, 0, 0, 0};
+                    final float[] c = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                    final float[] d = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+                    if (NetUtils.isNetworkAvailable(getActivity())) {
+                        ApiManager.getmService().topData(req).enqueue(new Callback<List<TopData>>() {
+                            @Override
+                            public void onResponse(Call<List<TopData>> call, Response<List<TopData>> response) {
+                                if (response.body() == null) {
+                                    return;
+                                }
+
+                                int i = 0;
+                                for (TopData da : response.body()) {
+                                    Float value = Float.valueOf(da.getValue());
+                                    if (i < 4) {
+                                        a[i] = value;
+                                        i++;
+                                    } else if (i < 8) {
+                                        b[i - 4] = value;
+                                        i++;
+                                    } else if (i < 18) {
+                                        c[i - 8] = value;
+                                        i++;
+                                    } else if (i < 28) {
+                                        d[i - 18] = value;
+                                        i++;
+                                    }
+                                }
+
+                                rgb1.setRGB(15, a[0], a[1], a[2], a[3]);
+                                rgb2.setRGB(15, b[0], b[1], b[2], b[3]);
+                                ten1.setTen(120, c);
+                                ten2.setTen(120, d);
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<TopData>> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<MonSensor>> call, Throwable t) {
+
+                }
+            });
+        }
+
         return view;
 
     }

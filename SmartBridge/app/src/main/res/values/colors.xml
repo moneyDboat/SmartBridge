@@ -16,6 +16,12 @@
     <color name="BlackText">#333333</color>
     <color name="BlackText2">#666666</color>
 
+    <color name="Top0">#008000</color>
+    <color name="Top1">#32CD32</color>
+    <color name="Top2">#e67f2b</color>
+    <color name="Top3">#FFA500</color>
+    <color name="Top4">#FF0000</color>
+
     <declare-styleable name="SeekCircle">
         <attr name="max" format="integer" value="100" />
         <attr name="progress" format="integer" value="0" />

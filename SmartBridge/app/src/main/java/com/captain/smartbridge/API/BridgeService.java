@@ -124,7 +124,7 @@ public interface BridgeService {
     Call<List<MonData>> monData(@Body MonDataReq monDataReq);
 
     //获取多个传感器数据（用于顶升监测数据分布）
-    @POST
+    @POST("app/monitor/topdata")
     Call<List<TopData>> topData(@Body TopDataReq req);
 
     //获取图片传感器监测数据
