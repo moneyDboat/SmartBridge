@@ -21,12 +21,15 @@ import com.captain.smartbridge.Common.NetUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.UI.Activity.Monitor.Wireless.TopDateActivity;
 import com.captain.smartbridge.UI.Adapters.tian.SensorAdapter;
+import com.captain.smartbridge.UI.View.RGBView;
+import com.captain.smartbridge.UI.View.TenView;
 import com.captain.smartbridge.model.other.MonSensor;
 import com.captain.smartbridge.model.other.MonSensorReq;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -100,7 +103,7 @@ public class TopFragment extends Fragment {
                     for (MonSensor data : tmpData) {
                         //顶升根据传感器类型名称字段判断
                         if (data.getCgqlxmc().contains("应变") || data.getCgqlxmc().contains("位移"))
-                        sensors.add(data);
+                            sensors.add(data);
                     }
 
                     SensorAdapter adapter = new SensorAdapter(getActivity(), sensors);
@@ -110,7 +113,7 @@ public class TopFragment extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(getActivity(), TopDateActivity.class);
                             intent.putExtra("id", bridgeId);
-                            intent.putExtra("sensor",sensors.get(position).getCgqbh());
+                            intent.putExtra("sensor", sensors.get(position).getCgqbh());
                             startActivity(intent);
                         }
                     });
@@ -141,7 +144,10 @@ public class TopFragment extends Fragment {
         final RelativeLayout linear4 = (RelativeLayout) view.findViewById(R.id.fra_top_lay4);
         final ImageView img4 = (ImageView) view.findViewById(R.id.fra_top_img4);
         final LinearLayout out4 = (LinearLayout) view.findViewById(R.id.fra_top_out4);
-
+        final RGBView rgb1 = (RGBView) view.findViewById(R.id.rgbview1);
+        final RGBView rgb2 = (RGBView) view.findViewById(R.id.rgbview2);
+        final TenView ten1 = (TenView) view.findViewById(R.id.tenview1);
+        final TenView ten2 = (TenView) view.findViewById(R.id.tenview2);
 
         linear1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +222,7 @@ public class TopFragment extends Fragment {
             }
         });
 
-
+        rgb1.setRGB(15,0,0,15,15);
         return view;
 
     }
@@ -238,5 +244,10 @@ public class TopFragment extends Fragment {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }
