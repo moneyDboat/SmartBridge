@@ -11,8 +11,6 @@ import com.captain.smartbridge.Common.PreferenceUtils;
 import com.captain.smartbridge.R;
 import com.captain.smartbridge.model.InfoRes;
 import com.captain.smartbridge.model.LoginReq;
-import com.dd.processbutton.iml.ActionProcessButton;
-import com.github.florent37.materialtextfield.MaterialTextField;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

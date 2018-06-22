@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.captain.smartbridge.UI.Fragment.TopFragment;
 import com.captain.smartbridge.UI.Fragment.fourgFragment;
+import com.google.gson.Gson;
+
+import java.util.List;
 
 /**
  * Created by Captain on 17/8/21.
@@ -18,12 +21,14 @@ public class TopFraAdapter extends FragmentPagerAdapter {
     private Context context;
 
     String id = "";
+    String sensors = "";
 
 
-    public TopFraAdapter(FragmentManager fm, Context context, String id) {
+    public TopFraAdapter(FragmentManager fm, Context context, String id, String sensors) {
         super(fm);
         this.context = context;
         this.id = id;
+        this.sensors = sensors;
     }
 
     @Override
@@ -33,7 +38,7 @@ public class TopFraAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TopFragment.newInstance(position, id);
+        return TopFragment.newInstance(position, id, sensors);
     }
 
     @Override

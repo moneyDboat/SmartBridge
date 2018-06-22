@@ -27,7 +27,7 @@ public class TopActivity extends AbsActivity {
 
     TopFraAdapter adapter;
     String id = "";
-    String sensor = "";
+    String sensors = "";
 
     @Override
     protected void setSelfContentView() {
@@ -46,8 +46,9 @@ public class TopActivity extends AbsActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         id = getIntent().getStringExtra("id");
+        sensors = getIntent().getStringExtra("sensors");
 
-        adapter = new TopFraAdapter(getSupportFragmentManager(), this, id);
+        adapter = new TopFraAdapter(getSupportFragmentManager(), this, id, sensors);
         topPage.setAdapter(adapter);
         topTab.setupWithViewPager(topPage);
         topTab.setTabMode(TabLayout.MODE_FIXED);
